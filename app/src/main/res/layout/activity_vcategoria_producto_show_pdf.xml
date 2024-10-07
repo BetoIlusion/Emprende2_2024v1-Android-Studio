@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#f5f5f5">
+
+  <!-- Título -->
+  <TextView
+      android:id="@+id/tvTituloCatalogo"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Catálogo"
+      android:textSize="24sp"
+      android:textStyle="bold"
+      android:gravity="center"
+      android:textColor="#000000"
+      android:layout_gravity="center"
+      android:padding="16dp"/>
+
+  <!-- Tabla de Productos -->
+  <TableLayout
+      android:id="@+id/tlCatxProductosPDF"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:stretchColumns="1"
+      android:layout_marginTop="16dp"
+      android:background="#ffffff"
+      android:elevation="4dp"
+      android:padding="8dp">
+
+    <!-- Encabezado de la Tabla -->
+    <TableRow>
+      <TextView
+          android:text="Producto"
+          android:textStyle="bold"
+          android:textColor="#000000"
+          android:padding="8dp"
+          android:background="#DDDDDD"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+
+      <TextView
+          android:text="Precio"
+          android:textStyle="bold"
+          android:textColor="#000000"
+          android:padding="8dp"
+          android:background="#DDDDDD"
+          android:gravity="center"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+
+      <TextView
+          android:text="Cantidad"
+          android:textStyle="bold"
+          android:textColor="#000000"
+          android:padding="8dp"
+          android:background="#DDDDDD"
+          android:gravity="center"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+    </TableRow>
+
+
+
+    <!-- Puedes agregar más filas de productos aquí -->
+  </TableLayout>
+
+  <!-- Botón para compartir el PDF -->
+  <Button
+      android:id="@+id/btnCompartirPDF"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Compartir PDF"
+      android:layout_gravity="center"
+      android:layout_marginTop="24dp"
+      android:padding="12dp"
+      android:background="#6200EE"
+      android:textColor="#FFFFFF"
+      android:elevation="4dp"/>
+</LinearLayout>

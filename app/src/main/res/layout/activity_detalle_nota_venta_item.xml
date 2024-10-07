@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardBackgroundColor="#F0F4FF"
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Ajuste de tamaño y márgenes para mejorar la distribución -->
+            <TextView
+                android:id="@+id/tvProductoDetalle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Producto"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:padding="4dp"
+                android:gravity="center_vertical" />
+
+            <!-- Línea divisoria -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#CCCCCC"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/tvCantidadDetalle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cantidad"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:padding="4dp"
+                android:gravity="center_vertical" />
+
+            <!-- Línea divisoria -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#CCCCCC"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/tvPrecioDetalle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Precio"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:padding="4dp"
+                android:gravity="center_vertical" />
+
+            <!-- Línea divisoria -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#CCCCCC"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/tvSubDetalle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Subtotal"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:padding="4dp"
+                android:gravity="center_vertical" />
+
+            <!-- Ajuste del tamaño de la imagen para que sea proporcional y legible -->
+            <ImageView
+                android:id="@+id/ivEliminarDetalle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/black_border"
+                app:srcCompat="@drawable/ic_delete"
+                tools:srcCompat="@drawable/ic_delete" />
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

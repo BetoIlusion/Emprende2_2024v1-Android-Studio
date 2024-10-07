@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Botón superior izquierdo -->
+    <Button
+        android:id="@+id/btnFactura_Persona"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contactos"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rectangular_button"/>
+
+    <!-- Botón superior centro -->
+    <Button
+        android:id="@+id/btnProveedor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Proveedores"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rectangular_button"
+        android:visibility="gone"/>
+
+    <!-- Botón superior derecho -->
+    <Button
+        android:id="@+id/btnProducto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Productos"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rectangular_button"/>
+
+    <!-- Divider -->
+    <View
+        android:id="@+id/dividerLine"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/btnProducto"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/divider_background" />
+
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dividerLine"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Botón inferior centro -->
+    <ImageButton
+        android:id="@+id/btnPedidoCrear"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/circular_button"
+        android:src="@drawable/ic_add_pedido"/>
+
+</RelativeLayout>

@@ -1,0 +1,19 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Fondo del drawable -->
+    <solid android:color="#FFFFFF"/> <!-- Cambia este color según tu necesidad -->
+
+    <!-- Bordes redondeados -->
+    <corners android:radius="16dp"/> <!-- Ajusta el radio para hacer los bordes más o menos redondeados -->
+
+    <!-- Bordes opcionales -->
+    <stroke
+        android:width="2dp"
+        android:color="#000000"/> <!-- Cambia el color y ancho del borde según el diseño deseado -->
+
+    <!-- Margen interno opcional (padding) -->
+    <padding
+        android:left="8dp"
+        android:top="8dp"
+        android:right="8dp"
+        android:bottom="8dp"/>
+</shape>

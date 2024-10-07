@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.VPersona.VPersonaMain">
+
+    <!-- Fondo semi-transparente -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#808F8F8F" />
+
+    <!-- Botón Añadir -->
+    <Button
+        android:id="@+id/btnInsertarPersona"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Añadir +"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rectangular_button"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:minHeight="48dp"/>
+
+    <!-- Botón Filtro -->
+    <Button
+        android:id="@+id/btnFiltroPersona"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filtro"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rectangular_button"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:minHeight="48dp"/>
+
+    <!-- Línea divisora -->
+    <View
+        android:id="@+id/dividerLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/btnInsertarPersona"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/divider_background" />
+
+    <!-- Título "Lista de Contactos" -->
+    <TextView
+        android:id="@+id/tvTituloListaPersona"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lista de Contactos"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_below="@id/dividerLine"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <!-- CardView -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvPersonaMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTituloListaPersona"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <!-- RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvVPersona"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

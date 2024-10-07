@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sp_tipo_cliente">
+        <item>[NINGUNO]</item>
+        <item>Cliente</item>
+        <item>Proveedor</item>
+        <!-- Agrega más tipos de cliente según sea necesario -->
+    </string-array>
+    <string-array name="sp_estado">
+        <item>Activado</item>
+        <item>Desactivado</item>
+        <!-- Agrega más tipos de cliente según sea necesario -->
+    </string-array>
+    <string-array name="productos">
+        <item>produscto 1</item>
+        <item>producto 2</item>
+        <!-- Agrega más tipos de cliente según sea necesario -->
+    </string-array>
+
+    <string-array name="sp_tipo_proveedor" >
+        <item>NINGUNO</item>
+        <item>Tipo A</item>
+        <item>Tipo B</item>
+        <item>Tipo B</item>
+        <!-- Agrega más tipos de cliente según sea necesario -->
+    </string-array>
+</resources>

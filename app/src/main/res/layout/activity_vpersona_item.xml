@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="@color/primary"
+    app:cardElevation="8dp"
+    app:cardUseCompatPadding="true">
+
+    <!-- Contenedor principal -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Contenedor Horizontal para imagen y texto -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:gravity="center_vertical">
+
+            <!-- Imagen de contacto -->
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_contacto"
+                android:background="@drawable/image_circle_background"
+                android:scaleType="centerCrop" />
+
+            <!-- Contenedor de textos -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.75"
+                android:orientation="vertical">
+
+                <!-- Nombre -->
+                <TextView
+                    android:id="@+id/viewNombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#212121"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
+                <!-- Información de NIT -->
+                <TextView
+                    android:id="@+id/viewNIT"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#757575"
+                    android:textSize="14sp"
+                    android:drawablePadding="8dp"
+                    android:layout_marginBottom="4dp" />
+
+
+                <!-- Información de contacto -->
+                <TextView
+                    android:id="@+id/viewTelefono"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#757575"
+                    android:textSize="14sp"
+                    android:drawableLeft="@drawable/ic_phone"
+                    android:drawablePadding="8dp"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:id="@+id/viewDireccion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#757575"
+                    android:textSize="14sp"
+                    android:drawableLeft="@drawable/ic_location"
+                    android:drawablePadding="8dp"
+                    android:layout_marginBottom="4dp" />
+
+
+                <TextView
+                    android:id="@+id/viewCorreo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#757575"
+                    android:textSize="14sp"
+                    android:drawableLeft="@drawable/ic_email"
+                    android:drawablePadding="8dp"
+                    android:layout_marginBottom="4dp" />
+
+                <!-- Estado y Tipo de Cliente -->
+                <TextView
+                    android:id="@+id/viewTipoCliente"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#212121"
+                    android:textStyle="italic"
+                    android:textSize="14sp"
+                    android:drawableLeft="@drawable/ic_account"
+                    android:drawablePadding="8dp" />
+
+                <TextView
+                    android:id="@+id/viewEstado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#4CAF50"
+                    android:textSize="14sp"
+                    android:drawableLeft="@drawable/ic_status"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="4dp" />
+
+            </LinearLayout>
+
+            <!-- Contenedor de Iconos de acción -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <!-- Icono Editar -->
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:src="@drawable/ic_edit"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="8dp"
+                    android:scaleType="centerInside" />
+
+                <!-- Icono Eliminar -->
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_delete"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="8dp"
+                    android:scaleType="centerInside" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

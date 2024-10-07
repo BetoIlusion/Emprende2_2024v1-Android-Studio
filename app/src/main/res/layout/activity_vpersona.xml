@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Imagen de perfil -->
+    <ImageView
+        android:id="@+id/imgPerfil1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_profile_placeholder"
+        android:contentDescription="Foto de perfil"
+        android:scaleType="centerCrop"
+        android:background="@drawable/circle_background"/>
+
+    <!-- Nombre -->
+    <TextView
+        android:id="@+id/tvNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgPerfil1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Nombre del Usuario"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary_text"/>
+
+    <!-- ID -->
+    <TextView
+        android:id="@+id/tvID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvNombre"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="ID: 12345"
+        android:textSize="14sp"
+        android:textColor="@color/secondary_text"/>
+
+    <!-- Teléfono -->
+    <LinearLayout
+        android:id="@+id/layoutTelefono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvID"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_phone"
+            android:contentDescription="Icono de Teléfono"/>
+
+        <TextView
+            android:id="@+id/tvTelefono"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="(123) 456-7890"
+            android:textSize="16sp"
+            android:textColor="@color/primary_text"/>
+    </LinearLayout>
+
+    <!-- Dirección -->
+    <LinearLayout
+        android:id="@+id/layoutDireccion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutTelefono"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_location"
+            android:contentDescription="Icono de Dirección"/>
+
+        <TextView
+            android:id="@+id/tvDireccion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="123 Calle Falsa, Ciudad"
+            android:textSize="16sp"
+            android:textColor="@color/primary_text"/>
+    </LinearLayout>
+
+    <!-- Correo -->
+    <LinearLayout
+        android:id="@+id/layoutCorreo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutDireccion"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_email"
+            android:contentDescription="Icono de Correo"/>
+
+        <TextView
+            android:id="@+id/tvCorreo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="usuario@ejemplo.com"
+            android:textSize="16sp"
+            android:textColor="@color/primary_text"/>
+    </LinearLayout>
+
+    <!-- Tipo de Cliente -->
+    <LinearLayout
+        android:id="@+id/layoutTipoCliente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutCorreo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_client"
+            android:contentDescription="Icono de Tipo de Cliente"/>
+
+        <TextView
+            android:id="@+id/tvTipoCliente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Cliente Regular"
+            android:textSize="16sp"
+            android:textColor="@color/primary_text"/>
+    </LinearLayout>
+
+    <!-- Estado -->
+    <LinearLayout
+        android:id="@+id/layoutEstado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutTipoCliente"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_status"
+            android:contentDescription="Icono de Estado"/>
+
+        <TextView
+            android:id="@+id/tvEstado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Activo"
+            android:textSize="16sp"
+            android:textColor="@color/primary_text"/>
+    </LinearLayout>
+
+    <!-- Botones de Editar y Eliminar -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutEstado"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <!-- Botón Editar -->
+        <Button
+            android:id="@+id/btnEditar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Editar"
+            android:layout_marginEnd="8dp"
+            android:background="@color/colorAccent"
+            android:textColor="@android:color/white"/>
+
+        <!-- Botón Eliminar -->
+        <Button
+            android:id="@+id/btnEliminar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eliminar"
+            android:background="@color/colorAccent"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+
+</RelativeLayout>

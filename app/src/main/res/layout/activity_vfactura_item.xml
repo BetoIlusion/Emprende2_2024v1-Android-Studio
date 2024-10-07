@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="@color/primary"
+    app:cardElevation="8dp"
+    app:cardUseCompatPadding="true">
+
+    <!-- Contenedor principal -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Contenedor Horizontal para ID de NotaVenta, Fecha y acciones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- ID de NotaVenta y Fecha en una línea -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.75"
+                android:orientation="vertical">
+
+                <!-- ID de NotaVenta (resaltado) y Fecha -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- ID de NotaVenta -->
+                    <TextView
+                        android:id="@+id/viewIdFactura"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:textColor="#FF0000"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:text="Factura: 001" />
+
+                    <!-- Fecha al lado del ID de NotaVenta -->
+                    <TextView
+                        android:id="@+id/viewFecha"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:text="Fecha: 20/09/2024" />
+                </LinearLayout>
+
+                <!-- Nombre debajo de ID NotaVenta y Fecha -->
+                <TextView
+                    android:id="@+id/viewNombrePersona"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#212121"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"
+                    android:text="Juan Perez" />
+
+                <!-- Código X debajo del nombre -->
+                <TextView
+                    android:id="@+id/viewCodigoX"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"
+                    android:text="Código X: XYZ123" />
+            </LinearLayout>
+
+            <!-- Contenedor de Iconos de acción (Editar y Eliminar) -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:gravity="center"
+                android:orientation="vertical">
+
+<!--                &lt;!&ndash; Icono Editar &ndash;&gt;-->
+<!--                <ImageView-->
+<!--                    android:id="@+id/imageView1"-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:layout_marginBottom="8dp"-->
+<!--                    android:src="@drawable/ic_edit"-->
+<!--                    android:background="@drawable/rounded_corner"-->
+<!--                    android:padding="8dp"-->
+<!--                    android:scaleType="centerInside" />-->
+
+<!--                &lt;!&ndash; Icono Eliminar &ndash;&gt;-->
+<!--                <ImageView-->
+<!--                    android:id="@+id/imageView2"-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:src="@drawable/ic_delete"-->
+<!--                    android:background="@drawable/rounded_corner"-->
+<!--                    android:padding="8dp"-->
+<!--                    android:scaleType="centerInside" />-->
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

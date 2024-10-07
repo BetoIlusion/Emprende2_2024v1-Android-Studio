@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Botón superior izquierdo -->
+    <Button
+        android:id="@+id/btnTipoProveedor"
+        android:layout_width="170dp"
+        android:layout_height="50dp"
+        android:text="Tipo Proveedores"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rectangular_button"/>
+
+    <!-- Botón superior derecho -->
+    <Button
+        android:id="@+id/btnInsertarProveedor"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:text="Añadir +"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rectangular_button"/>
+    <View
+        android:id="@+id/dividerLine"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/btnInsertarProveedor"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/divider_background" />
+
+    <!-- Título "Lista de Proveedores" -->
+    <TextView
+        android:id="@+id/tvTituloListaProveedores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lista de Proveedores"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_below="@id/dividerLine"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvvProveedor"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_below="@id/tvTituloListaProveedores"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="1"/>
+
+</RelativeLayout>

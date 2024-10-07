@@ -1,0 +1,113 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Capa oscura para el fondo -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#808F8F8F" />
+    <TextView
+        android:id="@+id/tvTituloProductoInsertar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Insertar Producto"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewProducto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:elevation="10dp"
+        android:layout_centerVertical="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardElevation="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/etNombreProductoInsertar"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:hint="Nombre de producto"
+                android:background="@drawable/edittext_style"
+                android:layout_marginBottom="15dp"
+                android:paddingStart="10dp"/> <!-- Ajuste en el marginBottom -->
+            <EditText
+                android:id="@+id/etPrecioProductoInsertar"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:hint="Precio"
+                android:background="@drawable/edittext_style"
+                android:layout_marginBottom="15dp"
+                android:paddingStart="10dp"
+                android:inputType="numberDecimal" />
+            <EditText
+                android:id="@+id/etSKUProductoInsertar"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:hint="SKU"
+                android:background="@drawable/edittext_style"
+                android:layout_marginBottom="15dp"
+                android:paddingStart="10dp" />
+            <EditText
+                android:id="@+id/etCantidadProductoInsertar"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:hint="Cantidad"
+                android:background="@drawable/edittext_style"
+                android:layout_marginBottom="15dp"
+                android:paddingStart="10dp"
+                android:inputType="number"/> <!-- Ajuste en el marginBottom -->
+
+            <TextView
+                android:id="@+id/tvCategoriaProductoInsertar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Categoría"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spCategoriaProductoInsertar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:prompt="@string/prompt_tipo_cliente"
+                android:layout_below="@id/tvCategoriaProductoInsertar"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/tvProveedorProductoInsertar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Proveedor"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spProveedorProductoInsertar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:prompt="@string/prompt_tipo_cliente"
+                android:layout_below="@id/tvProveedorProductoInsertar"
+                android:layout_marginBottom="16dp"/>
+
+            <Button
+                android:id="@+id/btnGuardarProductoInsertar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Guardar" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

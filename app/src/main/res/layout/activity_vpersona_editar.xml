@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Capa oscura para el fondo -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#808F8F8F" />
+
+    <!-- ScrollView para permitir desplazamiento en pantallas pequeñas -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <!-- Título "Insertar Persona" -->
+            <TextView
+                android:id="@+id/tvPersonaEditar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Editar Persona"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp" />
+
+            <!-- CardView para contener el formulario -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewPersonaEditar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:elevation="10dp"
+                android:layout_below="@id/tvPersonaEditar"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardElevation="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Nombre -->
+                    <EditText
+                        android:id="@+id/etNombrePersonaEditar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Nombre de contacto"
+                        android:background="@drawable/edittext_style"
+                        android:layout_marginBottom="15dp"
+                        android:paddingStart="10dp" />
+
+                    <!-- Teléfono -->
+                    <EditText
+                        android:id="@+id/etTelefonoPersonaEditar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Teléfono"
+                        android:background="@drawable/edittext_style"
+                        android:layout_marginBottom="15dp"
+                        android:paddingStart="10dp"
+                        android:inputType="number" />
+
+                    <!-- Dirección -->
+                    <EditText
+                        android:id="@+id/etDireccionPersonaEditar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Dirección"
+                        android:background="@drawable/edittext_style"
+                        android:layout_marginBottom="15dp"
+                        android:paddingStart="10dp" />
+
+                    <!-- Correo Electrónico -->
+                    <EditText
+                        android:id="@+id/etCorreoPersonaEditar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Correo Electrónico"
+                        android:background="@drawable/edittext_style"
+                        android:layout_marginBottom="15dp"
+                        android:paddingStart="10dp" />
+                    <EditText
+                        android:id="@+id/etUbicacionPersonaEditar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="LINK ubicacion"
+                        android:background="@drawable/edittext_style"
+                        android:layout_marginBottom="15dp"
+                        android:paddingStart="10dp" />
+
+<!--                    &lt;!&ndash; Tipo de Cliente &ndash;&gt;-->
+<!--                    <TextView-->
+<!--                        android:id="@+id/tvLabel"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Tipo de Cliente"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textColor="@android:color/black"-->
+<!--                        android:layout_marginTop="16dp" />-->
+
+<!--                    <Spinner-->
+<!--                        android:id="@+id/spTipoClientePersonaEditar"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:entries="@array/sp_tipo_cliente"-->
+<!--                        android:layout_marginBottom="16dp" />-->
+
+                    <!-- Estado del Cliente -->
+                    <TextView
+                        android:id="@+id/tvLabelEstadoEditar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Estado del Cliente"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"
+                        android:layout_marginTop="16dp" />
+
+                    <Spinner
+                        android:id="@+id/spEstadoPersonaEditar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/sp_estado"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Botón Guardar -->
+                    <Button
+                        android:id="@+id/btnGuardarPersonaEditar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Guardar"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
