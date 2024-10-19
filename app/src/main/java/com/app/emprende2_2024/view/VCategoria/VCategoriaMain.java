@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CCategoria.CCategoria;
 import com.app.emprende2_2024.model.MCategoria.Categoria;
+import com.app.emprende2_2024.model.MCategoria.modelCategoria;
 import com.app.emprende2_2024.view.VProducto.VProductoMain;
 
 import java.util.ArrayList;
@@ -25,8 +26,6 @@ public class VCategoriaMain extends AppCompatActivity {
     public RecyclerView getRecyclerView() {
         return findViewById(R.id.rvCategoria);
     }
-
-
 
     public Button getBtnInsertar() {
         return findViewById(R.id.btnInsertarCategoria);
@@ -54,18 +53,19 @@ public class VCategoriaMain extends AppCompatActivity {
         finish(); // Opcional, para finalizar la actividad actual si no deseas volver a ella al presionar atrás en la actividad destino
     }
 
-    public void listar(ArrayList<Categoria> mostrar) {
+    public void listar(ArrayList<modelCategoria> mostrar) {
         adapter = new ListaCategoriasAdapter(mostrar);
         try {
             recyclerView = findViewById(R.id.rvCategoria);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(adapter);
-
         }catch (Exception e){
-            Toast.makeText(this, "ERROR ERROR ERROR", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "ERROR AL LISTAR", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
-
+    public void mensaje(String mensaje){
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+    }
 
 }

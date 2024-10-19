@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -71,9 +72,9 @@ public class VPersonaInsertar extends AppCompatActivity {
         this.spTipo = spTipo;
     }
 
-    public Spinner getSpEstado() {
-        return findViewById(R.id.spEstadoPersonaInsertar);
-    }
+//    public Spinner getSpEstado() {
+//        return findViewById(R.id.spEstadoPersonaInsertar);
+//    }
 
     public void setSpEstado(Spinner spEstado) {
         this.spEstado = spEstado;
@@ -85,7 +86,18 @@ public class VPersonaInsertar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vpersona_insertar);
-        getBtnGuardar().setOnClickListener(v -> create() );
+        getBtnGuardar().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nombre = getEtNombre().getText().toString();
+                String telefono = getEtTelefono().getText().toString();
+                String direccion = getEtDireccion().getText().toString();
+                String correo = getEtCorreo().getText().toString();
+                String tipo_cliente = getSpTipo().getSelectedItem().toString();
+                String ubicacion = getEtLinkUbicacion().getText().toString().trim();
+                controller.create(nombre,telefono,direccion,correo,tipo_cliente,ubicacion);
+            }
+        });
         getSpTipo().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -102,24 +114,13 @@ public class VPersonaInsertar extends AppCompatActivity {
         });
     }
 
-    private void create() {
-        String nombre = getEtNombre().getText().toString();
-        String telefono = getEtTelefono().getText().toString();
-        String direccion = getEtDireccion().getText().toString();
-        String correo = getEtCorreo().getText().toString();
-        String tipo_cliente = getSpTipo().getSelectedItem().toString();
-        String estado = getSpEstado().getSelectedItem().toString();
-        String ubicacion = getEtLinkUbicacion().getText().toString().trim();
-        controller.create(nombre,telefono,direccion,correo,tipo_cliente,estado,ubicacion);
-    }
-
     public void limpiar(){
         getEtNombre().setText("");
         getEtTelefono().setText("");
         getEtDireccion().setText("");
         getEtCorreo().setText("");
         getSpTipo().setSelection(0);
-        getSpEstado().setSelection(0);
+        //getSpEstado().setSelection(0);
         getEtLinkUbicacion().setText("");
     }
 
@@ -131,5 +132,9 @@ public class VPersonaInsertar extends AppCompatActivity {
         Intent intent = new Intent(this, VPersonaMain.class);
         startActivity(intent);
         finish(); // Opcional, para finalizar la actividad actual si no deseas volver a ella al presionar atrás en la actividad destino
+    }
+
+    public void mensaje(String mensaje) {
+        Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show();
     }
 }

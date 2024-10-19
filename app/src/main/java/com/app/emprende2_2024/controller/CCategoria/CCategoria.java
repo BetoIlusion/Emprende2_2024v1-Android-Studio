@@ -1,10 +1,10 @@
 package com.app.emprende2_2024.controller.CCategoria;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.app.emprende2_2024.model.MCategoria.Categoria;
 import com.app.emprende2_2024.model.MCategoria.MCategoria;
+import com.app.emprende2_2024.model.MCategoria.modelCategoria;
 import com.app.emprende2_2024.model.MProducto.MProducto;
 import com.app.emprende2_2024.model.MProducto.Producto;
 import com.app.emprende2_2024.model.MStock.MStock;
@@ -39,34 +39,30 @@ public class CCategoria {
     }
 
     public void create(String nombre, String descripcion) {
-        try(MCategoria model = new MCategoria(vInsertar)){
-            long id = model.create(
-                    nombre,
-                    descripcion
-            );
-            if(id > 0){
-                Toast.makeText(vInsertar, "REGISTRO GUARDADO", Toast.LENGTH_SHORT).show();
-                vInsertar.limpiar();
-            } else {
-                Toast.makeText(vInsertar, "ERROR AL GUARDAR REGISTRO MODEL", Toast.LENGTH_SHORT).show();
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+        modelCategoria mCategoria = new modelCategoria(vInsertar,
+                -1,
+                nombre,
+                descripcion);
+        if(mCategoria.create()){
+            vInsertar.limpiar();
+          vInsertar.mensaje("Categoria Creada");
+        }else{
+            vInsertar.mensaje("ERROR en el Model");
         }
     }
 
     public void listar() {
-        MCategoria model = new MCategoria(vMain);
+        modelCategoria model = new modelCategoria(vMain);
         vMain.listar(model.read());
     }
 
     public void readUno(int id) {
-        MCategoria model = new MCategoria(vEditar);
-        vEditar.readUno(model.readUno(id));
+        modelCategoria mCategoria = new modelCategoria(vEditar);
+        vEditar.readUno(mCategoria.readUno(id));
     }
 
     public void update(int id, String nombre, String descripcion) {
-        MCategoria model = new MCategoria(vEditar);
+        modelCategoria model = new modelCategoria(vEditar);
         boolean b = model.update(
                 id,
                 nombre,
@@ -74,20 +70,22 @@ public class CCategoria {
         if (b){
             vEditar.VCategoriaMain();
         }else{
-            Toast.makeText(vEditar, "ERROR AL MODIFICAR", Toast.LENGTH_SHORT).show();
+            vEditar.mensaje("ERROR en el MODEL");
         }
-
-
     }
 
     public boolean delete(int id) {
+        modelCategoria mCategoria = new modelCategoria(adapter);
+        return mCategoria.delete(id);
+    }
+
+    public boolean destroy(int id){
         MCategoria model = new MCategoria(adapter);
-        if(model.delete(id)){
+        if(model.destroy(id)){
             return true;
         }
         return false;
     }
-
     public void productos(int id) {
 
         MCategoria modelCategoria = new MCategoria(vProductos);

@@ -2,20 +2,21 @@ package com.app.emprende2_2024.view.VCategoria;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CCategoria.CCategoria;
-import com.app.emprende2_2024.model.MCategoria.Categoria;
+import com.app.emprende2_2024.model.MCategoria.modelCategoria;
 
 public class VCategoriaEditar extends AppCompatActivity {
 
     EditText etNombre, etDescripcion;
     Button btnGuardar;
-
     public EditText getEtNombre() {
         return findViewById(R.id.etNombreCategoriaEditar);
     }
@@ -42,27 +43,37 @@ public class VCategoriaEditar extends AppCompatActivity {
         }else{
             id = (int) savedInstanceState.getSerializable("ID");
         }
+
         llenarVista(id);
-        getBtnGuardar().setOnClickListener(v -> update(id));
+        getBtnGuardar().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nombre = getEtNombre().getText().toString().trim();
+                String descripcion = getEtDescripcion().getText().toString().trim();
+                if (nombre.isEmpty() || descripcion.isEmpty()){
+                    mensaje("LLENA TODOS LOS ESPACIOS");
+                }else {
+                    controller.update(id,nombre,descripcion);
+                }
+
+            }
+        });
     }
 
-    private void update(int id) {
-        String nombre = getEtNombre().getText().toString();
-        String descripcion = getEtDescripcion().getText().toString();
-        controller.update(id,nombre,descripcion);
+    public void mensaje(String mensaje) {
+        Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show();
     }
 
     private void llenarVista(int id) {
         controller.readUno(id);
     }
-
-    public void readUno(Categoria categoria) {
-        String nombre = categoria.getNombre();
-        String descripcion = categoria.getDescripcion();
-
+    public void readUno(modelCategoria mCategoria) {
+        String nombre = mCategoria.getNombre();
+        String descripcion = mCategoria.getDescripcion();
         getEtNombre().setText(nombre);
         getEtDescripcion().setText(descripcion);
     }
+
 
     public void VCategoriaMain() {
         Intent intent = new Intent(this, VCategoriaMain.class);

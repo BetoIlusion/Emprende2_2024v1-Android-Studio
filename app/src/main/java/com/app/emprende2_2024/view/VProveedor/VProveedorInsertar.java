@@ -18,7 +18,7 @@ import com.app.emprende2_2024.view.VPersona.VPersonaMain;
 
 public class VProveedorInsertar extends AppCompatActivity {
     EditText etNombre, etTelefono, etDireccion, etCorreo, etNit, etUbicacion;
-    Spinner spTipoCliente, spEstado;
+    Spinner spTipoCliente;
     Button btnGuardar;
 
     public EditText getEtUbicacion() {
@@ -45,9 +45,7 @@ public class VProveedorInsertar extends AppCompatActivity {
     public Spinner getSpTipoCliente() {
         return findViewById(R.id.spTipoClienteProveedorInsertar);
     }
-    public Spinner getSpEstado() {
-        return findViewById(R.id.spEstadoProveedorInsertar);
-    }
+
     CProveedor controller = new CProveedor(VProveedorInsertar.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +75,10 @@ public class VProveedorInsertar extends AppCompatActivity {
         String direccion = getEtDireccion().getText().toString().trim();
         String correo = getEtCorreo().getText().toString().trim();
         String tipo_cliente = getSpTipoCliente().getSelectedItem().toString().trim();
-        String estado = getSpEstado().getSelectedItem().toString().trim();
+        //String estado = getSpEstado().getSelectedItem().toString().trim();
         String ubicacion = getEtUbicacion().getText().toString().trim();
         if(nombre.isEmpty() || nit.isEmpty() || telefono.isEmpty() || direccion.isEmpty() ||
-        telefono.isEmpty() || correo.isEmpty()  || tipo_cliente.isEmpty() ||
-        estado.isEmpty()){
+        telefono.isEmpty() || correo.isEmpty()  || tipo_cliente.isEmpty()){
             Toast.makeText(this, "Por favor, llena todos los campos obligatorios", Toast.LENGTH_SHORT).show();
         }else{
             controller.create(
@@ -91,7 +88,6 @@ public class VProveedorInsertar extends AppCompatActivity {
                     direccion,
                     correo,
                     tipo_cliente,
-                    estado,
                     ubicacion
             );
         }
@@ -105,7 +101,6 @@ public class VProveedorInsertar extends AppCompatActivity {
         getEtTelefono().setText("");
         getEtDireccion().setText("");
         getEtCorreo().setText("");
-        getSpEstado().setSelection(0);
     }
 
     public void onBackPressed() {
@@ -114,5 +109,9 @@ public class VProveedorInsertar extends AppCompatActivity {
         Intent intent = new Intent(this, VPersonaMain.class);
         startActivity(intent);
         finish(); // Opcional, para finalizar la actividad actual si no deseas volver a ella al presionar atrás en la actividad destino
+    }
+
+    public void mensaje(String mensaje) {
+        Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show();
     }
 }

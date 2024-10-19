@@ -52,7 +52,6 @@ public class MCategoria extends DbHelper {
         }
         return id;
     }
-
     public ArrayList<Categoria> read() {
         DbHelper dbHelper = new DbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -97,7 +96,7 @@ public class MCategoria extends DbHelper {
         return categoria;
     }
 
-    public boolean delete(int id) {
+    public boolean destroy(int id) {
         boolean correcto = false;
         DbHelper dbHelper = new DbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();

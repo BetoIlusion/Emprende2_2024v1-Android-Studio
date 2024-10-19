@@ -28,7 +28,8 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_CATEGORIA + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "nombre TEXT," +
-                "descripcion TEXT)"
+                "descripcion TEXT," +
+                "estado INTEGER)"
         );
 
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_PERSONA + "(" +
@@ -38,8 +39,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 "direccion TEXT," +
                 "correo TEXT," +
                 "tipo_cliente TEXT," +
-                "estado TEXT," +
-                "link_ubicacion TEXT)"
+                "link_ubicacion TEXT," +
+                "estado TEXT)"
         );
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_PROVEEDOR + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +

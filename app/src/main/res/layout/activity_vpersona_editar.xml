@@ -101,40 +101,6 @@
                         android:layout_marginBottom="15dp"
                         android:paddingStart="10dp" />
 
-<!--                    &lt;!&ndash; Tipo de Cliente &ndash;&gt;-->
-<!--                    <TextView-->
-<!--                        android:id="@+id/tvLabel"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Tipo de Cliente"-->
-<!--                        android:textSize="18sp"-->
-<!--                        android:textColor="@android:color/black"-->
-<!--                        android:layout_marginTop="16dp" />-->
-
-<!--                    <Spinner-->
-<!--                        android:id="@+id/spTipoClientePersonaEditar"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:entries="@array/sp_tipo_cliente"-->
-<!--                        android:layout_marginBottom="16dp" />-->
-
-                    <!-- Estado del Cliente -->
-                    <TextView
-                        android:id="@+id/tvLabelEstadoEditar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Estado del Cliente"
-                        android:textSize="18sp"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="16dp" />
-
-                    <Spinner
-                        android:id="@+id/spEstadoPersonaEditar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:entries="@array/sp_estado"
-                        android:layout_marginBottom="16dp" />
-
                     <!-- Botón Guardar -->
                     <Button
                         android:id="@+id/btnGuardarPersonaEditar"

@@ -5,8 +5,10 @@ import android.widget.Toast;
 
 import com.app.emprende2_2024.model.MPersona.MPersona;
 import com.app.emprende2_2024.model.MPersona.Persona;
+import com.app.emprende2_2024.model.MPersona.modelPersona;
 import com.app.emprende2_2024.model.MProveedor.MProveedor;
 import com.app.emprende2_2024.model.MProveedor.Proveedor;
+import com.app.emprende2_2024.model.MProveedor.modelProveedor;
 import com.app.emprende2_2024.view.VPersona.VPersonaEditar;
 import com.app.emprende2_2024.view.VPersona.VPersonaInsertar;
 import com.app.emprende2_2024.view.VPersona.VPersonaMain;
@@ -33,98 +35,103 @@ public class CPersona {
     }
 
     public void listar() {
-        MPersona modelPersona = new MPersona(vMain);
-        MProveedor modelProveedor = new MProveedor(vMain);
+            modelPersona modelPersona = new modelPersona(vMain);
+            modelProveedor modelProveedor = new modelProveedor(vMain);
 
-        ArrayList<Persona> personas = modelPersona.read();
-        ArrayList<Proveedor> proveedors = modelProveedor.read();
+        ArrayList<modelPersona> personas = modelPersona.read();
+        ArrayList<modelProveedor> proveedors = modelProveedor.read();
+
         vMain.listar(personas,proveedors);
     }
-    public void create(String nombre, String telefono, String direccion, String correo, String tipoCliente, String estado, String ubicacion) {
-        try(MPersona model = new MPersona(vInsertar)){
-            long id = model.create(
+    public void create(String nombre, String telefono, String direccion, String correo, String tipoCliente, String ubicacion) {
+        try{
+            modelPersona modelPersona = new modelPersona(vInsertar);
+            if(modelPersona.create(
                     nombre,
                     telefono,
                     direccion,
                     correo,
                     tipoCliente,
-                    estado,
-                    ubicacion
-            );
-            if(id > 0){
-                Toast.makeText(vInsertar, "REGISTRO GUARDADO", Toast.LENGTH_SHORT).show();
+                    ubicacion,
+                    1
+            )){
                 vInsertar.limpiar();
-            } else {
-                Toast.makeText(vInsertar, "ERROR AL GUARDAR REGISTRO MODEL", Toast.LENGTH_SHORT).show();
-            }
-        }catch(Exception e){
-            Toast.makeText(vInsertar, "ERROR AL GUARDAR REGISTRO Contexto", Toast.LENGTH_SHORT).show();
+                vInsertar.mensaje("Contacto creado");
+            }else
+                vInsertar.mensaje("ERROR al crear Contacto");
+        }catch (Exception e){
             e.printStackTrace();
         }
     }
     public void readUno(int id) {
-        MPersona model = new MPersona(vEditar);
-        Persona persona = model.readUno(id);
-        if (persona != null)
-         vEditar.llenarVista(persona);
-        else
-            Toast.makeText(vInsertar, "NO HAY INFORMACION DEL ID", Toast.LENGTH_SHORT).show();
+        modelPersona modelPersona = new modelPersona(vEditar);
+        if (modelPersona.readUno(id) != null){
+            vEditar.llenarVista(modelPersona.readUno(id));
+        }else
+            vEditar.mensaje("Persona No Encontrada");
+
+//        MPersona model = new MPersona(vEditar);
+//        Persona persona = model.readUno(id);
+//        if (persona != null)
+//         vEditar.llenarVista(persona);
+//        else
+//            Toast.makeText(vInsertar, "NO HAY INFORMACION DEL ID", Toast.LENGTH_SHORT).show();
     }
     public boolean delete(int id) {
         boolean bandera = false;
-        try(MProveedor modelProveedor = new MProveedor(adapter)) {
-            try(MPersona modelPersona = new MPersona(adapter)){
-                Proveedor proveedor = modelProveedor.readUno(id);
-                if (proveedor != null ){
-                    boolean b = modelProveedor.delete(id);
-                }
-                if(modelPersona.delete(id)){
-                    bandera =  true;
-                }else {
-                    Toast.makeText(vInsertar, "ERROR AL ELIMINAR", Toast.LENGTH_SHORT).show();
-                    bandera = false;
-                }
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+        modelPersona mPersona = new modelPersona(adapter);
+        if (mPersona.delete(id)){
+            bandera = true;
         }
-        return  bandera;
+        return bandera;
     }
     public void listarFiltro(String filtroSeleccionado) {
-        MPersona model = new MPersona(vMain);
-        if (!filtroSeleccionado.equals("[NINGUNO]")){
-            vMain.mostrarFiltro(model.mostrarFiltro(filtroSeleccionado));
+        modelPersona mPersona = new modelPersona(vMain);
+        modelProveedor mProveedor = new modelProveedor(vMain);
+        if(!filtroSeleccionado.equals("[NINGUNO]")){
+            vMain.mostrarFiltro(mPersona.readFiltro(filtroSeleccionado));
         }else{
-            MPersona modelPersona = new MPersona(vMain);
-            MProveedor modelProveedor = new MProveedor(vMain);
-            ArrayList<Persona> personas = modelPersona.read();
-            ArrayList<Proveedor> proveedors = modelProveedor.read();
+            ArrayList<modelPersona> personas = mPersona.read();
+            ArrayList<modelProveedor> proveedors = mProveedor.read();
             vMain.listar(personas,proveedors);
         }
     }
 
-    public void update(int id, String nombre, String telefono, String direccion, String correo, String estado, String ubicacion) {
+    public void update(int id, String nombre, String telefono, String direccion, String correo, String ubicacion) {
         boolean b = false;
-        VPersonaEditar view = vEditar;
-        try{
-            MPersona modelPersona = new MPersona(view);
-            b = modelPersona.update(
-                    id,
-                    nombre,
-                    telefono,
-                    direccion,
-                    correo,
-                    estado,
-                    ubicacion
-            );
-            if (b){
-                view.mensaje("REGISTRO PERSONA MODIFICADO");
-            }else{
-                view.mensaje("ERROR AL MODIFICAR REGISTRO");
-            }
-        }catch (Exception e){
-            view.mensaje("ERROR EN CONTROLLER PERSONA");
-            e.printStackTrace();
+        modelPersona mPersona = new modelPersona(vEditar);
+        if (mPersona.update(id,
+                nombre,
+                telefono,
+                direccion,
+                correo,
+                ubicacion)){
+            vEditar.mensaje("Persona ACTUALIZADA");
+        }else{
+            vEditar.mensaje("ERROR al actualizar Persona");
         }
+
+//        boolean b = false;
+//        VPersonaEditar view = vEditar;
+//        try{
+//            MPersona modelPersona = new MPersona(view);
+//            b = modelPersona.update(
+//                    id,
+//                    nombre,
+//                    telefono,
+//                    direccion,
+//                    correo,
+//                    estado,
+//                    ubicacion
+//            );
+//            if (b){
+//                view.mensaje("REGISTRO PERSONA MODIFICADO");
+//            }else{
+//                view.mensaje("ERROR AL MODIFICAR REGISTRO");
+//            }
+//        }catch (Exception e){
+//            view.mensaje("ERROR EN CONTROLLER PERSONA");
+//            e.printStackTrace();
+//        }
     }
 }

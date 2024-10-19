@@ -31,6 +31,7 @@ public class MProveedor extends DbHelper {
             cursorProveedor = db.rawQuery("SELECT * FROM " + TABLE_PROVEEDOR, null);
             if (cursorProveedor.moveToFirst()) {
                 do {
+
                     proveedor = new Proveedor();
                     proveedor.setId(cursorProveedor.getInt(0));
                     proveedor.setNit(cursorProveedor.getString(1));

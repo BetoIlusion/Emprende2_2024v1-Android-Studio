@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CPersona.CPersona;
 import com.app.emprende2_2024.model.MPersona.Persona;
+import com.app.emprende2_2024.model.MPersona.modelPersona;
 import com.app.emprende2_2024.model.MProveedor.Proveedor;
+import com.app.emprende2_2024.model.MProveedor.modelProveedor;
 import com.app.emprende2_2024.view.VNotaVenta.MainActivity;
 
 import java.util.ArrayList;
@@ -39,10 +41,11 @@ public class VPersonaMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vpersona_main);
-        //boton NUEVO CONTACTO
-        getBtnCrear().setOnClickListener(v -> VPersonaInsertar());
         //Recyclerview
         controller.listar();
+        //boton NUEVO CONTACTO
+        getBtnCrear().setOnClickListener(v -> VPersonaInsertar());
+
         getBtnFiltro().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +78,7 @@ public class VPersonaMain extends AppCompatActivity {
         controller.listarFiltro(filtroSeleccionado);
     }
 
-    public void listar(ArrayList<Persona> mostrarPersona, ArrayList<Proveedor> mostrarProveedor) {
+    public void listar(ArrayList<modelPersona> mostrarPersona, ArrayList<modelProveedor> mostrarProveedor) {
         adapter = new ListaPersonasAdapter(mostrarPersona, mostrarProveedor);
         try {
             listaPersonas = findViewById(R.id.rvVPersona);
@@ -96,8 +99,8 @@ public class VPersonaMain extends AppCompatActivity {
     }
 
 
-    public void mostrarFiltro(ArrayList<Persona> personas) {
-        ArrayList<Persona> listaFiltrada = personas;
+    public void mostrarFiltro(ArrayList<modelPersona> personas) {
+        ArrayList<modelPersona> listaFiltrada = personas;
         // Actualiza el adaptador del RecyclerView con la lista filtrada
         if (listaFiltrada.size() > 0)
          adapter.updateList(listaFiltrada);

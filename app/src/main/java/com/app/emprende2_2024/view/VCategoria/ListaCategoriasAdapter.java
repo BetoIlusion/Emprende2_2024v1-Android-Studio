@@ -18,16 +18,16 @@ import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CCategoria.CCategoria;
 import com.app.emprende2_2024.controller.CPersona.CPersona;
 import com.app.emprende2_2024.model.MCategoria.Categoria;
+import com.app.emprende2_2024.model.MCategoria.modelCategoria;
 import com.app.emprende2_2024.view.VPersona.VPersonaEditar;
 import com.app.emprende2_2024.view.VPersona.VPersonaMain;
 
 import java.util.ArrayList;
 
 public class ListaCategoriasAdapter extends RecyclerView.Adapter<ListaCategoriasAdapter.CategoriaViewHolder> {
-    ArrayList<Categoria> listaCategoria;
-    public ListaCategoriasAdapter(ArrayList<Categoria> listaCategoria) {
+    ArrayList<modelCategoria> listaCategoria;
+    public ListaCategoriasAdapter(ArrayList<modelCategoria> listaCategoria) {
         this.listaCategoria = listaCategoria;
-        Integer a = 0;
     }
     public class CategoriaViewHolder extends RecyclerView.ViewHolder{
         TextView viewNombre, viewDescricion;
@@ -68,7 +68,6 @@ public class ListaCategoriasAdapter extends RecyclerView.Adapter<ListaCategorias
                 int adapterPosition = holder.getAdapterPosition();
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     Context context = v.getContext();
-                    int a = listaCategoria.get(adapterPosition).getId();
                     Intent intent = new Intent(context, VCategoriaEditar.class);
                     intent.putExtra("ID", listaCategoria.get(adapterPosition).getId());
                     context.startActivity(intent);
@@ -91,7 +90,6 @@ public class ListaCategoriasAdapter extends RecyclerView.Adapter<ListaCategorias
                                     Intent intent = new Intent(context, VCategoriaMain.class);
                                     context.startActivity(intent);
                                 }
-
                             }
                         }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
                             @Override

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,22 +18,24 @@ import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CPersona.CPersona;
 import com.app.emprende2_2024.model.MPersona.MPersona;
 import com.app.emprende2_2024.model.MPersona.Persona;
+import com.app.emprende2_2024.model.MPersona.modelPersona;
 import com.app.emprende2_2024.model.MProveedor.Proveedor;
+import com.app.emprende2_2024.model.MProveedor.modelProveedor;
 import com.app.emprende2_2024.view.VProveedor.VProveedorEditar;
 import com.google.android.material.transition.Hold;
 
 import java.util.ArrayList;
 
 public class ListaPersonasAdapter extends RecyclerView.Adapter<ListaPersonasAdapter.PersonaViewHolder> {
-    ArrayList<Persona> listaPersonas;
-    ArrayList<Proveedor> listaProveedor;
+    ArrayList<modelPersona> listaPersonas;
+    ArrayList<modelProveedor> listaProveedor;
 
-    public ListaPersonasAdapter(ArrayList<Persona> listaPersonas, ArrayList<Proveedor> listaProveedor) {
+    public ListaPersonasAdapter(ArrayList<modelPersona> listaPersonas, ArrayList<modelProveedor> listaProveedor) {
         this.listaPersonas = listaPersonas;
         this.listaProveedor = listaProveedor;
     }
     public class PersonaViewHolder extends RecyclerView.ViewHolder{
-        TextView viewNombre, viewTelefono, viewDireccion, viewCorreo, viewTipoCliente, viewEstado;
+        TextView viewNombre, viewTelefono, viewDireccion, viewCorreo, viewTipoCliente;
         TextView viewNIT;
         ImageView ivEditar, ivEliminar;
         public PersonaViewHolder(@NonNull View itemView) {
@@ -43,7 +46,6 @@ public class ListaPersonasAdapter extends RecyclerView.Adapter<ListaPersonasAdap
             viewDireccion = itemView.findViewById(R.id.viewDireccion);
             viewCorreo = itemView.findViewById(R.id.viewCorreo);
             viewTipoCliente = itemView.findViewById(R.id.viewTipoCliente);
-            viewEstado = itemView.findViewById(R.id.viewEstado);
             ivEditar = itemView.findViewById(R.id.imageView1);
             ivEliminar = itemView.findViewById(R.id.imageView2);
         }
@@ -63,12 +65,11 @@ public class ListaPersonasAdapter extends RecyclerView.Adapter<ListaPersonasAdap
         holder.viewDireccion.setText(listaPersonas.get(position).getDireccion());
         holder.viewCorreo.setText(listaPersonas.get(position).getCorreo());
         holder.viewTipoCliente.setText(listaPersonas.get(position).getTipo_cliente());
-        holder.viewEstado.setText(listaPersonas.get(position).getEstado());
         if (!listaPersonas.get(position).getTipo_cliente().equals("Proveedor")){
             holder.viewNIT.setVisibility(View.GONE);
         }else{
             for (int i = 0; i < listaProveedor.size(); i++) {
-                if (listaProveedor.get(i).getId_persona() == listaPersonas.get(position).getId()){
+                if (listaProveedor.get(i).getPersona().getId() == listaPersonas.get(position).getId()){
                     holder.viewNIT.setText("NIT: " + listaProveedor.get(i).getNit());
                 }
             }
@@ -79,8 +80,6 @@ public class ListaPersonasAdapter extends RecyclerView.Adapter<ListaPersonasAdap
                 int adapterPosition = holder.getAdapterPosition();
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     Context context = v.getContext();
-                    int a = listaPersonas.get(adapterPosition).getId();
-                    String b = listaPersonas.get(adapterPosition).getTipo_cliente().toString();
                     if (listaPersonas.get(adapterPosition).getTipo_cliente().toString().equals("Proveedor")){
                         Intent intent = new Intent(context, VProveedorEditar.class);
                         intent.putExtra("ID", listaPersonas.get(adapterPosition).getId());
@@ -105,19 +104,12 @@ public class ListaPersonasAdapter extends RecyclerView.Adapter<ListaPersonasAdap
                                 int adapterPosition = holder.getAdapterPosition();
                                 //final MPersona model = new MPersona(v.getContext());
                                 final CPersona controller = new CPersona(v.getContext());
-
                                 if (controller.delete(listaPersonas.get(adapterPosition).getId())){
-
                                     Context context = v.getContext();
                                     Intent intent = new Intent(context, VPersonaMain.class);
                                     context.startActivity(intent);
-                                }
-//                                if (model.delete(listaPersonas.get(adapterPosition).getId())){
-//                                    Context context = v.getContext();
-//                                    Intent intent = new Intent(context, vPersonaMain.class);
-//                                    context.startActivity(intent);
-//                                }
-
+                                }else
+                                    Toast.makeText(v.getContext(), "ERROR AL ELIMINAR", Toast.LENGTH_LONG).show();
                             }
                         }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
                             @Override
@@ -129,7 +121,7 @@ public class ListaPersonasAdapter extends RecyclerView.Adapter<ListaPersonasAdap
         });
     }
     // Método para actualizar la lista
-    public void updateList(ArrayList<Persona> nuevaLista) {
+    public void updateList(ArrayList<modelPersona> nuevaLista) {
         listaPersonas = nuevaLista;
         notifyDataSetChanged(); // Actualiza la vista del RecyclerView
     }

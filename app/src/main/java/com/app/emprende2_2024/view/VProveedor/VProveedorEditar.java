@@ -12,20 +12,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CProveedor.CProveedor;
 import com.app.emprende2_2024.model.MPersona.Persona;
+import com.app.emprende2_2024.model.MPersona.modelPersona;
 import com.app.emprende2_2024.model.MProveedor.Proveedor;
+import com.app.emprende2_2024.model.MProveedor.modelProveedor;
 import com.app.emprende2_2024.view.VPersona.VPersonaMain;
 
 public class VProveedorEditar extends AppCompatActivity {
     EditText etNombre, etNIT, etTelefono, etDireccion, etCorreo, etUbicacion;
-    Spinner spEstado;
     Button btnGuardar;
 
     public EditText getEtUbicacion() {
         return findViewById(R.id.etUbicacionProveedorEditar);
-    }
-
-    public Spinner getSpEstado() {
-        return findViewById(R.id.spEstadoProveedorEditar);
     }
 
     public EditText getEtNombre() {
@@ -77,43 +74,32 @@ public class VProveedorEditar extends AppCompatActivity {
         String telefono = getEtTelefono().getText().toString().trim();
         String direccion = getEtDireccion().getText().toString().trim();
         String correo = getEtCorreo().getText().toString().trim();
-        String estado = getSpEstado().getSelectedItem().toString().trim();
         String ubicacion = getEtUbicacion().getText().toString().trim();
-        controller.update(id,nombre,NIT,telefono,direccion,correo,estado,ubicacion);
+        controller.update(id,nombre,NIT,telefono,direccion,correo,ubicacion);
     }
 
     private void llenarVista(int id) {
         controller.llenarVista(id);
     }
-    public void llenarVista(Persona persona, Proveedor proveedor) {
+    public void llenarVista(modelPersona persona, modelProveedor proveedor) {
         String nombre = persona.getNombre().trim();
         String NIT = proveedor.getNit().trim();
         String telefono = persona.getTelefono().trim();
-        String direccion = persona.getDireccion();
-        String correo = persona.getCorreo();
-        String estado = persona.getEstado();
-        String ubicacion = persona.getUbicacion();
+        String direccion = persona.getDireccion().trim();
+        String correo = persona.getCorreo().trim();
+        String ubicacion = persona.getUbicacion().trim();
+        //int estado = persona.getEstado();
         getEtNombre().setText(nombre);
         getEtNIT().setText(NIT);
         getEtTelefono().setText(telefono);
         getEtDireccion().setText(direccion);
         getEtCorreo().setText(correo);
-        int posEs = spinnerEs(estado);
-        getSpEstado().setSelection(posEs);
+        //int posEs = spinnerEs(estado);
+        //getSpEstado().setSelection(posEs);
         getEtUbicacion().setText(ubicacion);
     }
     public void mensaje(String mensaje){
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
-    }
-    private int spinnerEs(String estado) {
-        int i = 0;
-        Spinner spEs = getSpEstado();
-        for (int j = 0; j < spEs.getCount(); j++) {
-            String s = spEs.getItemAtPosition(j).toString();
-            if (s.equals(estado))
-                return j;
-        }
-        return i;
     }
     public void onBackPressed() {
         // Inicia la actividad que deseas cuando se presiona el botón de atrás

@@ -18,7 +18,7 @@
         android:id="@+id/tvCategoriaEditar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Insertar Categoria"
+        android:text="Editar Categoria"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"

@@ -12,10 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CPersona.CPersona;
 import com.app.emprende2_2024.model.MPersona.Persona;
+import com.app.emprende2_2024.model.MPersona.modelPersona;
 
 public class VPersonaEditar extends AppCompatActivity {
     EditText etNombre, etTelefono, etDireccion, etCorreo, etLinkUbicacion;
-    Spinner spEstado;
     Button btnGuardar;
 
     public EditText getEtLinkUbicacion() {
@@ -70,14 +70,6 @@ public class VPersonaEditar extends AppCompatActivity {
 //        this.spTipoCliente = spTipoCliente;
 //    }
 
-    public Spinner getSpEstado() {
-        return findViewById(R.id.spEstadoPersonaEditar);
-    }
-
-    public void setSpEstado(Spinner spEstado) {
-        this.spEstado = spEstado;
-    }
-
     public int getId() {
         return id;
     }
@@ -111,10 +103,9 @@ public class VPersonaEditar extends AppCompatActivity {
         String telefono = getEtTelefono().getText().toString().trim();
         String direccion = getEtDireccion().getText().toString().trim();
         String correo = getEtCorreo().getText().toString().trim();
-        String estado = getSpEstado().getSelectedItem().toString().trim();
         String ubicacion = getEtLinkUbicacion().getText().toString().trim();
         if(nombre.isEmpty() || telefono.isEmpty() || direccion.isEmpty() ||
-                telefono.isEmpty() || correo.isEmpty() || estado.isEmpty()){
+                telefono.isEmpty() || correo.isEmpty()){
             Toast.makeText(this, "Por favor, llena todos los campos obligatorios", Toast.LENGTH_SHORT).show();
         }else{
             controller.update(
@@ -123,7 +114,6 @@ public class VPersonaEditar extends AppCompatActivity {
                     telefono,
                     direccion,
                     correo,
-                    estado,
                     ubicacion
             );
         }
@@ -133,48 +123,19 @@ public class VPersonaEditar extends AppCompatActivity {
     private void llenarVista(int id) {
         controller.readUno(id);
     }
-    public void llenarVista(Persona persona) {
+    public void llenarVista(modelPersona persona) {
         String nombre = persona.getNombre();
         String telefono = persona.getTelefono();
         String direccion = persona.getDireccion();
         String correo = persona.getCorreo();
-        String tipo = persona.getTipo_cliente();
-        String estado = persona.getEstado();
         String ubicacion = persona.getUbicacion();
-
-        //int posTC = spinnerTC(tipo);
-        int posEs = spinnerEs(estado);
 
         getEtNombre().setText(nombre);
         getEtTelefono().setText(telefono);
         getEtDireccion().setText(direccion);
         getEtCorreo().setText(correo);
-        //getSpTipoCliente().setSelection(posTC);
-        getSpEstado().setSelection(posEs);
         getEtLinkUbicacion().setText(ubicacion);
     }
-
-    private int spinnerEs(String estado) {
-        int i = 0;
-        Spinner spEs = getSpEstado();
-        for (int j = 0; j < spEs.getCount(); j++) {
-            String s = spEs.getItemAtPosition(j).toString();
-            if (s.equals(estado))
-                return j;
-        }
-        return i;
-    }
-
-//    private int spinnerTC(String stipoCliente){
-//        int i = 0;
-//        Spinner spTC = getSpTipoCliente();
-//        for (int j = 0; j < spTC.getCount(); j++) {
-//            String s = spTC.getItemAtPosition(j).toString();
-//            if (s.equals(stipoCliente))
-//                return j;
-//        }
-//        return i;
-//    }
     public void mensaje(String mensaje){
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }

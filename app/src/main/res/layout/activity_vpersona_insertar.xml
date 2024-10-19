@@ -128,24 +128,6 @@
                         android:layout_marginBottom="15dp"
                         android:paddingStart="10dp" />
 
-
-                    <!-- Estado del Cliente -->
-                    <TextView
-                        android:id="@+id/tvLabelEstadoInsertar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Estado del Cliente"
-                        android:textSize="18sp"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="16dp" />
-
-                    <Spinner
-                        android:id="@+id/spEstadoPersonaInsertar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:entries="@array/sp_estado"
-                        android:layout_marginBottom="16dp" />
-
                     <!-- Botón Guardar -->
                     <Button
                         android:id="@+id/btnGuardarPersonaInsertar"
