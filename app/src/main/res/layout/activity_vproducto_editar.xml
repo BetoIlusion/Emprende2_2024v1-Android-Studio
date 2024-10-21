@@ -69,7 +69,15 @@
                 android:layout_marginBottom="15dp"
                 android:paddingStart="10dp"
                 android:inputType="number"/> <!-- Ajuste en el marginBottom -->
-
+            <EditText
+                android:id="@+id/etMinimoProductoEditar"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:hint="Minimo"
+                android:background="@drawable/edittext_style"
+                android:layout_marginBottom="15dp"
+                android:paddingStart="10dp"
+                android:inputType="number"/>
             <TextView
                 android:id="@+id/tvCategoriaProductoEditar"
                 android:layout_width="match_parent"

@@ -5,7 +5,8 @@
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
     <color name="colorAccent">#FF4081</color>
-
+    <color name="toast_success_background">#32CD32</color>
+    <color name="toast_error_background">#FF4500</color>
     <!-- Colores existentes -->
     <color name="card_background">#F0F0F0</color> <!-- Color suave de fondo para el card -->
 

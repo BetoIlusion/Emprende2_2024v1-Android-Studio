@@ -51,6 +51,10 @@ public class modelProveedor extends DbHelper {
         this.persona = persona;
     }
 
+    @Override
+    public String toString() {
+        return getNit() + " : " + getPersona().getNombre();
+    }
 
     public ArrayList<modelProveedor> read() {
         ArrayList<modelProveedor> listaProveedor = new ArrayList<>();
@@ -80,12 +84,12 @@ public class modelProveedor extends DbHelper {
             cursorProveedor.close();
             return listaProveedor;
         }catch (Exception e){
-            Toast.makeText(context, "ERROR AL MOSTRAR PROVEEDOR", Toast.LENGTH_SHORT).show();
+            listaProveedor = null;
         }
         return listaProveedor;
     }
 
-    public modelProveedor readUno(int id_persona) {
+    public modelProveedor findById(int id_persona) {
         DbHelper dbHelper = new DbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 

@@ -1,8 +1,11 @@
 package com.app.emprende2_2024.view.VProducto;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CProducto.CProducto;
 import com.app.emprende2_2024.model.MProducto.ProductoFull;
+import com.app.emprende2_2024.model.MProducto.modelProducto;
 import com.app.emprende2_2024.view.VCategoria.VCategoriaMain;
 import com.app.emprende2_2024.view.VNotaVenta.MainActivity;
 
@@ -38,15 +42,13 @@ public class VProductoMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vproducto_main);
-        listar();
+        controller.read();
         getBtnCategoria().setOnClickListener(v -> VCategoria());
         getBtnInsertar().setOnClickListener(v -> VInsertar());
 
     }
-    private void listar() {
-        controller.read();
-    }
-    public void listar(ArrayList<ProductoFull> arrayListProductoFull) {
+
+    public void listar(ArrayList<modelProducto> arrayListProductoFull) {
         adapter = new ListaProductoAdapter(arrayListProductoFull);
         try{
             getRecyclerView().setLayoutManager(new LinearLayoutManager(this));
@@ -54,7 +56,6 @@ public class VProductoMain extends AppCompatActivity {
         }catch (Exception e){
             mensaje("ERROR EN ADAPTER");
             e.printStackTrace();
-
         }
     }
     private void VInsertar() {
@@ -70,6 +71,23 @@ public class VProductoMain extends AppCompatActivity {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 
+    public void showSuccessMessage(String mensaje) {
+        Toast toast = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT);
+        View view = toast.getView();
+        view.setBackgroundColor(Color.parseColor("#32CD32")); // Verde lima para éxito
+        TextView text = view.findViewById(android.R.id.message);
+        text.setTextColor(Color.WHITE);
+        toast.show();
+    }
+
+    public void showErrorMessage(String mensaje) {
+        Toast toast = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT);
+        View view = toast.getView();
+        view.setBackgroundColor(Color.parseColor("#FF4500")); // Rojo anaranjado para error
+        TextView text = view.findViewById(android.R.id.message);
+        text.setTextColor(Color.WHITE);
+        toast.show();
+    }
     public void onBackPressed() {
         // Inicia la actividad que deseas cuando se presiona el botón de atrás
         super.onBackPressed();

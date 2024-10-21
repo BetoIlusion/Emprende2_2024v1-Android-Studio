@@ -58,7 +58,7 @@ public class CCategoria {
 
     public void readUno(int id) {
         modelCategoria mCategoria = new modelCategoria(vEditar);
-        vEditar.readUno(mCategoria.readUno(id));
+        vEditar.readUno(mCategoria.findById(id));
     }
 
     public void update(int id, String nombre, String descripcion) {

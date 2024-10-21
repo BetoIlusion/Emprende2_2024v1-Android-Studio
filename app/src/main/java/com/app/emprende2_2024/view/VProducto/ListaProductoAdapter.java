@@ -18,6 +18,7 @@ import com.app.emprende2_2024.controller.CPersona.CPersona;
 import com.app.emprende2_2024.controller.CProducto.CProducto;
 import com.app.emprende2_2024.model.MProducto.Producto;
 import com.app.emprende2_2024.model.MProducto.ProductoFull;
+import com.app.emprende2_2024.model.MProducto.modelProducto;
 import com.app.emprende2_2024.model.MProveedor.Proveedor;
 import com.app.emprende2_2024.model.MStock.Stock;
 import com.app.emprende2_2024.view.VPersona.ListaPersonasAdapter;
@@ -28,10 +29,10 @@ import com.app.emprende2_2024.view.VProveedor.VProveedorEditar;
 import java.util.ArrayList;
 
 public class ListaProductoAdapter extends RecyclerView.Adapter<ListaProductoAdapter.ProductoViewHolder> {
-    ArrayList<ProductoFull> listaProducto;
+    ArrayList<modelProducto> listaProducto;
 
-    public ListaProductoAdapter(ArrayList<ProductoFull> productoFulls) {
-        this.listaProducto = productoFulls;
+    public ListaProductoAdapter(ArrayList<modelProducto> productos) {
+        this.listaProducto = productos;
 
     }
     public class ProductoViewHolder extends RecyclerView.ViewHolder{
@@ -63,9 +64,9 @@ public class ListaProductoAdapter extends RecyclerView.Adapter<ListaProductoAdap
         holder.viewNombre.setText("Producto: " + listaProducto.get(position).getNombre());
         holder.viewSKU.setText("SKU: "  + listaProducto.get(position).getSku());
         holder.viewPrecio.setText(String.valueOf(listaProducto.get(position).getPrecio()));
-        holder.viewCantidad.setText(String.valueOf(listaProducto.get(position).getCantidad()));
-        holder.viewCategoria.setText("Categoria: " + listaProducto.get(position).getNombreCategoria());
-        holder.viewProveedor.setText("Proveedor: " + listaProducto.get(position).getNombreProveedor());
+        holder.viewCantidad.setText(String.valueOf(listaProducto.get(position).getStock().getCantidad()));
+        holder.viewCategoria.setText("Categoria: " + listaProducto.get(position).getCategoria().getNombre());
+        holder.viewProveedor.setText("Proveedor: " + listaProducto.get(position).getProveedor().getPersona().getNombre());
         holder.ivEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

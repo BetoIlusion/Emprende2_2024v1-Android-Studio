@@ -45,8 +45,8 @@ public class CPersona {
     }
     public void create(String nombre, String telefono, String direccion, String correo, String tipoCliente, String ubicacion) {
         try{
-            modelPersona modelPersona = new modelPersona(vInsertar);
-            if(modelPersona.create(
+            modelPersona mPersona = new modelPersona(vInsertar);
+            if(mPersona.create(
                     nombre,
                     telefono,
                     direccion,
@@ -110,28 +110,5 @@ public class CPersona {
         }else{
             vEditar.mensaje("ERROR al actualizar Persona");
         }
-
-//        boolean b = false;
-//        VPersonaEditar view = vEditar;
-//        try{
-//            MPersona modelPersona = new MPersona(view);
-//            b = modelPersona.update(
-//                    id,
-//                    nombre,
-//                    telefono,
-//                    direccion,
-//                    correo,
-//                    estado,
-//                    ubicacion
-//            );
-//            if (b){
-//                view.mensaje("REGISTRO PERSONA MODIFICADO");
-//            }else{
-//                view.mensaje("ERROR AL MODIFICAR REGISTRO");
-//            }
-//        }catch (Exception e){
-//            view.mensaje("ERROR EN CONTROLLER PERSONA");
-//            e.printStackTrace();
-//        }
     }
 }

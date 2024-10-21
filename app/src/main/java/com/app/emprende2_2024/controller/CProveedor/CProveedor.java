@@ -1,10 +1,6 @@
 package com.app.emprende2_2024.controller.CProveedor;
 
-import android.widget.Toast;
-
-import com.app.emprende2_2024.model.MPersona.MPersona;
 import com.app.emprende2_2024.model.MPersona.modelPersona;
-import com.app.emprende2_2024.model.MProveedor.MProveedor;
 import com.app.emprende2_2024.model.MProveedor.modelProveedor;
 import com.app.emprende2_2024.view.VProveedor.VProveedorEditar;
 import com.app.emprende2_2024.view.VProveedor.VProveedorInsertar;
@@ -53,7 +49,7 @@ public class CProveedor {
         VProveedorEditar view = vEditar;
         modelProveedor mProveedor = new modelProveedor(view);
         modelPersona mPersona = new modelPersona(view);
-        view.llenarVista(mPersona.readUno(id),mProveedor.readUno(id));
+        view.llenarVista(mPersona.readUno(id),mProveedor.findById(id));
     }
 
     public void update(int id,

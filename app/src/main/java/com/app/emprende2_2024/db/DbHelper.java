@@ -54,18 +54,20 @@ public class DbHelper extends SQLiteOpenHelper {
                 "SKU TEXT, " +
                 "precio REAL, " +
                 "imagen BLOB, " +
+                "estado INT, " +
                 "id_categoria INTEGER, " +
                 "id_proveedor INTEGER, " +
+                "id_stock INTEGER, " +
                 "FOREIGN KEY(id_categoria) REFERENCES " + TABLE_CATEGORIA + "(id), " +
-                "FOREIGN KEY(id_proveedor) REFERENCES " + TABLE_PROVEEDOR + "(id)" +
+                "FOREIGN KEY(id_proveedor) REFERENCES " + TABLE_PROVEEDOR + "(id)," +
+                "FOREIGN KEY(id_stock) REFERENCES " + TABLE_STOCK + "(id)" +
                 ")"
         );
 
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_STOCK + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "cantidad INTEGER," +
-                "id_producto INTEGER," +
-                "FOREIGN KEY(id_producto) REFERENCES " + TABLE_PRODUCTO + "(id))"
+                "minimo INTEGER)"
         );
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_FACTURA + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -89,12 +91,12 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PERSONA);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIA);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTO);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PERSONA);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PROVEEDOR);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_STOCK);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_FACTURA);
+//        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_STOCK);
+//        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_FACTURA);
         onCreate(sqLiteDatabase);
 
 

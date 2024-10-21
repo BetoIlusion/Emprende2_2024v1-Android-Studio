@@ -72,9 +72,6 @@ public class VPersonaInsertar extends AppCompatActivity {
         this.spTipo = spTipo;
     }
 
-//    public Spinner getSpEstado() {
-//        return findViewById(R.id.spEstadoPersonaInsertar);
-//    }
 
     public void setSpEstado(Spinner spEstado) {
         this.spEstado = spEstado;
@@ -106,7 +103,6 @@ public class VPersonaInsertar extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -120,7 +116,6 @@ public class VPersonaInsertar extends AppCompatActivity {
         getEtDireccion().setText("");
         getEtCorreo().setText("");
         getSpTipo().setSelection(0);
-        //getSpEstado().setSelection(0);
         getEtLinkUbicacion().setText("");
     }
 

@@ -5,13 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.app.emprende2_2024.db.DbHelper;
-import com.app.emprende2_2024.view.VCategoria.VCategoriaEditar;
-import com.app.emprende2_2024.view.VCategoria.VCategoriaInsertar;
 
 import java.util.ArrayList;
 
@@ -96,31 +93,33 @@ public class modelCategoria extends DbHelper{
     }
 
     public ArrayList<modelCategoria> read() {
-        DbHelper dbHelper = new DbHelper(context);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
         ArrayList<modelCategoria> arrayCategoria = new ArrayList<>();
-        Cursor cursor;
-        cursor = db.rawQuery("SELECT * FROM " + TABLE_CATEGORIA + " ORDER BY id DESC", null);
-        if (cursor.moveToFirst()){
-            do{
-                if(cursor.getInt(3) == 1){ //si el estado es true
-                    modelCategoria categoria = new modelCategoria(context);
-                    categoria.setId(cursor.getInt(0));
-                    categoria.setNombre(cursor.getString(1));
-                    categoria.setDescripcion(cursor.getString(2));
-                    categoria.setEstado(cursor.getInt(3));
-                    arrayCategoria.add(categoria);
-                }
-            }while (cursor.moveToNext());
-            cursor.close();
-        }else {
-            Toast.makeText(context, "No se encontraron las Categorias, inserte una.",
-                    Toast.LENGTH_SHORT).show();
+        try {
+            DbHelper dbHelper = new DbHelper(context);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            Cursor cursor;
+            cursor = db.rawQuery("SELECT * FROM " + TABLE_CATEGORIA + " ORDER BY id DESC", null);
+            if (cursor.moveToFirst()){
+                do{
+                    if(cursor.getInt(3) == 1){ //si el estado es true
+                        modelCategoria categoria = new modelCategoria(context);
+                        categoria.setId(cursor.getInt(0));
+                        categoria.setNombre(cursor.getString(1));
+                        categoria.setDescripcion(cursor.getString(2));
+                        categoria.setEstado(cursor.getInt(3));
+                        arrayCategoria.add(categoria);
+                    }
+                }while (cursor.moveToNext());
+                cursor.close();
+            }
+        }catch (Exception e){
+            arrayCategoria = null;
         }
+
         return arrayCategoria;
     }
 
-    public modelCategoria readUno(int id) {
+    public modelCategoria findById(int id) {
         modelCategoria model = new modelCategoria(context);
         DbHelper dbHelper = new DbHelper(context);
         try{

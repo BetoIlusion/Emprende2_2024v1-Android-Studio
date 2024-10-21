@@ -65,34 +65,32 @@ public class VProveedorInsertar extends AppCompatActivity {
 
             }
         });
-        getBtnGuardar().setOnClickListener(v -> insertar());
-    }
-
-    private void insertar() {
-        String nombre = getEtNombre().getText().toString().trim();
-        String nit = getEtNit().getText().toString().trim();
-        String telefono = getEtTelefono().getText().toString().trim();
-        String direccion = getEtDireccion().getText().toString().trim();
-        String correo = getEtCorreo().getText().toString().trim();
-        String tipo_cliente = getSpTipoCliente().getSelectedItem().toString().trim();
-        //String estado = getSpEstado().getSelectedItem().toString().trim();
-        String ubicacion = getEtUbicacion().getText().toString().trim();
-        if(nombre.isEmpty() || nit.isEmpty() || telefono.isEmpty() || direccion.isEmpty() ||
-        telefono.isEmpty() || correo.isEmpty()  || tipo_cliente.isEmpty()){
-            Toast.makeText(this, "Por favor, llena todos los campos obligatorios", Toast.LENGTH_SHORT).show();
-        }else{
-            controller.create(
-                    nombre,
-                    nit,
-                    telefono,
-                    direccion,
-                    correo,
-                    tipo_cliente,
-                    ubicacion
-            );
-        }
-
-
+        getBtnGuardar().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nombre = getEtNombre().getText().toString().trim();
+                String nit = getEtNit().getText().toString().trim();
+                String telefono = getEtTelefono().getText().toString().trim();
+                String direccion = getEtDireccion().getText().toString().trim();
+                String correo = getEtCorreo().getText().toString().trim();
+                String tipo_cliente = getSpTipoCliente().getSelectedItem().toString().trim();
+                String ubicacion = getEtUbicacion().getText().toString().trim();
+                if(nombre.isEmpty() || nit.isEmpty() || telefono.isEmpty() || direccion.isEmpty() ||
+                        telefono.isEmpty() || correo.isEmpty()  || tipo_cliente.isEmpty()){
+                    mensaje("LLENA TODOS LOS ESPACIOS");
+                }else{
+                    controller.create(
+                            nombre,
+                            nit,
+                            telefono,
+                            direccion,
+                            correo,
+                            tipo_cliente,
+                            ubicacion
+                    );
+                }
+            }
+        });
     }
 
     public void limpiar() {
