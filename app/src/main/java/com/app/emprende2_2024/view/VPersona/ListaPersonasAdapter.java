@@ -16,13 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CPersona.CPersona;
-import com.app.emprende2_2024.model.MPersona.MPersona;
-import com.app.emprende2_2024.model.MPersona.Persona;
 import com.app.emprende2_2024.model.MPersona.modelPersona;
-import com.app.emprende2_2024.model.MProveedor.Proveedor;
 import com.app.emprende2_2024.model.MProveedor.modelProveedor;
 import com.app.emprende2_2024.view.VProveedor.VProveedorEditar;
-import com.google.android.material.transition.Hold;
 
 import java.util.ArrayList;
 

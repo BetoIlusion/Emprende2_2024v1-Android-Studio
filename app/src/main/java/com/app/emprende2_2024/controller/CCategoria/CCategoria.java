@@ -2,13 +2,7 @@ package com.app.emprende2_2024.controller.CCategoria;
 
 import android.content.Context;
 
-import com.app.emprende2_2024.model.MCategoria.Categoria;
-import com.app.emprende2_2024.model.MCategoria.MCategoria;
 import com.app.emprende2_2024.model.MCategoria.modelCategoria;
-import com.app.emprende2_2024.model.MProducto.MProducto;
-import com.app.emprende2_2024.model.MProducto.Producto;
-import com.app.emprende2_2024.model.MStock.MStock;
-import com.app.emprende2_2024.model.MStock.Stock;
 import com.app.emprende2_2024.view.VCategoria.VCategoriaEditar;
 import com.app.emprende2_2024.view.VCategoria.VCategoriaInsertar;
 import com.app.emprende2_2024.view.VCategoria.VCategoriaMain;
@@ -79,30 +73,11 @@ public class CCategoria {
         return mCategoria.delete(id);
     }
 
-    public boolean destroy(int id){
-        MCategoria model = new MCategoria(adapter);
-        if(model.destroy(id)){
-            return true;
-        }
-        return false;
-    }
-    public void productos(int id) {
-
-        MCategoria modelCategoria = new MCategoria(vProductos);
-        MProducto modelProducto = new MProducto(vProductos);
-        MStock modelStock = new MStock(vProductos);
-
-        Categoria categoria = modelCategoria.readUno(id);
-        ArrayList<Producto> productos = modelProducto.read();
-        ArrayList<Producto> categeriaXproductos = new ArrayList<>();
-        ArrayList<Stock> stocks = modelStock.read();
-        for (int i = 0; i < productos.size(); i++) {
-            if (categoria.getId() == productos.get(i).getId_categoria()){
-                categeriaXproductos.add(productos.get(i));
-            }
-        }
-        vProductos.readProductos(categeriaXproductos,stocks);
-
-
-    }
+//    public boolean destroy(int id){
+//        MCategoria model = new MCategoria(adapter);
+//        if(model.destroy(id)){
+//            return true;
+//        }
+//        return false;
+//    }
 }

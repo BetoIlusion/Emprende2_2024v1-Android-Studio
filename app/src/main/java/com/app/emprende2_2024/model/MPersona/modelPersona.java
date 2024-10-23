@@ -113,8 +113,13 @@ public class modelPersona extends DbHelper {
         this.estado = estado;
     }
 
+    @Override
+    public String toString() {
+        return nombre;
+    }
+
     public boolean create(String nombre, String telefono, String direccion, String correo,
-                       String tipo_cliente, String ubicacion, int estado) {
+                          String tipo_cliente, String ubicacion, int estado) {
         boolean b = false;
         long id = 0;
         try{
@@ -183,7 +188,7 @@ public class modelPersona extends DbHelper {
         return listaPersona;
     }
 
-    public modelPersona readUno(int id) {
+    public modelPersona findById(int id) {
         modelPersona persona = null;
        try{
            DbHelper dbHelper = new DbHelper(context);

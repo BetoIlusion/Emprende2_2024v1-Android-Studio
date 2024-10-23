@@ -16,11 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CCategoria.CCategoria;
-import com.app.emprende2_2024.controller.CPersona.CPersona;
-import com.app.emprende2_2024.model.MCategoria.Categoria;
 import com.app.emprende2_2024.model.MCategoria.modelCategoria;
-import com.app.emprende2_2024.view.VPersona.VPersonaEditar;
-import com.app.emprende2_2024.view.VPersona.VPersonaMain;
 
 import java.util.ArrayList;
 

@@ -15,9 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CProducto.CProducto;
-import com.app.emprende2_2024.model.MCategoria.Categoria;
 import com.app.emprende2_2024.model.MCategoria.modelCategoria;
-import com.app.emprende2_2024.model.MPersona.Persona;
 import com.app.emprende2_2024.model.MProveedor.modelProveedor;
 
 import java.util.ArrayList;

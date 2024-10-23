@@ -49,7 +49,7 @@ public class CProveedor {
         VProveedorEditar view = vEditar;
         modelProveedor mProveedor = new modelProveedor(view);
         modelPersona mPersona = new modelPersona(view);
-        view.llenarVista(mPersona.readUno(id),mProveedor.findById(id));
+        view.llenarVista(mPersona.findById(id),mProveedor.findByIdPersona(id));
     }
 
     public void update(int id,

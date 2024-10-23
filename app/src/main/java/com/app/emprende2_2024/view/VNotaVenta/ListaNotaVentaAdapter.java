@@ -11,50 +11,43 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
-import com.app.emprende2_2024.model.MNotaVenta.NotaVenta;
-import com.app.emprende2_2024.model.MPersona.Persona;
+import com.app.emprende2_2024.model.MNotaVenta.modelNotaVenta;
 import com.app.emprende2_2024.view.VDetalleNotaVenta.VDetalleNotaVentaShow;
 
 import java.util.ArrayList;
 
-public class ListaNotaVentaAdapter extends RecyclerView.Adapter<ListaNotaVentaAdapter.FacturaViewHolder>{
-    ArrayList<NotaVenta> facturas;
-    ArrayList<Persona> personas;
+public class ListaNotaVentaAdapter extends RecyclerView.Adapter<ListaNotaVentaAdapter.NotaVentaViewHolder>{
+    ArrayList<modelNotaVenta> notaVentas;
 
-    public ListaNotaVentaAdapter(ArrayList<NotaVenta> facturas, ArrayList<Persona> personas) {
-        this.facturas = facturas;
-        this.personas = personas;
+
+    public ListaNotaVentaAdapter(ArrayList<modelNotaVenta> notaVentas) {
+        this.notaVentas = notaVentas;
+
     }
 
     @NonNull
     @Override
-    public FacturaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NotaVentaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_vfactura_item, null, false);
-        return new ListaNotaVentaAdapter.FacturaViewHolder(view);
+        return new NotaVentaViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FacturaViewHolder holder, int position) {
-        holder.tvFactura.setText("Nro: " + facturas.get(position).getId());
-        for (int i = 0; i < personas.size(); i++) {
-            if (facturas.get(position).getId_persona() == personas.get(i).getId()){
-                holder.tvNombre.setText("Nombre: " + personas.get(i).getNombre());
-                break;
-            }
-        }
-        holder.tvCodigo.setText("Cod: " + facturas.get(position).getId_codigo());
-
+    public void onBindViewHolder(@NonNull NotaVentaViewHolder holder, int position) {
+        holder.tvFactura.setText("Nro: " + notaVentas.get(position).getId());
+        holder.tvNombre.setText("Nombre: " + notaVentas.get(position).getPersona().getNombre());
+        holder.tvCodigo.setText("Cod: " + notaVentas.get(position).getId_codigo());
     }
 
     @Override
     public int getItemCount() {
-        return facturas.size();
+        return notaVentas.size();
     }
 
-    public class FacturaViewHolder extends RecyclerView.ViewHolder{
+    public class NotaVentaViewHolder extends RecyclerView.ViewHolder{
         TextView tvFactura, tvNombre, tvCodigo, tvFecha;
 
-        public FacturaViewHolder(@NonNull View itemView) {
+        public NotaVentaViewHolder(@NonNull View itemView) {
             super(itemView);
             tvFactura = itemView.findViewById(R.id.viewIdFactura);
             tvNombre = itemView.findViewById(R.id.viewNombrePersona);
@@ -65,7 +58,7 @@ public class ListaNotaVentaAdapter extends RecyclerView.Adapter<ListaNotaVentaAd
                 public void onClick(View v) {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, VDetalleNotaVentaShow.class);
-                    intent.putExtra("ID", facturas.get(getAdapterPosition()).getId());
+                    intent.putExtra("ID", notaVentas.get(getAdapterPosition()).getId());
                     context.startActivity(intent);
                 }
             });

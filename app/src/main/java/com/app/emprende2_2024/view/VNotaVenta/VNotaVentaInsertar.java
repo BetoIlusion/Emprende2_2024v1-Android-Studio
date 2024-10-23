@@ -1,6 +1,7 @@
 package com.app.emprende2_2024.view.VNotaVenta;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,11 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CNotaVenta.CNotaVenta;
-import com.app.emprende2_2024.model.MCategoria.Categoria;
-import com.app.emprende2_2024.model.MDetalleFactura.DetalleFactura;
-import com.app.emprende2_2024.model.MNotaVenta.NotaVenta;
-import com.app.emprende2_2024.model.MPersona.Persona;
-import com.app.emprende2_2024.model.MProducto.Producto;
+import com.app.emprende2_2024.model.MCategoria.modelCategoria;
+import com.app.emprende2_2024.model.MDetalleFactura.modelDetalleNotaVenta;
+import com.app.emprende2_2024.model.MNotaVenta.modelNotaVenta;
+import com.app.emprende2_2024.model.MPersona.modelPersona;
+import com.app.emprende2_2024.model.MProducto.modelProducto;
 import com.app.emprende2_2024.view.VDetalleNotaVenta.VDetalleNotaVentaShow;
 
 import java.util.ArrayList;
@@ -32,10 +33,10 @@ public class VNotaVentaInsertar extends AppCompatActivity {
     private Spinner spCliente, spCategoria, spProducto;
     private EditText etCantidad, etEfectivo;
     private Button btnAñadir, btnCalcular, btnRegistrar;
-    private NotaVenta factura = new NotaVenta();
+    private modelNotaVenta notaVenta = new modelNotaVenta(this);
     private TextView tvMontoTotal, tvCambio;
     private ListaDetalleNotaVenta detalleAdapter;
-    private ArrayList<DetalleFactura> detalles = new ArrayList<>();
+    private ArrayList<modelDetalleNotaVenta> detalles = new ArrayList<>();
 
     public TextView getTvCambio() {
         return findViewById(R.id.tvCambio);
@@ -45,17 +46,11 @@ public class VNotaVentaInsertar extends AppCompatActivity {
         return findViewById(R.id.tvMontoTotalNotaVenta);
     }
 
-    public NotaVenta getFactura() {
-        return factura;
+    public modelNotaVenta getNotaVenta() {
+        return notaVenta;
     }
 
-    public void setFactura(NotaVenta factura) {
-        this.factura = factura;
-    }
-
-
-
-    public ArrayList<DetalleFactura> getDetalles() {
+    public ArrayList<modelDetalleNotaVenta> getDetalles() {
         return detalles;
     }
 
@@ -97,18 +92,16 @@ public class VNotaVentaInsertar extends AppCompatActivity {
 
     CNotaVenta controller = new CNotaVenta(this);
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vfactura_insertar);
-        llenarSpinners();
+        controller.llenarSpinners();
         getSpCategoria().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Spinner sp = getSpCategoria();
-                Categoria categoria = (Categoria) getSpCategoria().getSelectedItem();
+                modelCategoria categoria = (modelCategoria) getSpCategoria().getSelectedItem();
                 filtrarProductos(categoria);
             }
 
@@ -119,16 +112,16 @@ public class VNotaVentaInsertar extends AppCompatActivity {
         });
         getBtnAñadir().setOnClickListener(v -> añadirDetalle());
         getBtnCalcular().setOnClickListener(v -> calcularCambio());
-        getBtnRegistrar().setOnClickListener(v -> registrarFactura());
+        getBtnRegistrar().setOnClickListener(v -> registrarNotaVenta());
 
     }
 
-    private void registrarFactura() {
-        Persona cliente = (Persona) getSpCliente().getSelectedItem();
-        NotaVenta factura = getFactura();
-        ArrayList<DetalleFactura> detalles = getDetalles();
-        if(cliente != null && factura.getCambio() >= 0 && detalles.size() > 0){
-            controller.craete(cliente, factura, detalles);
+    private void registrarNotaVenta() {
+        modelPersona cliente = (modelPersona) getSpCliente().getSelectedItem();
+        modelNotaVenta NotaVenta = getNotaVenta();
+        ArrayList<modelDetalleNotaVenta> detalles = getDetalles();
+        if(cliente != null && NotaVenta.getCambio() >= 0 && detalles.size() > 0){
+            controller.craete(cliente, NotaVenta, detalles);
         }else{
             mensaje("ERROR, LLENAR TODOS LOS DATOS");
         }
@@ -136,78 +129,81 @@ public class VNotaVentaInsertar extends AppCompatActivity {
 
     private void calcularCambio() {
         String efectivo = getEtEfectivo().getText().toString().trim();
-        if (Integer.parseInt(efectivo) >= getFactura().getMontoTotal()){
-            controller.calcularCambio(Integer.parseInt(efectivo));
-        }else{
-            mensaje("ERROR, EFECTIVO MENOR AL MONTO TOTAL");
-        }
+        controller.calcularCambio(Integer.parseInt(efectivo));
+
     }
 
     private void añadirDetalle() {
-        Persona persona = (Persona) getSpCliente().getSelectedItem();
-        Categoria categoria = (Categoria) getSpCategoria().getSelectedItem();
-        Producto producto = (Producto) getSpProducto().getSelectedItem();
+        modelProducto producto = (modelProducto) getSpProducto().getSelectedItem();
         String cantidad = getEtCantidad().getText().toString().isEmpty() ? "0" :
                 getEtCantidad().getText().toString().trim();
-        if (persona == null || categoria == null || producto == null ){
+        if ( producto == null || cantidad.isEmpty() ){
             mensaje("FALTA DATOS EN LLENAR");
         }else
-            controller.añadirDetalle(Integer.parseInt(cantidad),persona,categoria,producto);
-
-
+            controller.añadirDetalle(Integer.parseInt(cantidad),producto);
     }
 
-    private void filtrarProductos(Categoria categoria) {
+    private void filtrarProductos(modelCategoria categoria) {
         controller.filtrarProductos(categoria);
     }
-    public void filtrarProductos(ArrayList<Producto> productos) {
-        ArrayAdapter<Producto> adapter = new ArrayAdapter<>(this,
+    public void filtrarProductos(ArrayList<modelProducto> productos) {
+        ArrayAdapter<modelProducto> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, productos);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         getSpProducto().setAdapter(adapter);
     }
 
-    private void llenarSpinners() {
-        controller.llenarSpinners();
-    }
-    public void llenarSpinners(ArrayList<Persona> personas, ArrayList<Categoria> categorias, ArrayList<Producto> productos) {
-        ArrayAdapter<Categoria> adapterCategoria = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,categorias);
-        ArrayAdapter<Persona> adapterPersona = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,personas);
-        //ArrayAdapter<Producto> adapterProducto = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,productos);
+
+    public void llenarSpinners(ArrayList<modelPersona> personas, ArrayList<modelCategoria> categorias) {
+        ArrayAdapter<modelCategoria> adapterCategoria = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,categorias);
+        ArrayAdapter<modelPersona> adapterPersona = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,personas);
 
         adapterCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         getSpCategoria().setAdapter(adapterCategoria);
         adapterPersona.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         getSpCliente().setAdapter(adapterPersona);
-//        adapterProducto.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        getSpProducto().setAdapter(adapterProducto);
     }
 
     public void mensaje(String errorEnController) {
         Toast.makeText(this, errorEnController, Toast.LENGTH_SHORT).show();
     }
 
+    public void showSuccessMessage(String mensaje) {
+        Toast toast = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT);
+        View view = toast.getView();
+        view.setBackgroundColor(Color.parseColor("#32CD32")); // Verde lima para éxito
+        TextView text = view.findViewById(android.R.id.message);
+        text.setTextColor(Color.WHITE);
+        toast.show();
+    }
 
+    public void showErrorMessage(String mensaje) {
+        Toast toast = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT);
+        View view = toast.getView();
+        view.setBackgroundColor(Color.parseColor("#FF4500")); // Rojo anaranjado para error
+        TextView text = view.findViewById(android.R.id.message);
+        text.setTextColor(Color.WHITE);
+        toast.show();
+    }
     public void actualizar() {
         getRecyclerView().setLayoutManager(new LinearLayoutManager(this));
         detalleAdapter = new ListaDetalleNotaVenta(detalles);
         getRecyclerView().setAdapter(detalleAdapter);
         detalleAdapter.notifyDataSetChanged();
-        getTvMontoTotal().setText("Total: " + getFactura().getMontoTotal());
-        getRecyclerView().hasPendingAdapterUpdates();
+        getTvMontoTotal().setText("Total: " + getNotaVenta().getMonto_total());
+        boolean b = getRecyclerView().hasPendingAdapterUpdates();
         mensaje("ACTUALIZADO");
 
     }
 
-    public void actualizarFactura() {
-        float cambio = getFactura().getCambio();
-        getTvCambio().setText(String.valueOf(cambio));
+    public void actualizarNotaVenta() {
+        float cambio = getNotaVenta().getCambio();
+        getTvCambio().setText("Cambio: " + cambio);
     }
 
     public void vShow(long id) {
         Intent intent = new Intent( this, VDetalleNotaVentaShow.class);
-        int id_factura = (int) id;
-        intent.putExtra("ID", id_factura);
+        intent.putExtra("ID", (int) id);
         startActivity(intent);
 
     }

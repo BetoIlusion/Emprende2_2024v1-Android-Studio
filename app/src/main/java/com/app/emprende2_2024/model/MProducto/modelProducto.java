@@ -91,7 +91,7 @@ public class modelProducto extends DbHelper {
 
     @Override
     public String toString() {
-        return nombre;
+        return nombre + "(" + getStock().getCantidad() + ")";
     }
 
     public modelProducto(@Nullable Context context) {
@@ -143,12 +143,13 @@ public class modelProducto extends DbHelper {
                 producto.setSku(cursorProducto.getString(2));
                 producto.setPrecio(cursorProducto.getFloat(3));
                 //-> ENTRA AQUI IMAGEN
+                producto.setEstado(cursorProducto.getInt(5));
                 modelCategoria categoria1 = new modelCategoria(context);
-                categoria1 = categoria1.findById(cursorProducto.getInt(5));
+                categoria1 = categoria1.findById(cursorProducto.getInt(6));
                 modelProveedor proveedor1 = new modelProveedor(context);
-                proveedor1 = proveedor1.findById(cursorProducto.getInt(6));
+                proveedor1 = proveedor1.findById(cursorProducto.getInt(7));
                 modelStock stock1 = new modelStock(context);
-                stock1 = stock1.findById(cursorProducto.getInt(7));
+                stock1 = stock1.findById(cursorProducto.getInt(8));
 
                 producto.setCategoria(categoria1);
                 producto.setProveedor(proveedor1);
@@ -243,6 +244,7 @@ public class modelProducto extends DbHelper {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             String sql = "UPDATE " + TABLE_PRODUCTO + " SET estado = ? WHERE id = ?";
             db.execSQL(sql, new Object[]{0, id});
+            b = true;
             db.close();
         } catch (Exception ex) {
             Toast.makeText(context, "ERROR EN MODELO", Toast.LENGTH_SHORT).show();
@@ -250,5 +252,50 @@ public class modelProducto extends DbHelper {
             b = false;
         }
         return b;
+    }
+
+    public ArrayList<modelProducto> fingByCategoria(int id_categoria) {
+        ArrayList<modelProducto> listaProducto = new ArrayList<>();
+        modelProducto producto;
+        try{
+            DbHelper dbHelper = new DbHelper(context);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            Cursor cursorProducto;
+            cursorProducto = db.rawQuery("SELECT * FROM " + TABLE_PRODUCTO
+                    + " WHERE id_categoria = " + id_categoria
+                    + " ORDER BY id DESC", null);
+            if (cursorProducto.moveToFirst()) {
+                do {
+                    if(cursorProducto.getInt(5) == 1){
+                        producto = new modelProducto(context);
+                        producto.setId(cursorProducto.getInt(0));
+                        producto.setNombre(cursorProducto.getString(1));
+                        producto.setSku(cursorProducto.getString(2));
+                        producto.setPrecio(cursorProducto.getFloat(3));
+
+                        producto.setEstado(cursorProducto.getInt(5));
+                        modelCategoria categoria1 = new modelCategoria(context);
+                        categoria1 = categoria1.findById(cursorProducto.getInt(6));
+                        producto.setCategoria(categoria1);
+
+                        modelProveedor proveedor1 = new modelProveedor(context);
+                        proveedor1 = proveedor1.findByIdPersona(cursorProducto.getInt(7));
+                        producto.setProveedor(proveedor1);
+
+                        modelStock stock1 = new modelStock(context);
+                        stock1 = stock1.findById(cursorProducto.getInt(8));
+                        producto.setStock(stock1);
+
+                        listaProducto.add(producto);
+                    }
+                } while (cursorProducto.moveToNext());
+            }
+            cursorProducto.close();
+        }catch (Exception e){
+            Toast.makeText(context, "ERROR EL DbHelper", Toast.LENGTH_SHORT).show();
+            listaProducto = null;
+            e.printStackTrace();
+        }
+        return listaProducto;
     }
 }

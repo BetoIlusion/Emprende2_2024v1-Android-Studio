@@ -69,7 +69,7 @@ public class modelProveedor extends DbHelper {
             if (cursorProveedor.moveToFirst()) {
                 do {
                     modelPersona persona1 = new modelPersona(context);
-                    persona1 = persona1.readUno(cursorProveedor.getInt(2));
+                    persona1 = persona1.findById(cursorProveedor.getInt(2));
                     if(persona1.getEstado() == 1){
                         proveedor = new modelProveedor(context);
                         proveedor.setId(cursorProveedor.getInt(0));
@@ -89,7 +89,7 @@ public class modelProveedor extends DbHelper {
         return listaProveedor;
     }
 
-    public modelProveedor findById(int id_persona) {
+    public modelProveedor findByIdPersona(int id_persona) {
         DbHelper dbHelper = new DbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -102,7 +102,25 @@ public class modelProveedor extends DbHelper {
             proveedor.setId(cursorProveedor.getInt(0));
             proveedor.setNit(cursorProveedor.getString(1));
             modelPersona mPersona = new modelPersona(context);
-            proveedor.setPersona(mPersona.readUno(cursorProveedor.getInt(2)));
+            proveedor.setPersona(mPersona.findById(cursorProveedor.getInt(2)));
+        }
+        cursorProveedor.close();
+        return proveedor;
+    }
+    public modelProveedor findById(int id) {
+        DbHelper dbHelper = new DbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        modelProveedor proveedor = null;
+        Cursor cursorProveedor = null;
+        cursorProveedor = db.rawQuery("SELECT * FROM " + TABLE_PROVEEDOR
+                + " WHERE id = " + id + " LIMIT 1", null);
+        if (cursorProveedor.moveToFirst()) {
+            proveedor = new modelProveedor(context);
+            proveedor.setId(cursorProveedor.getInt(0));
+            proveedor.setNit(cursorProveedor.getString(1));
+            modelPersona mPersona = new modelPersona(context);
+            proveedor.setPersona(mPersona.findById(cursorProveedor.getInt(2)));
         }
         cursorProveedor.close();
         return proveedor;
@@ -121,7 +139,7 @@ public class modelProveedor extends DbHelper {
             setId((int) id);
             setNit(nit);
             modelPersona mPersona = new modelPersona(context);
-            mPersona = mPersona.readUno(id_persona);
+            mPersona = mPersona.findById(id_persona);
             setPersona(mPersona);
             b = true;
         }catch (Exception e){

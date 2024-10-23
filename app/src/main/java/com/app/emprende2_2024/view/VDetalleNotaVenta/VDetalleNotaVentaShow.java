@@ -12,9 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CDetalleNotaVenta.CDetalleNotaVenta;
-import com.app.emprende2_2024.model.MDetalleFactura.DetalleFactura;
-import com.app.emprende2_2024.model.MNotaVenta.NotaVenta;
-import com.app.emprende2_2024.model.MPersona.Persona;
+import com.app.emprende2_2024.model.MDetalleFactura.modelDetalleNotaVenta;
+import com.app.emprende2_2024.model.MNotaVenta.modelNotaVenta;
 
 import java.util.ArrayList;
 
@@ -64,7 +63,6 @@ public class VDetalleNotaVentaShow extends AppCompatActivity {
         } else {
             id = (int) savedInstanceState.getSerializable("ID");
         }
-        //id = (int) getIntent().getLongExtra("ID", -1);
         llenarVista();
         getBtnCompartirPDF().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +76,7 @@ public class VDetalleNotaVentaShow extends AppCompatActivity {
         controller.read(id);
     }
 
-    public void llenarVista(NotaVenta NotaVenta, ArrayList<DetalleFactura> detalles, Persona persona) {
+    public void llenarVista(modelNotaVenta NotaVenta, ArrayList<modelDetalleNotaVenta> detalles) {
         for (int i = 0; i < detalles.size(); i++) {
             TableRow fila = new TableRow(this);
             fila.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
@@ -101,22 +99,19 @@ public class VDetalleNotaVentaShow extends AppCompatActivity {
             fila.addView(tv3);
 
             TextView tv4 = new TextView(this);
-            float subtotal = detalles.get(i).getSubtotal();
+            double subtotal = detalles.get(i).getSubtotal();
             tv4.setText(String.valueOf(subtotal));
             tv4.setPadding(8, 8, 8, 8);
             fila.addView(tv4);
 
             getTableLayout().addView(fila);
         }
-        int id_factura = NotaVenta.getId();
-        String nombrePersona = persona.getNombre();
-        float monto_total = NotaVenta.getMontoTotal();
-        float efectivo = NotaVenta.getEfectivo();
-
-        getTvFactura().setText("0" + String.valueOf(id_factura));
-        getTvCliente().setText(nombrePersona);
-        getTvMontoTotal().setText(String.valueOf(monto_total));
-
+        int id_nota_venta = NotaVenta.getId();
+        String nombrePersona = NotaVenta.getPersona().getNombre();
+        float monto_total = NotaVenta.getMonto_total();
+        getTvFactura().setText("0" + String.valueOf(id_nota_venta));
+        getTvCliente().setText("Señor/a.: " +  nombrePersona);
+        getTvMontoTotal().setText("Monto Total: " + monto_total);
     }
 
     public void mensaje(String s) {

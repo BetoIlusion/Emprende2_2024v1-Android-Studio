@@ -14,8 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CNotaVenta.CNotaVenta;
-import com.app.emprende2_2024.model.MNotaVenta.NotaVenta;
-import com.app.emprende2_2024.model.MPersona.Persona;
+import com.app.emprende2_2024.model.MNotaVenta.modelNotaVenta;
 import com.app.emprende2_2024.view.VPersona.VPersonaMain;
 import com.app.emprende2_2024.view.VProducto.VProductoMain;
 
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        llenar();
+        controller.read();
         btnPersona = findViewById(R.id.btnFactura_Persona);
         btnPersona.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,9 +72,7 @@ public class MainActivity extends AppCompatActivity {
         getBtnCrear().setOnClickListener(v -> vInsertar());
     }
 
-    private void llenar() {
-        controller.read();
-    }
+
 
     private void vInsertar() {
         Intent intent = new Intent(this, VNotaVentaInsertar.class);
@@ -92,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void read(ArrayList<NotaVenta> facturas, ArrayList<Persona> personas) {
-        adapter = new ListaNotaVentaAdapter(facturas,personas);
+    public void read(ArrayList<modelNotaVenta> notaVentas) {
+        adapter = new ListaNotaVentaAdapter(notaVentas);
         try {
             getRecyclerView().setLayoutManager(new LinearLayoutManager(this));
             getRecyclerView().setAdapter(adapter);

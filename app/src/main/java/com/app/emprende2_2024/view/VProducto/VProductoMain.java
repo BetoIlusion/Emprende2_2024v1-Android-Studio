@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CProducto.CProducto;
-import com.app.emprende2_2024.model.MProducto.ProductoFull;
 import com.app.emprende2_2024.model.MProducto.modelProducto;
 import com.app.emprende2_2024.view.VCategoria.VCategoriaMain;
 import com.app.emprende2_2024.view.VNotaVenta.MainActivity;

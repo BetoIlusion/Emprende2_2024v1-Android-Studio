@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CPersona.CPersona;
-import com.app.emprende2_2024.model.MPersona.Persona;
 import com.app.emprende2_2024.model.MPersona.modelPersona;
 
 public class VPersonaEditar extends AppCompatActivity {

@@ -1,7 +1,6 @@
 package com.app.emprende2_2024.view.VCategoria;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,25 +11,19 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 //import com.app.emprende2_2024.Manifest;
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CCategoria.CCategoria;
-import com.app.emprende2_2024.model.MProducto.Producto;
-import com.app.emprende2_2024.model.MStock.Stock;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class VCategoriaProductoShowPDF extends AppCompatActivity {
 
@@ -60,7 +53,7 @@ public class VCategoriaProductoShowPDF extends AppCompatActivity {
         }else{
             id = (int) savedInstanceState.getSerializable("ID");
         }
-        llenar();
+        //llenar();
 //        if (ContextCompat.checkSelfPermission(this, Manifest.permission.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION}, 1);
 //        }
@@ -205,36 +198,37 @@ public class VCategoriaProductoShowPDF extends AppCompatActivity {
     }
 
 
-    private void llenar() {
-        controller.productos(id);
-    }
+//    private void llenar() {
+//        controller.productos(id);
+//    }
 
-    public void readProductos(ArrayList<Producto> categeriaXproductos, ArrayList<Stock> stocks) {
-        for (int i = 0; i < categeriaXproductos.size(); i++) {
-            TableRow fila = new TableRow(this);
-            fila.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-
-            TextView tv = new TextView(this);
-            String nombre = categeriaXproductos.get(i).getNombre();
-            tv.setText(nombre);
-            fila.addView(tv);
-
-            TextView tv2 = new TextView(this);
-            float precio = categeriaXproductos.get(i).getPrecio();
-            tv2.setText("   " + String.valueOf(precio) + " Bs.");
-            fila.addView(tv2);
-
-            TextView tv3 = new TextView(this);
-            for (int j = 0; j < stocks.size(); j++) {
-                if (stocks.get(j).getId_producto() == categeriaXproductos.get(i).getId()){
-                    int cantidad = stocks.get(j).getCantidad();
-                    tv3.setText(String.valueOf(cantidad));
-                    break;
-                }
-            }
-            fila.addView(tv3);
-            getTableLayout().addView(fila);
-        }
-
-    }
+//
+//    public void readProductos(ArrayList<Producto> categeriaXproductos, ArrayList<Stock> stocks) {
+//        for (int i = 0; i < categeriaXproductos.size(); i++) {
+//            TableRow fila = new TableRow(this);
+//            fila.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+//
+//            TextView tv = new TextView(this);
+//            String nombre = categeriaXproductos.get(i).getNombre();
+//            tv.setText(nombre);
+//            fila.addView(tv);
+//
+//            TextView tv2 = new TextView(this);
+//            float precio = categeriaXproductos.get(i).getPrecio();
+//            tv2.setText("   " + String.valueOf(precio) + " Bs.");
+//            fila.addView(tv2);
+//
+//            TextView tv3 = new TextView(this);
+//            for (int j = 0; j < stocks.size(); j++) {
+//                if (stocks.get(j).getId_producto() == categeriaXproductos.get(i).getId()){
+//                    int cantidad = stocks.get(j).getCantidad();
+//                    tv3.setText(String.valueOf(cantidad));
+//                    break;
+//                }
+//            }
+//            fila.addView(tv3);
+//            getTableLayout().addView(fila);
+//        }
+//
+//    }
 }

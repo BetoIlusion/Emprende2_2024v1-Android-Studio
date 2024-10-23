@@ -103,7 +103,7 @@ public class modelStock extends DbHelper {
         }
         return b;
     }
-//    public boolean min(int min){
-//
-//    }
+    public void actualizarCantidad(int nuevoCantidad){
+        boolean b = update(getId(),String.valueOf(nuevoCantidad),String.valueOf(getMinimo()));
+    }
 }

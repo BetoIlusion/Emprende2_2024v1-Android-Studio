@@ -3,19 +3,9 @@ package com.app.emprende2_2024.controller.CProducto;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.app.emprende2_2024.model.MCategoria.Categoria;
-import com.app.emprende2_2024.model.MCategoria.MCategoria;
 import com.app.emprende2_2024.model.MCategoria.modelCategoria;
-import com.app.emprende2_2024.model.MPersona.MPersona;
-import com.app.emprende2_2024.model.MPersona.Persona;
-import com.app.emprende2_2024.model.MProducto.MProducto;
-import com.app.emprende2_2024.model.MProducto.Producto;
 import com.app.emprende2_2024.model.MProducto.modelProducto;
-import com.app.emprende2_2024.model.MProveedor.MProveedor;
-import com.app.emprende2_2024.model.MProveedor.Proveedor;
 import com.app.emprende2_2024.model.MProveedor.modelProveedor;
-import com.app.emprende2_2024.model.MStock.MStock;
-import com.app.emprende2_2024.model.MStock.Stock;
 import com.app.emprende2_2024.model.MStock.modelStock;
 import com.app.emprende2_2024.view.VProducto.VProductoEditar;
 import com.app.emprende2_2024.view.VProducto.VProductoInsertar;
@@ -84,6 +74,7 @@ public class CProducto {
             );
             if (id_producto > 0){
                 view.showSuccessMessage("Producto Creado Exitisamente");
+                view.limpiar();
             }else {
                 view.showErrorMessage("ERROR CProducto/create");
             }
@@ -152,24 +143,24 @@ public class CProducto {
         return false;
     }
 
-    public boolean destroy(int id){
-        boolean b = false;
-        boolean b2 = false;
-        try {
-            MProducto modelProducto = new MProducto(context);
-            MStock modelStock = new MStock(context);
-
-            b = modelStock.delete(id);
-            b2 = modelProducto.delete(id);
-            if (b && b2){
-                return true;
-            }else{
-                return false;
-            }
-        }catch (Exception e){
-            Toast.makeText(context, "ERROR EN CONTROLLER", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-        return false;
-    }
+//    public boolean destroy(int id){
+//        boolean b = false;
+//        boolean b2 = false;
+//        try {
+//            MProducto modelProducto = new MProducto(context);
+//            MStock modelStock = new MStock(context);
+//
+//            b = modelStock.delete(id);
+//            b2 = modelProducto.delete(id);
+//            if (b && b2){
+//                return true;
+//            }else{
+//                return false;
+//            }
+//        }catch (Exception e){
+//            Toast.makeText(context, "ERROR EN CONTROLLER", Toast.LENGTH_SHORT).show();
+//            e.printStackTrace();
+//        }
+//        return false;
+//    }
 }

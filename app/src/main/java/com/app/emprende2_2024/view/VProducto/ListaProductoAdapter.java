@@ -14,17 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
-import com.app.emprende2_2024.controller.CPersona.CPersona;
 import com.app.emprende2_2024.controller.CProducto.CProducto;
-import com.app.emprende2_2024.model.MProducto.Producto;
-import com.app.emprende2_2024.model.MProducto.ProductoFull;
 import com.app.emprende2_2024.model.MProducto.modelProducto;
-import com.app.emprende2_2024.model.MProveedor.Proveedor;
-import com.app.emprende2_2024.model.MStock.Stock;
-import com.app.emprende2_2024.view.VPersona.ListaPersonasAdapter;
-import com.app.emprende2_2024.view.VPersona.VPersonaEditar;
-import com.app.emprende2_2024.view.VPersona.VPersonaMain;
-import com.app.emprende2_2024.view.VProveedor.VProveedorEditar;
 
 import java.util.ArrayList;
 
@@ -94,6 +85,7 @@ public class ListaProductoAdapter extends RecyclerView.Adapter<ListaProductoAdap
                                        Context context = v.getContext();
                                     Intent intent = new Intent(context, VProductoMain.class);
                                     context.startActivity(intent);
+
                                 }
 
                             }

@@ -15,7 +15,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String TABLE_STOCK = "t_stock";
     public static final String TABLE_PERSONA = "t_persona";
     public static final String TABLE_PROVEEDOR = "t_proveedor";
-    public static final String TABLE_FACTURA = "t_factura";
+    public static final String TABLE_NOTA_VENTA = "t_nota_venta";
     public static final String TABLE_DETALLE_NOTA_VENTA = "t_detalle_factura";
 
     public DbHelper(@Nullable Context context) {
@@ -69,22 +69,23 @@ public class DbHelper extends SQLiteOpenHelper {
                 "cantidad INTEGER," +
                 "minimo INTEGER)"
         );
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_FACTURA + "(" +
+        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_NOTA_VENTA + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "id_codigo INTEGER," +
-                "id_persona INTEGER, " +
                 "monto_total REAL," +
                 "efectivo REAL," +
                 "cambio REAL," +
-                "fecha DATE)"
+                "fecha DATE," +
+                "id_persona INTEGER," +
+                "FOREIGN KEY (id_persona) REFERENCES " + TABLE_PERSONA + "(id))"
         );
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_DETALLE_NOTA_VENTA + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "id_factura INTEGER," +
-                "id_producto INTEGER," +
                 "cantidad REAL," +
                 "subtotal REAL," +
-                "FOREIGN KEY(id_factura) REFERENCES " + TABLE_FACTURA + "(id)," +
+                "id_nota_venta INTEGER," +
+                "id_producto INTEGER," +
+                "FOREIGN KEY(id_nota_venta) REFERENCES " + TABLE_NOTA_VENTA + "(id)," +
                 "FOREIGN KEY(id_producto) REFERENCES " + TABLE_PRODUCTO + "(id))"
         );
     }
@@ -95,8 +96,8 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIA);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTO);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PROVEEDOR);
-//        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_STOCK);
-//        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_FACTURA);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_STOCK);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTA_VENTA);
         onCreate(sqLiteDatabase);
 
 

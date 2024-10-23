@@ -1,13 +1,8 @@
 package com.app.emprende2_2024.controller.CPersona;
 
 import android.content.Context;
-import android.widget.Toast;
 
-import com.app.emprende2_2024.model.MPersona.MPersona;
-import com.app.emprende2_2024.model.MPersona.Persona;
 import com.app.emprende2_2024.model.MPersona.modelPersona;
-import com.app.emprende2_2024.model.MProveedor.MProveedor;
-import com.app.emprende2_2024.model.MProveedor.Proveedor;
 import com.app.emprende2_2024.model.MProveedor.modelProveedor;
 import com.app.emprende2_2024.view.VPersona.VPersonaEditar;
 import com.app.emprende2_2024.view.VPersona.VPersonaInsertar;
@@ -65,8 +60,8 @@ public class CPersona {
     }
     public void readUno(int id) {
         modelPersona modelPersona = new modelPersona(vEditar);
-        if (modelPersona.readUno(id) != null){
-            vEditar.llenarVista(modelPersona.readUno(id));
+        if (modelPersona.findById(id) != null){
+            vEditar.llenarVista(modelPersona.findById(id));
         }else
             vEditar.mensaje("Persona No Encontrada");
 

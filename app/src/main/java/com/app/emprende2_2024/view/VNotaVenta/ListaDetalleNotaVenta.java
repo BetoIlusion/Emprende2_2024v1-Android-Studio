@@ -10,14 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
-import com.app.emprende2_2024.model.MDetalleFactura.DetalleFactura;
+import com.app.emprende2_2024.model.MDetalleFactura.modelDetalleNotaVenta;
 
 import java.util.ArrayList;
 
 public class ListaDetalleNotaVenta extends RecyclerView.Adapter<ListaDetalleNotaVenta.DetalleNotaVentaViewHolder> {
-    ArrayList<DetalleFactura> detalles = new ArrayList<DetalleFactura>();
+    ArrayList<modelDetalleNotaVenta> detalles = new ArrayList<>();
 
-    public ListaDetalleNotaVenta(ArrayList<DetalleFactura> detalles) {
+    public ListaDetalleNotaVenta(ArrayList<modelDetalleNotaVenta> detalles) {
         this.detalles = detalles;
     }
     public class DetalleNotaVentaViewHolder extends RecyclerView.ViewHolder{
@@ -48,7 +48,7 @@ public class ListaDetalleNotaVenta extends RecyclerView.Adapter<ListaDetalleNota
         holder.tvCantidad.setText(String.valueOf(cantidad));
         float precio = detalles.get(position).getProducto().getPrecio();
         holder.tvPrecio.setText(String.valueOf(precio));
-        float sub = detalles.get(position).getSubtotal();
+        double sub = detalles.get(position).getSubtotal();
         holder.tvSubtotal.setText(String.valueOf(sub));
         holder.ivEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
