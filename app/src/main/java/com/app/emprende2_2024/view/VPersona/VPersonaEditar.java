@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CPersona.CPersona;
-import com.app.emprende2_2024.model.MPersona.modelPersona;
+import com.app.emprende2_2024.model.MPersona.MPersona;
 
 public class VPersonaEditar extends AppCompatActivity {
     EditText etNombre, etTelefono, etDireccion, etCorreo, etLinkUbicacion;
@@ -59,14 +59,6 @@ public class VPersonaEditar extends AppCompatActivity {
     public void setEtCorreo(EditText etCorreo) {
         this.etCorreo = etCorreo;
     }
-
-//    public Spinner getSpTipoCliente() {
-//        return findViewById(R.id.spTipoClientePersonaEditar);
-//    }
-
-//    public void setSpTipoCliente(Spinner spTipoCliente) {
-//        this.spTipoCliente = spTipoCliente;
-//    }
 
     public int getId() {
         return id;
@@ -121,7 +113,7 @@ public class VPersonaEditar extends AppCompatActivity {
     private void llenarVista(int id) {
         controller.readUno(id);
     }
-    public void llenarVista(modelPersona persona) {
+    public void llenarVista(MPersona persona) {
         String nombre = persona.getNombre();
         String telefono = persona.getTelefono();
         String direccion = persona.getDireccion();

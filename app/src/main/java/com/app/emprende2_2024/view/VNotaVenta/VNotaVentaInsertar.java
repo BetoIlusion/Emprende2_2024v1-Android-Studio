@@ -1,7 +1,6 @@
 package com.app.emprende2_2024.view.VNotaVenta;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,11 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CNotaVenta.CNotaVenta;
-import com.app.emprende2_2024.model.MCategoria.modelCategoria;
-import com.app.emprende2_2024.model.MDetalleFactura.modelDetalleNotaVenta;
-import com.app.emprende2_2024.model.MNotaVenta.modelNotaVenta;
-import com.app.emprende2_2024.model.MPersona.modelPersona;
-import com.app.emprende2_2024.model.MProducto.modelProducto;
+import com.app.emprende2_2024.model.MCategoria.MCategoria;
+import com.app.emprende2_2024.model.MDetalleFactura.MDetalleNotaVenta;
+import com.app.emprende2_2024.model.MNotaVenta.MNotaVenta;
+import com.app.emprende2_2024.model.MPersona.MPersona;
+import com.app.emprende2_2024.model.MProducto.MProducto;
 import com.app.emprende2_2024.view.VDetalleNotaVenta.VDetalleNotaVentaShow;
 
 import java.util.ArrayList;
@@ -33,10 +32,10 @@ public class VNotaVentaInsertar extends AppCompatActivity {
     private Spinner spCliente, spCategoria, spProducto;
     private EditText etCantidad, etEfectivo;
     private Button btnAñadir, btnCalcular, btnRegistrar;
-    private modelNotaVenta notaVenta = new modelNotaVenta(this);
+    private MNotaVenta notaVenta = new MNotaVenta(this);
     private TextView tvMontoTotal, tvCambio;
     private ListaDetalleNotaVenta detalleAdapter;
-    private ArrayList<modelDetalleNotaVenta> detalles = new ArrayList<>();
+    private ArrayList<MDetalleNotaVenta> detalles = new ArrayList<>();
 
     public TextView getTvCambio() {
         return findViewById(R.id.tvCambio);
@@ -46,11 +45,11 @@ public class VNotaVentaInsertar extends AppCompatActivity {
         return findViewById(R.id.tvMontoTotalNotaVenta);
     }
 
-    public modelNotaVenta getNotaVenta() {
+    public MNotaVenta getNotaVenta() {
         return notaVenta;
     }
 
-    public ArrayList<modelDetalleNotaVenta> getDetalles() {
+    public ArrayList<MDetalleNotaVenta> getDetalles() {
         return detalles;
     }
 
@@ -101,8 +100,8 @@ public class VNotaVentaInsertar extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Spinner sp = getSpCategoria();
-                modelCategoria categoria = (modelCategoria) getSpCategoria().getSelectedItem();
-                filtrarProductos(categoria);
+                MCategoria categoria = (MCategoria) getSpCategoria().getSelectedItem();
+                controller.filtrarProductos(categoria);
             }
 
             @Override
@@ -117,11 +116,11 @@ public class VNotaVentaInsertar extends AppCompatActivity {
     }
 
     private void registrarNotaVenta() {
-        modelPersona cliente = (modelPersona) getSpCliente().getSelectedItem();
-        modelNotaVenta NotaVenta = getNotaVenta();
-        ArrayList<modelDetalleNotaVenta> detalles = getDetalles();
-        if(cliente != null && NotaVenta.getCambio() >= 0 && detalles.size() > 0){
-            controller.craete(cliente, NotaVenta, detalles);
+        MPersona cliente = (MPersona) getSpCliente().getSelectedItem();
+        MNotaVenta NotaVenta = getNotaVenta();
+        ArrayList<MDetalleNotaVenta> detalles = getDetalles();
+        if(cliente != null && NotaVenta.getCambio() > 0 && detalles.size() > 0){
+            controller.create(cliente, NotaVenta, detalles);
         }else{
             mensaje("ERROR, LLENAR TODOS LOS DATOS");
         }
@@ -134,7 +133,7 @@ public class VNotaVentaInsertar extends AppCompatActivity {
     }
 
     private void añadirDetalle() {
-        modelProducto producto = (modelProducto) getSpProducto().getSelectedItem();
+        MProducto producto = (MProducto) getSpProducto().getSelectedItem();
         String cantidad = getEtCantidad().getText().toString().isEmpty() ? "0" :
                 getEtCantidad().getText().toString().trim();
         if ( producto == null || cantidad.isEmpty() ){
@@ -143,20 +142,18 @@ public class VNotaVentaInsertar extends AppCompatActivity {
             controller.añadirDetalle(Integer.parseInt(cantidad),producto);
     }
 
-    private void filtrarProductos(modelCategoria categoria) {
-        controller.filtrarProductos(categoria);
-    }
-    public void filtrarProductos(ArrayList<modelProducto> productos) {
-        ArrayAdapter<modelProducto> adapter = new ArrayAdapter<>(this,
+
+    public void filtrarProductos(ArrayList<MProducto> productos) {
+        ArrayAdapter<MProducto> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, productos);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         getSpProducto().setAdapter(adapter);
     }
 
 
-    public void llenarSpinners(ArrayList<modelPersona> personas, ArrayList<modelCategoria> categorias) {
-        ArrayAdapter<modelCategoria> adapterCategoria = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,categorias);
-        ArrayAdapter<modelPersona> adapterPersona = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,personas);
+    public void llenarSpinners(ArrayList<MPersona> personas, ArrayList<MCategoria> categorias) {
+        ArrayAdapter<MCategoria> adapterCategoria = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,categorias);
+        ArrayAdapter<MPersona> adapterPersona = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,personas);
 
         adapterCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         getSpCategoria().setAdapter(adapterCategoria);
@@ -168,23 +165,6 @@ public class VNotaVentaInsertar extends AppCompatActivity {
         Toast.makeText(this, errorEnController, Toast.LENGTH_SHORT).show();
     }
 
-    public void showSuccessMessage(String mensaje) {
-        Toast toast = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT);
-        View view = toast.getView();
-        view.setBackgroundColor(Color.parseColor("#32CD32")); // Verde lima para éxito
-        TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(Color.WHITE);
-        toast.show();
-    }
-
-    public void showErrorMessage(String mensaje) {
-        Toast toast = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT);
-        View view = toast.getView();
-        view.setBackgroundColor(Color.parseColor("#FF4500")); // Rojo anaranjado para error
-        TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(Color.WHITE);
-        toast.show();
-    }
     public void actualizar() {
         getRecyclerView().setLayoutManager(new LinearLayoutManager(this));
         detalleAdapter = new ListaDetalleNotaVenta(detalles);

@@ -8,11 +8,12 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.app.emprende2_2024.PatronComposite.ReporteI;
 import com.app.emprende2_2024.db.DbHelper;
 
 import java.util.ArrayList;
 
-public class modelPersona extends DbHelper {
+public class MPersona {
     private int id;
     private String nombre;
     private String telefono;
@@ -21,10 +22,11 @@ public class modelPersona extends DbHelper {
     private String tipo_cliente;
     private String ubicacion;
     private int estado;
+    private int frecuencia;
     private Context context;
+    private DbHelper dbHelper;
 
-    public modelPersona(@Nullable Context context) {
-        super(context);
+    public MPersona(@Nullable Context context) {
         this.id = -1;
         this.nombre = "";
         this.telefono = "";
@@ -36,8 +38,7 @@ public class modelPersona extends DbHelper {
         this.context = context;
     }
 
-    public modelPersona(@Nullable Context context, int id, String nombre, String telefono, String direccion, String correo, String tipo_cliente, String ubicacion, int estado) {
-        super(context);
+    public MPersona(@Nullable Context context, int id, String nombre, String telefono, String direccion, String correo, String tipo_cliente, String ubicacion, int estado) {
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -56,6 +57,7 @@ public class modelPersona extends DbHelper {
     public void setId(int id) {
         this.id = id;
     }
+
 
     public String getNombre() {
         return nombre;
@@ -113,6 +115,14 @@ public class modelPersona extends DbHelper {
         this.estado = estado;
     }
 
+    public int getFrecuencia() {
+        return frecuencia;
+    }
+
+    public void setFrecuencia(int frecuencia) {
+        this.frecuencia = frecuencia;
+    }
+
     @Override
     public String toString() {
         return nombre;
@@ -133,7 +143,8 @@ public class modelPersona extends DbHelper {
             values.put("tipo_cliente", tipo_cliente);
             values.put("link_ubicacion", ubicacion);
             values.put("estado", estado);
-            id = db.insert(TABLE_PERSONA, null, values);
+            values.put("frecuencia", 0);
+            id = db.insert(dbHelper.TABLE_PERSONA, null, values);
 
             setId((int)id);
             setNombre(nombre);
@@ -143,6 +154,7 @@ public class modelPersona extends DbHelper {
             setTipo_cliente(tipo_cliente);
             setUbicacion(ubicacion);
             setEstado(estado);
+            setFrecuencia(0);
             b = true;
         }catch (Exception e){
             Toast.makeText(context, "ERROR AL GUARDAR REGISTRO", Toast.LENGTH_SHORT).show();
@@ -151,21 +163,21 @@ public class modelPersona extends DbHelper {
         return b;
     }
 
-    public ArrayList<modelPersona> read() {
-        ArrayList<modelPersona> listaPersona = new ArrayList<>();
+    public ArrayList<MPersona> read() {
+        ArrayList<MPersona> listaPersona = new ArrayList<>();
         try{
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-            modelPersona persona;
+            MPersona persona;
             Cursor cursorPersona;
 
-            cursorPersona = db.rawQuery("SELECT * FROM " + TABLE_PERSONA
+            cursorPersona = db.rawQuery("SELECT * FROM " + dbHelper.TABLE_PERSONA
                     + " ORDER BY nombre ASC", null);
             if (cursorPersona.moveToFirst()) {
                 do {
                     if(cursorPersona.getInt(7)==1){
-                        persona = new modelPersona(context);
+                        persona = new MPersona(context);
                         persona.setId(cursorPersona.getInt(0));
                         persona.setNombre(cursorPersona.getString(1));
                         persona.setTelefono(cursorPersona.getString(2));
@@ -188,16 +200,16 @@ public class modelPersona extends DbHelper {
         return listaPersona;
     }
 
-    public modelPersona findById(int id) {
-        modelPersona persona = null;
+    public MPersona findById(int id) {
+        MPersona persona = null;
        try{
            DbHelper dbHelper = new DbHelper(context);
            SQLiteDatabase db = dbHelper.getWritableDatabase();
            Cursor cursorPersona = null;
-           cursorPersona = db.rawQuery("SELECT * FROM " + TABLE_PERSONA
+           cursorPersona = db.rawQuery("SELECT * FROM " + dbHelper.TABLE_PERSONA
                    + " WHERE id = " + id + " LIMIT 1", null);
            if (cursorPersona.moveToFirst()) {
-               persona = new modelPersona(context);
+               persona = new MPersona(context);
                persona.setId(cursorPersona.getInt(0));
                persona.setNombre(cursorPersona.getString(1));
                persona.setTelefono(cursorPersona.getString(2));
@@ -206,6 +218,7 @@ public class modelPersona extends DbHelper {
                persona.setTipo_cliente(cursorPersona.getString(5));
                persona.setUbicacion(cursorPersona.getString(6));
                persona.setEstado(cursorPersona.getInt(7));
+               persona.setFrecuencia(cursorPersona.getInt(8));
            }
            cursorPersona.close();
        }catch (Exception e){
@@ -214,21 +227,21 @@ public class modelPersona extends DbHelper {
        return  persona;
     }
 
-    public ArrayList<modelPersona> readFiltro(String filtroSeleccionado) {
+    public ArrayList<MPersona> readFiltro(String filtroSeleccionado) {
         DbHelper dbHelper = new DbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        ArrayList<modelPersona> listaPersona = new ArrayList<>();
-        modelPersona persona = null;
+        ArrayList<MPersona> listaPersona = new ArrayList<>();
+        MPersona persona = null;
         Cursor cursorPersona;
 
-        cursorPersona = db.rawQuery("SELECT * FROM " + TABLE_PERSONA
+        cursorPersona = db.rawQuery("SELECT * FROM " + dbHelper.TABLE_PERSONA
                 + " WHERE tipo_cliente = '" + filtroSeleccionado +"'"
                 + " ORDER BY nombre ASC", null);
         if (cursorPersona.moveToFirst()) {
             do {
                 if(cursorPersona.getInt(7) == 1){
-                    persona = new modelPersona(context);
+                    persona = new MPersona(context);
                     persona.setId(cursorPersona.getInt(0));
                     persona.setNombre(cursorPersona.getString(1));
                     persona.setTelefono(cursorPersona.getString(2));
@@ -253,7 +266,7 @@ public class modelPersona extends DbHelper {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         boolean b = false;
         try{
-            String sql = "UPDATE " + TABLE_PERSONA + " SET estado = ? WHERE id = ?";
+            String sql = "UPDATE " + dbHelper.TABLE_PERSONA + " SET estado = ? WHERE id = ?";
             db.execSQL(sql,new Object[]{0,id});
             b = true;
         }catch (Exception e){
@@ -261,14 +274,23 @@ public class modelPersona extends DbHelper {
         }
         return b;
     }
-
-    public boolean update(int id, String nombre, String telefono, String direccion, String correo, String ubicacion) {
+    public boolean update(MPersona persona) {
+        return update(
+                persona.getId(),
+                persona.getNombre(),
+                persona.getTelefono(),
+                persona.getDireccion(),
+                persona.getCorreo(),
+                persona.getUbicacion(),
+                persona.getFrecuencia());
+    }
+    public boolean update(int id, String nombre, String telefono, String direccion, String correo, String ubicacion, int frecuencia) {
         boolean correcto = false;
         try {
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            String sql = "UPDATE " + TABLE_PERSONA + " SET nombre = ?, telefono = ?, direccion = ?, correo = ?, link_ubicacion = ? WHERE id = ?";
-            db.execSQL(sql, new Object[]{nombre, telefono, direccion, correo, ubicacion, id});
+            String sql = "UPDATE " + dbHelper.TABLE_PERSONA + " SET nombre = ?, telefono = ?, direccion = ?, correo = ?, link_ubicacion = ?, frecuencia = ? WHERE id = ?";
+            db.execSQL(sql, new Object[]{nombre, telefono, direccion, correo, ubicacion,frecuencia, id});
             correcto = true; // Se establece a true si la operación de actualización fue exitosa
             db.close();
         } catch (Exception ex) {
@@ -276,5 +298,17 @@ public class modelPersona extends DbHelper {
             correcto = false;
         }
         return correcto;
+    }
+
+    public void updateFrecuencia(int id, int i) {
+        try {
+            DbHelper dbHelper = new DbHelper(context);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            String sql = "UPDATE " + dbHelper.TABLE_PERSONA + " SET frecuencia = ? WHERE id = ?";
+            db.execSQL(sql, new Object[]{i, id});
+            db.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

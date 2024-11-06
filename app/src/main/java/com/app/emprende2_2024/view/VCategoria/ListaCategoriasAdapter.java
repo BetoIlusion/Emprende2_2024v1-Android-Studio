@@ -16,13 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CCategoria.CCategoria;
-import com.app.emprende2_2024.model.MCategoria.modelCategoria;
+import com.app.emprende2_2024.model.MCategoria.MCategoria;
 
 import java.util.ArrayList;
 
 public class ListaCategoriasAdapter extends RecyclerView.Adapter<ListaCategoriasAdapter.CategoriaViewHolder> {
-    ArrayList<modelCategoria> listaCategoria;
-    public ListaCategoriasAdapter(ArrayList<modelCategoria> listaCategoria) {
+    ArrayList<MCategoria> listaCategoria;
+    public ListaCategoriasAdapter(ArrayList<MCategoria> listaCategoria) {
         this.listaCategoria = listaCategoria;
     }
     public class CategoriaViewHolder extends RecyclerView.ViewHolder{

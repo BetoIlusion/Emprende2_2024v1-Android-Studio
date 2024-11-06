@@ -1,6 +1,11 @@
 package com.app.emprende2_2024.view.VDetalleNotaVenta;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -9,19 +14,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CDetalleNotaVenta.CDetalleNotaVenta;
-import com.app.emprende2_2024.model.MDetalleFactura.modelDetalleNotaVenta;
-import com.app.emprende2_2024.model.MNotaVenta.modelNotaVenta;
+import com.app.emprende2_2024.model.MDetalleFactura.MDetalleNotaVenta;
+import com.app.emprende2_2024.model.MNotaVenta.MNotaVenta;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class VDetalleNotaVentaShow extends AppCompatActivity {
 
     private TableLayout tableLayout;
-    private TextView  tvMontoTotal, tvFactura, tvCliente;
+    private TextView  tvMontoTotal, tvNota, tvCliente, tvDescuento;
     private Button btnCompartirPDF,btnCompartirUbicacion;
+
+    public TextView getTvDescuento() {
+        return findViewById(R.id.tvDescuentoDetalleVer);
+    }
 
     public Button getBtnCompartirPDF() {
         return findViewById(R.id.btnCompartirPDF);
@@ -38,7 +51,7 @@ public class VDetalleNotaVentaShow extends AppCompatActivity {
         return findViewById(R.id.tvMontoTotalDetalleVer);
     }
 
-    public TextView getTvFactura() {
+    public TextView getTvNota() {
         return findViewById(R.id.tvNroFactura);
     }
 
@@ -50,10 +63,7 @@ public class VDetalleNotaVentaShow extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vdetalle_factura_ver);
-//        TableRow headerRow = findViewById(R.id.tableHeader);
-//        Animation blinkAnimation = AnimationUtils.loadAnimation(this, R.anim.blink);
-//        headerRow.startAnimation(blinkAnimation);
+        setContentView(R.layout.activity_vdetalle_nota_venta_ver);
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras == null)
@@ -63,20 +73,69 @@ public class VDetalleNotaVentaShow extends AppCompatActivity {
         } else {
             id = (int) savedInstanceState.getSerializable("ID");
         }
-        llenarVista();
+        controller.read(id);
         getBtnCompartirPDF().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.compartirPDF(id);
+                getBtnCompartirPDF().setVisibility(View.GONE);
+                getBtnCompartirUbicacion().setVisibility(View.GONE);
+                // 1. Capturar la pantalla
+                Bitmap screenshot = getScreenshot(findViewById(android.R.id.content));
+                // 2. Guardar la captura
+                File imagePath = saveScreenshot(screenshot);
+                // 3. CaptureTarget en Whatsapp
+                shareOnWhatsapp(imagePath);
+                getBtnCompartirPDF().setVisibility(View.VISIBLE);
+                getBtnCompartirUbicacion().setVisibility(View.VISIBLE);
             }
         });
+
     }
 
-    private void llenarVista() {
-        controller.read(id);
+
+    // Método para compartir en Whatsapp
+    private void shareOnWhatsapp(File imagePath) {
+        Uri uri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", imagePath); // Reemplaza ".provider" con la autoridad de tu FileProvider en el AndroidManifest.xml
+        Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+        whatsappIntent.setType("image/*");
+        whatsappIntent.setPackage("com.whatsapp");
+        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // Agregar este flag para permitir que Whatsapp lea el archivo
+
+        try {
+            startActivity(whatsappIntent);
+        } catch (ActivityNotFoundException ex) {
+            Toast.makeText(this, "Whatsapp no está instalado.", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public void llenarVista(modelNotaVenta NotaVenta, ArrayList<modelDetalleNotaVenta> detalles) {
+    // Método para guardar la captura como un archivo
+    private File saveScreenshot(Bitmap bitmap) {
+        File imagePath = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "screenshot.png"); // Usando getExternalFilesDir para mayor seguridad y privacidad
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(imagePath);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return imagePath;
+    }
+
+    // Método para capturar la pantalla
+    private Bitmap getScreenshot(View view) {
+        view.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+        return bitmap;
+    }
+
+
+
+
+    public void llenarVista(MNotaVenta NotaVenta, ArrayList<MDetalleNotaVenta> detalles) {
         for (int i = 0; i < detalles.size(); i++) {
             TableRow fila = new TableRow(this);
             fila.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
@@ -109,9 +168,11 @@ public class VDetalleNotaVentaShow extends AppCompatActivity {
         int id_nota_venta = NotaVenta.getId();
         String nombrePersona = NotaVenta.getPersona().getNombre();
         float monto_total = NotaVenta.getMonto_total();
-        getTvFactura().setText("0" + String.valueOf(id_nota_venta));
+        String descricpiones = NotaVenta.getDescuentoString();
+        getTvNota().setText("0" + String.valueOf(id_nota_venta));
+        getTvMontoTotal().setText("Monto: " + monto_total);
         getTvCliente().setText("Señor/a.: " +  nombrePersona);
-        getTvMontoTotal().setText("Monto Total: " + monto_total);
+        getTvDescuento().setText("Descuentos: " + descricpiones);
     }
 
     public void mensaje(String s) {

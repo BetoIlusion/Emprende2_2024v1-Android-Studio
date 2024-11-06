@@ -11,16 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
-import com.app.emprende2_2024.model.MNotaVenta.modelNotaVenta;
+import com.app.emprende2_2024.model.MNotaVenta.MNotaVenta;
 import com.app.emprende2_2024.view.VDetalleNotaVenta.VDetalleNotaVentaShow;
 
 import java.util.ArrayList;
 
 public class ListaNotaVentaAdapter extends RecyclerView.Adapter<ListaNotaVentaAdapter.NotaVentaViewHolder>{
-    ArrayList<modelNotaVenta> notaVentas;
+    ArrayList<MNotaVenta> notaVentas;
 
 
-    public ListaNotaVentaAdapter(ArrayList<modelNotaVenta> notaVentas) {
+    public ListaNotaVentaAdapter(ArrayList<MNotaVenta> notaVentas) {
         this.notaVentas = notaVentas;
 
     }

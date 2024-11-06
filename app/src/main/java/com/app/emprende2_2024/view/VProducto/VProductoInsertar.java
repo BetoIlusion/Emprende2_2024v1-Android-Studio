@@ -15,8 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CProducto.CProducto;
-import com.app.emprende2_2024.model.MCategoria.modelCategoria;
-import com.app.emprende2_2024.model.MProveedor.modelProveedor;
+import com.app.emprende2_2024.model.MCategoria.MCategoria;
+import com.app.emprende2_2024.model.MProveedor.MProveedor;
 
 import java.util.ArrayList;
 
@@ -64,7 +64,7 @@ public class VProductoInsertar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vproducto_insertar);
-        llenarSpinners();
+        controller.llenarSpinners();
         getBtnGuardar().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,8 +73,8 @@ public class VProductoInsertar extends AppCompatActivity {
                 String SKU = getEtSKU().getText().toString().trim();
                 String cantidad = getEtCantidad().getText().toString().trim();
                 String minimo = getEtMinimo().getText().toString().trim();
-                modelCategoria categoria = (modelCategoria) getSpCategoria().getSelectedItem();
-                modelProveedor proveedor = (modelProveedor) getSpProveedor().getSelectedItem();
+                MCategoria categoria = (MCategoria) getSpCategoria().getSelectedItem();
+                MProveedor proveedor = (MProveedor) getSpProveedor().getSelectedItem();
 
                 if(nombre.isEmpty() || precio.isEmpty() || SKU.isEmpty() ||
                         cantidad.isEmpty() || minimo.isEmpty()){
@@ -93,43 +93,20 @@ public class VProductoInsertar extends AppCompatActivity {
             }
         });
     }
-
-    private void llenarSpinners() {
-        controller.llenarSpinners();
-    }
-    public void llenarSpinners(ArrayList<modelCategoria> arrayCategoria, ArrayList<modelProveedor> arrayPersonaProveedor) {
-            ArrayAdapter<modelCategoria> adapterCategoria = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,arrayCategoria);
-            ArrayAdapter<modelProveedor> adapterProveedor = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,arrayPersonaProveedor);
+    public void llenarSpinners(ArrayList<MCategoria> arrayCategoria, ArrayList<MProveedor> arrayPersonaProveedor) {
+            ArrayAdapter<MCategoria> adapterCategoria = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,arrayCategoria);
+            ArrayAdapter<MProveedor> adapterProveedor = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,arrayPersonaProveedor);
 
             adapterCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             getSpCategoria().setAdapter(adapterCategoria);
             adapterProveedor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             getSpProveedor().setAdapter(adapterProveedor);
-
-
     }
 
 
 
     public void mensaje(String mensaje){
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
-    }
-    public void showSuccessMessage(String mensaje) {
-        Toast toast = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT);
-        View view = toast.getView();
-        view.setBackgroundColor(Color.parseColor("#32CD32")); // Verde lima para éxito
-        TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(Color.WHITE);
-        toast.show();
-    }
-
-    public void showErrorMessage(String mensaje) {
-        Toast toast = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT);
-        View view = toast.getView();
-        view.setBackgroundColor(Color.parseColor("#FF4500")); // Rojo anaranjado para error
-        TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(Color.WHITE);
-        toast.show();
     }
 
     public void limpiar() {

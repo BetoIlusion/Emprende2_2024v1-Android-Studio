@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="Factura Nro: 001"
         android:textSize="20sp"
-        android:textColor="#000000"
+        android:textColor="@color/primary_dark"
         android:textStyle="bold"
         android:layout_marginBottom="10dp" />
 
@@ -23,8 +23,9 @@
         android:layout_height="wrap_content"
         android:text="Nombre: Juan Pérez"
         android:textSize="18sp"
-        android:textColor="#000000"
+        android:textColor="#03A9F4"
         android:layout_marginBottom="20dp" />
+
     <TableLayout
         android:id="@+id/tableProductos"
         android:layout_width="match_parent"
@@ -72,45 +73,7 @@
                 android:layout_weight="1" />
         </TableRow>
 
-        <!-- Detalles del Producto (ejemplo) -->
-<!--        <TableRow>-->
-<!--            <TextView-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Producto A"-->
-<!--                android:padding="8dp"-->
-<!--                android:gravity="center"-->
-<!--                android:textSize="16sp"-->
-<!--                android:layout_weight="1" />-->
-<!--            <TextView-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="$10.00"-->
-<!--                android:padding="8dp"-->
-<!--                android:gravity="center"-->
-<!--                android:textSize="16sp"-->
-<!--                android:layout_weight="1" />-->
-<!--            <TextView-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="2"-->
-<!--                android:padding="8dp"-->
-<!--                android:gravity="center"-->
-<!--                android:textSize="16sp"-->
-<!--                android:layout_weight="1" />-->
-<!--            <TextView-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="$20.00"-->
-<!--                android:padding="8dp"-->
-<!--                android:gravity="center"-->
-<!--                android:textSize="16sp"-->
-<!--                android:layout_weight="1" />-->
-<!--        </TableRow>-->
-        <!-- Repetir filas de productos aquí según sea necesario -->
-
     </TableLayout>
-
 
     <!-- Monto Total -->
     <TextView
@@ -122,6 +85,18 @@
         android:textStyle="bold"
         android:textColor="#FF5722"
         android:layout_marginBottom="20dp"
+        android:gravity="center" />
+    <!-- Descuento -->
+    <TextView
+        android:id="@+id/tvDescuentoDetalleVer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Descuento: $10.00"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#009688"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center" />
 
     <!-- Botones Crear PDF y Editar -->

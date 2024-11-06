@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.app.emprende2_2024.db.DbHelper;
 
-public class modelStock extends DbHelper {
+public class MStock extends DbHelper {
     private int id;
     private int cantidad;
     private int minimo;
@@ -30,7 +30,7 @@ public class modelStock extends DbHelper {
 
     @Override
     public String toString() {
-        return "modelStock{" +
+        return "MStock{" +
                 "cantidad=" + cantidad +
                 '}';
     }
@@ -47,7 +47,7 @@ public class modelStock extends DbHelper {
         this.minimo = minimo;
     }
 
-    public modelStock(@Nullable Context context) {
+    public MStock(@Nullable Context context) {
         super(context);
         this.context = context;
     }
@@ -67,8 +67,8 @@ public class modelStock extends DbHelper {
         }
         return id;
     }
-    public modelStock findById(int id){
-        modelStock stock = null;
+    public MStock findById(int id){
+        MStock stock = null;
         try{
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -76,7 +76,7 @@ public class modelStock extends DbHelper {
             cursorStock = db.rawQuery("SELECT * FROM " + TABLE_STOCK
                     + " WHERE id = " + id + " LIMIT 1", null);
             if (cursorStock.moveToFirst()){
-               stock = new modelStock(context);
+               stock = new MStock(context);
                stock.setId(cursorStock.getInt(0));
                stock.setCantidad(cursorStock.getInt(1));
                stock.setMinimo(cursorStock.getInt(2));

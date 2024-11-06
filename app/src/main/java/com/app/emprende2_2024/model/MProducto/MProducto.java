@@ -8,21 +8,22 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.app.emprende2_2024.PatronComposite.ReporteI;
 import com.app.emprende2_2024.db.DbHelper;
-import com.app.emprende2_2024.model.MCategoria.modelCategoria;
-import com.app.emprende2_2024.model.MProveedor.modelProveedor;
-import com.app.emprende2_2024.model.MStock.modelStock;
+import com.app.emprende2_2024.model.MCategoria.MCategoria;
+import com.app.emprende2_2024.model.MProveedor.MProveedor;
+import com.app.emprende2_2024.model.MStock.MStock;
 
 import java.util.ArrayList;
 
-public class modelProducto extends DbHelper {
+public class MProducto implements ReporteI {
     private int id;
     private String nombre;
     private String sku;
     private float precio;
-    private modelCategoria categoria;
-    private modelProveedor proveedor;
-    private modelStock stock;
+    private MCategoria categoria;
+    private MProveedor proveedor;
+    private MStock stock;
     private int estado;
     private Context context;
     public int getId() {
@@ -57,19 +58,19 @@ public class modelProducto extends DbHelper {
         this.precio = precio;
     }
 
-    public modelCategoria getCategoria() {
+    public MCategoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(modelCategoria categoria) {
+    public void setCategoria(MCategoria categoria) {
         this.categoria = categoria;
     }
 
-    public modelProveedor getProveedor() {
+    public MProveedor getProveedor() {
         return proveedor;
     }
 
-    public void setProveedor(modelProveedor proveedor) {
+    public void setProveedor(MProveedor proveedor) {
         this.proveedor = proveedor;
     }
 
@@ -81,11 +82,13 @@ public class modelProducto extends DbHelper {
         this.estado = estado;
     }
 
-    public modelStock getStock() {
+    public MStock getStock() {
         return stock;
     }
 
-    public void setStock(modelStock stock) {
+
+
+    public void setStock(MStock stock) {
         this.stock = stock;
     }
 
@@ -94,19 +97,18 @@ public class modelProducto extends DbHelper {
         return nombre + "(" + getStock().getCantidad() + ")";
     }
 
-    public modelProducto(@Nullable Context context) {
-        super(context);
+    public MProducto(@Nullable Context context) {
         this.id = -1;
         this.nombre = "";
         this.sku = "";
         this.precio = 0;
-        this.categoria = new modelCategoria(context);
-        this.proveedor = new modelProveedor(context);
+        this.categoria = new MCategoria(context);
+        this.proveedor = new MProveedor(context);
         this.estado = 0;
         this.context = context;
     }
 
-    public long create(String nombre, String precio, String sku, modelCategoria categoria, modelProveedor proveedor, long id_stock) {
+    public long create(String nombre, String precio, String sku, MCategoria categoria, MProveedor proveedor, long id_stock) {
         long id = 0;
         try{
             DbHelper dbHelper = new DbHelper(context);
@@ -119,7 +121,7 @@ public class modelProducto extends DbHelper {
             values.put("id_categoria",categoria.getId());
             values.put("id_proveedor",proveedor.getId());
             values.put("id_stock",id_stock);
-            id = db.insert(TABLE_PRODUCTO,null,values);
+            id = db.insert(dbHelper.TABLE_PRODUCTO,null,values);
         }catch (Exception e){
             Toast.makeText(context, "ERROR AL GUARDAR PRODUCTO", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
@@ -127,28 +129,28 @@ public class modelProducto extends DbHelper {
         return id;
     }
 
-    public modelProducto findById(int id) {
-        modelProducto producto = null;
+    public MProducto findById(int id) {
+        MProducto producto = null;
         try{
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             Cursor cursorProducto = null;
-            cursorProducto = db.rawQuery("SELECT * FROM " + TABLE_PRODUCTO
+            cursorProducto = db.rawQuery("SELECT * FROM " + dbHelper.TABLE_PRODUCTO
                     + " WHERE id = " + id + " LIMIT 1", null);
             if (cursorProducto.moveToFirst()) {
-                producto = new modelProducto(context);
+                producto = new MProducto(context);
                 producto.setId(cursorProducto.getInt(0));
                 producto.setNombre(cursorProducto.getString(1));
                 producto.setSku(cursorProducto.getString(2));
                 producto.setPrecio(cursorProducto.getFloat(3));
                 //-> ENTRA AQUI IMAGEN
                 producto.setEstado(cursorProducto.getInt(5));
-                modelCategoria categoria1 = new modelCategoria(context);
+                MCategoria categoria1 = new MCategoria(context);
                 categoria1 = categoria1.findById(cursorProducto.getInt(6));
-                modelProveedor proveedor1 = new modelProveedor(context);
+                MProveedor proveedor1 = new MProveedor(context);
                 proveedor1 = proveedor1.findById(cursorProducto.getInt(7));
-                modelStock stock1 = new modelStock(context);
+                MStock stock1 = new MStock(context);
                 stock1 = stock1.findById(cursorProducto.getInt(8));
 
                 producto.setCategoria(categoria1);
@@ -161,35 +163,45 @@ public class modelProducto extends DbHelper {
         }
         return producto;
     }
-
-    public ArrayList<modelProducto> read() {
-        ArrayList<modelProducto> listaProducto = new ArrayList<>();
-        modelProducto producto;
+    public ArrayList<MProducto> ProductoXCategoria(int id_categoria) {
+        ArrayList<MProducto> listaProducto = new ArrayList<MProducto>();
+        ArrayList<MProducto> listaProductoFinal = new ArrayList<MProducto>();
+        MProducto producto = new MProducto(context);
+        listaProducto = producto.read();
+        for (int i = 0; i < listaProducto.size(); i++) {
+            if(listaProducto.get(i).getCategoria().getId() == id_categoria)
+                listaProductoFinal.add(listaProducto.get(i));
+        }
+        return listaProductoFinal;
+    }
+    public ArrayList<MProducto> read() {
+        ArrayList<MProducto> listaProducto = new ArrayList<>();
+        MProducto producto;
         try{
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             Cursor cursorProducto;
-            cursorProducto = db.rawQuery("SELECT * FROM " + TABLE_PRODUCTO
+            cursorProducto = db.rawQuery("SELECT * FROM " + dbHelper.TABLE_PRODUCTO
                     + " ORDER BY id DESC", null);
             if (cursorProducto.moveToFirst()) {
                 do {
                     if(cursorProducto.getInt(5) == 1){
-                        producto = new modelProducto(context);
+                        producto = new MProducto(context);
                         producto.setId(cursorProducto.getInt(0));
                         producto.setNombre(cursorProducto.getString(1));
                         producto.setSku(cursorProducto.getString(2));
                         producto.setPrecio(cursorProducto.getFloat(3));
 
                         producto.setEstado(cursorProducto.getInt(5));
-                        modelCategoria categoria1 = new modelCategoria(context);
+                        MCategoria categoria1 = new MCategoria(context);
                         categoria1 = categoria1.findById(cursorProducto.getInt(6));
                         producto.setCategoria(categoria1);
 
-                        modelProveedor proveedor1 = new modelProveedor(context);
+                        MProveedor proveedor1 = new MProveedor(context);
                         proveedor1 = proveedor1.findById(cursorProducto.getInt(7));
                         producto.setProveedor(proveedor1);
 
-                        modelStock stock1 = new modelStock(context);
+                        MStock stock1 = new MStock(context);
                         stock1 = stock1.findById(cursorProducto.getInt(8));
                         producto.setStock(stock1);
 
@@ -206,18 +218,18 @@ public class modelProducto extends DbHelper {
         return listaProducto;
     }
 
-    public boolean update(int id, String nombre, String precio, String sku, String cantidad, String minimo, modelCategoria categoria, modelProveedor proveedor) {
+    public boolean update(int id, String nombre, String precio, String sku, String cantidad, String minimo, MCategoria categoria, MProveedor proveedor) {
         boolean b = false;
         try {
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            String sql = "UPDATE " + TABLE_PRODUCTO + " SET nombre = ?, precio = ?, sku = ?, id_categoria = ?, id_proveedor = ? WHERE id = ?";
+            String sql = "UPDATE " + dbHelper.TABLE_PRODUCTO + " SET nombre = ?, precio = ?, sku = ?, id_categoria = ?, id_proveedor = ? WHERE id = ?";
             db.execSQL(sql, new Object[]{nombre, precio, sku, categoria.getId(), proveedor.getId(), id});
 
 
-            modelProducto producto = new modelProducto(context);
+            MProducto producto = new MProducto(context);
             producto = producto.findById(id);
-            modelStock stock = new modelStock(context);
+            MStock stock = new MStock(context);
             stock = stock.findById(producto.getStock().getId());
             if(stock.update(
                     stock.getId(),
@@ -242,7 +254,7 @@ public class modelProducto extends DbHelper {
         try {
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            String sql = "UPDATE " + TABLE_PRODUCTO + " SET estado = ? WHERE id = ?";
+            String sql = "UPDATE " + dbHelper.TABLE_PRODUCTO + " SET estado = ? WHERE id = ?";
             db.execSQL(sql, new Object[]{0, id});
             b = true;
             db.close();
@@ -254,35 +266,35 @@ public class modelProducto extends DbHelper {
         return b;
     }
 
-    public ArrayList<modelProducto> fingByCategoria(int id_categoria) {
-        ArrayList<modelProducto> listaProducto = new ArrayList<>();
-        modelProducto producto;
+    public ArrayList<MProducto> fingByCategoria(int id_categoria) {
+        ArrayList<MProducto> listaProducto = new ArrayList<>();
+        MProducto producto;
         try{
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             Cursor cursorProducto;
-            cursorProducto = db.rawQuery("SELECT * FROM " + TABLE_PRODUCTO
+            cursorProducto = db.rawQuery("SELECT * FROM " + dbHelper.TABLE_PRODUCTO
                     + " WHERE id_categoria = " + id_categoria
                     + " ORDER BY id DESC", null);
             if (cursorProducto.moveToFirst()) {
                 do {
                     if(cursorProducto.getInt(5) == 1){
-                        producto = new modelProducto(context);
+                        producto = new MProducto(context);
                         producto.setId(cursorProducto.getInt(0));
                         producto.setNombre(cursorProducto.getString(1));
                         producto.setSku(cursorProducto.getString(2));
                         producto.setPrecio(cursorProducto.getFloat(3));
 
                         producto.setEstado(cursorProducto.getInt(5));
-                        modelCategoria categoria1 = new modelCategoria(context);
+                        MCategoria categoria1 = new MCategoria(context);
                         categoria1 = categoria1.findById(cursorProducto.getInt(6));
                         producto.setCategoria(categoria1);
 
-                        modelProveedor proveedor1 = new modelProveedor(context);
+                        MProveedor proveedor1 = new MProveedor(context);
                         proveedor1 = proveedor1.findByIdPersona(cursorProducto.getInt(7));
                         producto.setProveedor(proveedor1);
 
-                        modelStock stock1 = new modelStock(context);
+                        MStock stock1 = new MStock(context);
                         stock1 = stock1.findById(cursorProducto.getInt(8));
                         producto.setStock(stock1);
 
@@ -297,5 +309,26 @@ public class modelProducto extends DbHelper {
             e.printStackTrace();
         }
         return listaProducto;
+    }
+
+    @Override
+    public String getNombreReporte() {
+        return getNombre();
+    }
+
+    @Override
+    public int getStockReporte() {
+        return getStock().getCantidad();
+    }
+
+    @Override
+    public double getTotalReporte() {
+        return getStockReporte() * getPrecio();
+    }
+
+    @Override
+    public String generarReporte() {
+        return "   "+"Producto: " + getNombreReporte() + ", sub total: $" + getTotalReporte() +
+                ", Stock disponible: " + getStockReporte() + "\n";
     }
 }

@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CCategoria.CCategoria;
-import com.app.emprende2_2024.model.MCategoria.modelCategoria;
+import com.app.emprende2_2024.model.MCategoria.MCategoria;
 
 public class VCategoriaEditar extends AppCompatActivity {
 
@@ -67,7 +67,7 @@ public class VCategoriaEditar extends AppCompatActivity {
     private void llenarVista(int id) {
         controller.readUno(id);
     }
-    public void readUno(modelCategoria mCategoria) {
+    public void readUno(MCategoria mCategoria) {
         String nombre = mCategoria.getNombre();
         String descripcion = mCategoria.getDescripcion();
         getEtNombre().setText(nombre);

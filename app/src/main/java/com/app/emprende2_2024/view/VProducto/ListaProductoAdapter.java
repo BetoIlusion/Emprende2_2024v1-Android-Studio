@@ -15,14 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CProducto.CProducto;
-import com.app.emprende2_2024.model.MProducto.modelProducto;
+import com.app.emprende2_2024.model.MProducto.MProducto;
 
 import java.util.ArrayList;
 
 public class ListaProductoAdapter extends RecyclerView.Adapter<ListaProductoAdapter.ProductoViewHolder> {
-    ArrayList<modelProducto> listaProducto;
+    ArrayList<MProducto> listaProducto;
 
-    public ListaProductoAdapter(ArrayList<modelProducto> productos) {
+    public ListaProductoAdapter(ArrayList<MProducto> productos) {
         this.listaProducto = productos;
 
     }

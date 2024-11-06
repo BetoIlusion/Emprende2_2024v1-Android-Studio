@@ -12,14 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CCategoria.CCategoria;
-import com.app.emprende2_2024.model.MCategoria.modelCategoria;
+import com.app.emprende2_2024.model.MCategoria.MCategoria;
 
 public class VCategoriaInsertar extends AppCompatActivity {
     EditText etNombre, etDescripcion;
     Button btnGuardar;
     Spinner spEstado;
 
-    modelCategoria mCategoria;
+    MCategoria mCategoria;
 
     public EditText getEtNombre() {
         return findViewById(R.id.etNombreCategoriaInsertar);

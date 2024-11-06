@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CProveedor.CProveedor;
-import com.app.emprende2_2024.model.MPersona.modelPersona;
-import com.app.emprende2_2024.model.MProveedor.modelProveedor;
+import com.app.emprende2_2024.model.MPersona.MPersona;
+import com.app.emprende2_2024.model.MProveedor.MProveedor;
 import com.app.emprende2_2024.view.VPersona.VPersonaMain;
 
 public class VProveedorEditar extends AppCompatActivity {
@@ -78,7 +78,7 @@ public class VProveedorEditar extends AppCompatActivity {
     private void llenarVista(int id) {
         controller.llenarVista(id);
     }
-    public void llenarVista(modelPersona persona, modelProveedor proveedor) {
+    public void llenarVista(MPersona persona, MProveedor proveedor) {
         String nombre = persona.getNombre().trim();
         String NIT = proveedor.getNit().trim();
         String telefono = persona.getTelefono().trim();

@@ -10,14 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
-import com.app.emprende2_2024.model.MDetalleFactura.modelDetalleNotaVenta;
+import com.app.emprende2_2024.model.MDetalleFactura.MDetalleNotaVenta;
 
 import java.util.ArrayList;
 
 public class ListaDetalleNotaVenta extends RecyclerView.Adapter<ListaDetalleNotaVenta.DetalleNotaVentaViewHolder> {
-    ArrayList<modelDetalleNotaVenta> detalles = new ArrayList<>();
+    ArrayList<MDetalleNotaVenta> detalles = new ArrayList<>();
 
-    public ListaDetalleNotaVenta(ArrayList<modelDetalleNotaVenta> detalles) {
+    public ListaDetalleNotaVenta(ArrayList<MDetalleNotaVenta> detalles) {
         this.detalles = detalles;
     }
     public class DetalleNotaVentaViewHolder extends RecyclerView.ViewHolder{

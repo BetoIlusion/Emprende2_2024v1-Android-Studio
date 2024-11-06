@@ -14,17 +14,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CNotaVenta.CNotaVenta;
-import com.app.emprende2_2024.model.MNotaVenta.modelNotaVenta;
+import com.app.emprende2_2024.model.MNotaVenta.MNotaVenta;
+import com.app.emprende2_2024.view.VDescuento.VDescuento;
 import com.app.emprende2_2024.view.VPersona.VPersonaMain;
 import com.app.emprende2_2024.view.VProducto.VProductoMain;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    Button btnPersona, btnProductos;
+    Button btnPersona, btnProductos, btnDescuento;
     ImageButton btnCrear;
     RecyclerView recyclerView;
     ListaNotaVentaAdapter adapter;
+
+    public Button getBtnDescuento() {
+        return findViewById(R.id.btnDescuentoMain);
+    }
 
     public RecyclerView getRecyclerView() {
         return findViewById(R.id.rvMain);
@@ -70,8 +75,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         getBtnCrear().setOnClickListener(v -> vInsertar());
+        getBtnDescuento().setOnClickListener(v -> vDescuento());
     }
 
+    private void vDescuento() {
+        Intent intent = new Intent(this, VDescuento.class);
+        startActivity(intent);
+    }
 
 
     private void vInsertar() {
@@ -89,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void read(ArrayList<modelNotaVenta> notaVentas) {
+    public void read(ArrayList<MNotaVenta> notaVentas) {
         adapter = new ListaNotaVentaAdapter(notaVentas);
         try {
             getRecyclerView().setLayoutManager(new LinearLayoutManager(this));

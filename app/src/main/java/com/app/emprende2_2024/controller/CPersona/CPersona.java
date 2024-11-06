@@ -2,8 +2,8 @@ package com.app.emprende2_2024.controller.CPersona;
 
 import android.content.Context;
 
-import com.app.emprende2_2024.model.MPersona.modelPersona;
-import com.app.emprende2_2024.model.MProveedor.modelProveedor;
+import com.app.emprende2_2024.model.MPersona.MPersona;
+import com.app.emprende2_2024.model.MProveedor.MProveedor;
 import com.app.emprende2_2024.view.VPersona.VPersonaEditar;
 import com.app.emprende2_2024.view.VPersona.VPersonaInsertar;
 import com.app.emprende2_2024.view.VPersona.VPersonaMain;
@@ -30,17 +30,16 @@ public class CPersona {
     }
 
     public void listar() {
-            modelPersona modelPersona = new modelPersona(vMain);
-            modelProveedor modelProveedor = new modelProveedor(vMain);
-
-        ArrayList<modelPersona> personas = modelPersona.read();
-        ArrayList<modelProveedor> proveedors = modelProveedor.read();
+       MPersona MPersona = new MPersona(vMain);
+       MProveedor MProveedor = new MProveedor(vMain);
+       ArrayList<MPersona> personas = MPersona.read();
+       ArrayList<MProveedor> proveedors = MProveedor.read();
 
         vMain.listar(personas,proveedors);
     }
     public void create(String nombre, String telefono, String direccion, String correo, String tipoCliente, String ubicacion) {
         try{
-            modelPersona mPersona = new modelPersona(vInsertar);
+            MPersona mPersona = new MPersona(vInsertar);
             if(mPersona.create(
                     nombre,
                     telefono,
@@ -59,48 +58,42 @@ public class CPersona {
         }
     }
     public void readUno(int id) {
-        modelPersona modelPersona = new modelPersona(vEditar);
-        if (modelPersona.findById(id) != null){
-            vEditar.llenarVista(modelPersona.findById(id));
+        MPersona MPersona = new MPersona(vEditar);
+        if (MPersona.findById(id) != null){
+            vEditar.llenarVista(MPersona.findById(id));
         }else
             vEditar.mensaje("Persona No Encontrada");
-
-//        MPersona model = new MPersona(vEditar);
-//        Persona persona = model.readUno(id);
-//        if (persona != null)
-//         vEditar.llenarVista(persona);
-//        else
-//            Toast.makeText(vInsertar, "NO HAY INFORMACION DEL ID", Toast.LENGTH_SHORT).show();
     }
     public boolean delete(int id) {
         boolean bandera = false;
-        modelPersona mPersona = new modelPersona(adapter);
+        MPersona mPersona = new MPersona(adapter);
         if (mPersona.delete(id)){
             bandera = true;
         }
         return bandera;
     }
     public void listarFiltro(String filtroSeleccionado) {
-        modelPersona mPersona = new modelPersona(vMain);
-        modelProveedor mProveedor = new modelProveedor(vMain);
+        MPersona mPersona = new MPersona(vMain);
+        MProveedor mProveedor = new MProveedor(vMain);
         if(!filtroSeleccionado.equals("[NINGUNO]")){
             vMain.mostrarFiltro(mPersona.readFiltro(filtroSeleccionado));
         }else{
-            ArrayList<modelPersona> personas = mPersona.read();
-            ArrayList<modelProveedor> proveedors = mProveedor.read();
+            ArrayList<MPersona> personas = mPersona.read();
+            ArrayList<MProveedor> proveedors = mProveedor.read();
             vMain.listar(personas,proveedors);
         }
     }
 
     public void update(int id, String nombre, String telefono, String direccion, String correo, String ubicacion) {
         boolean b = false;
-        modelPersona mPersona = new modelPersona(vEditar);
+        MPersona mPersona = new MPersona(vEditar);
         if (mPersona.update(id,
                 nombre,
                 telefono,
                 direccion,
                 correo,
-                ubicacion)){
+                ubicacion,
+                0)){
             vEditar.mensaje("Persona ACTUALIZADA");
         }else{
             vEditar.mensaje("ERROR al actualizar Persona");

@@ -8,17 +8,17 @@ import android.database.sqlite.SQLiteDatabase;
 import androidx.annotation.Nullable;
 
 import com.app.emprende2_2024.db.DbHelper;
-import com.app.emprende2_2024.model.MNotaVenta.modelNotaVenta;
-import com.app.emprende2_2024.model.MProducto.modelProducto;
+import com.app.emprende2_2024.model.MNotaVenta.MNotaVenta;
+import com.app.emprende2_2024.model.MProducto.MProducto;
 
 import java.util.ArrayList;
 
-public class modelDetalleNotaVenta extends DbHelper {
+public class MDetalleNotaVenta extends DbHelper {
     private  int id;
     private int cantidad;
     private double subtotal;
-    private modelNotaVenta notaVenta;
-    private modelProducto producto;
+    private MNotaVenta notaVenta;
+    private MProducto producto;
     private Context context;
 
     public int getId() {
@@ -29,19 +29,19 @@ public class modelDetalleNotaVenta extends DbHelper {
         this.id = id;
     }
 
-    public modelNotaVenta getNotaVenta() {
+    public MNotaVenta getNotaVenta() {
         return notaVenta;
     }
 
-    public void setNotaVenta(modelNotaVenta notaVenta) {
+    public void setNotaVenta(MNotaVenta notaVenta) {
         this.notaVenta = notaVenta;
     }
 
-    public modelProducto getProducto() {
+    public MProducto getProducto() {
         return producto;
     }
 
-    public void setProducto(modelProducto producto) {
+    public void setProducto(MProducto producto) {
         this.producto = producto;
     }
 
@@ -66,17 +66,17 @@ public class modelDetalleNotaVenta extends DbHelper {
         return producto.getNombre();
     }
 
-    public modelDetalleNotaVenta(@Nullable Context context) {
+    public MDetalleNotaVenta(@Nullable Context context) {
         super(context);
         this.id = -1;
-        this.notaVenta = new modelNotaVenta(context);
-        this.producto = new modelProducto(context);
+        this.notaVenta = new MNotaVenta(context);
+        this.producto = new MProducto(context);
         this.cantidad = 0;
         this.subtotal = 0f;
         this.context = context;
     }
 
-    public long create(int cantidad, double subtotal, long id_nota_venta, modelProducto producto) {
+    public long create(int cantidad, double subtotal, long id_nota_venta, MProducto producto) {
         try{
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -93,9 +93,9 @@ public class modelDetalleNotaVenta extends DbHelper {
         }
     }
 
-    public ArrayList<modelDetalleNotaVenta> finByIdFull(int id) {
-        ArrayList<modelDetalleNotaVenta> detalles = new ArrayList<>();
-        modelDetalleNotaVenta detalle = new modelDetalleNotaVenta(context);
+    public ArrayList<MDetalleNotaVenta> finByIdFull(int id) {
+        ArrayList<MDetalleNotaVenta> detalles = new ArrayList<>();
+        MDetalleNotaVenta detalle = new MDetalleNotaVenta(context);
         try {
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -106,14 +106,14 @@ public class modelDetalleNotaVenta extends DbHelper {
                     new String[]{String.valueOf(id)});
             if (cursorDetalle.moveToFirst()){
                 do {
-                    detalle = new modelDetalleNotaVenta(context);
+                    detalle = new MDetalleNotaVenta(context);
                     detalle.setId(cursorDetalle.getInt(0));
                     detalle.setCantidad(cursorDetalle.getInt(1));
                     detalle.setSubtotal(cursorDetalle.getDouble(2));
-                    modelNotaVenta notaVenta = new modelNotaVenta(context);
+                    MNotaVenta notaVenta = new MNotaVenta(context);
                     notaVenta = notaVenta.findById(cursorDetalle.getInt(3));
                     detalle.setNotaVenta(notaVenta);
-                    modelProducto producto = new modelProducto(context);
+                    MProducto producto = new MProducto(context);
                     producto = producto.findById(cursorDetalle.getInt(4));
                     detalle.setProducto(producto);
                     detalles.add(detalle);

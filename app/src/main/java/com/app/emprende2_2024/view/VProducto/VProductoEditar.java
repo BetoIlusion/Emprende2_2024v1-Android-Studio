@@ -15,8 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CProducto.CProducto;
-import com.app.emprende2_2024.model.MCategoria.modelCategoria;
-import com.app.emprende2_2024.model.MProveedor.modelProveedor;
+import com.app.emprende2_2024.model.MCategoria.MCategoria;
+import com.app.emprende2_2024.model.MProveedor.MProveedor;
 
 import java.util.ArrayList;
 
@@ -86,8 +86,8 @@ public class VProductoEditar extends AppCompatActivity {
                 String sku = getEtSKU().getText().toString().trim();
                 String cantidad = getEtCantidad().getText().toString().trim();
                 String minimo = getEtMinimo().getText().toString().trim();
-                modelCategoria categoria = (modelCategoria) getSpCategoria().getSelectedItem();
-                modelProveedor proveedor = (modelProveedor) getSpProveedor().getSelectedItem();
+                MCategoria categoria = (MCategoria) getSpCategoria().getSelectedItem();
+                MProveedor proveedor = (MProveedor) getSpProveedor().getSelectedItem();
 
                 if (nombre.isEmpty() || precio.isEmpty() || sku.isEmpty() || cantidad.isEmpty()){
                     mensaje("LLENE TODOS LOS ESPACIOS");
@@ -107,7 +107,7 @@ public class VProductoEditar extends AppCompatActivity {
         });
 
     }
-    public void llenarVista(String nombre, String sku, float precio, int cantidad, int minimo, modelCategoria categoria, modelProveedor proveedor) {
+    public void llenarVista(String nombre, String sku, float precio, int cantidad, int minimo, MCategoria categoria, MProveedor proveedor) {
         getEtNombre().setText(nombre);
         getEtSKU().setText(sku);
         getEtPrecio().setText(String.valueOf(precio));
@@ -117,9 +117,9 @@ public class VProductoEditar extends AppCompatActivity {
         getSpProveedor().setSelection(posProv(proveedor));
     }
 
-    private int posProv(modelProveedor proveedor) {
+    private int posProv(MProveedor proveedor) {
         for (int i = 0; i < getSpProveedor().getCount(); i++) {
-            modelProveedor proveedor1 = (modelProveedor) getSpProveedor().getItemAtPosition(i);
+            MProveedor proveedor1 = (MProveedor) getSpProveedor().getItemAtPosition(i);
             if (proveedor1.getId() == proveedor.getId()){
                 return i;
             }
@@ -127,9 +127,9 @@ public class VProductoEditar extends AppCompatActivity {
         return 0;
     }
 
-    private int posCat(modelCategoria categoria) {
+    private int posCat(MCategoria categoria) {
         for (int i = 0; i < getSpCategoria().getCount(); i++) {
-            modelCategoria categoria1 = (modelCategoria) getSpCategoria().getItemAtPosition(i);
+            MCategoria categoria1 = (MCategoria) getSpCategoria().getItemAtPosition(i);
             if (categoria1.getId() == categoria.getId()){
                 return i;
             }
@@ -137,9 +137,9 @@ public class VProductoEditar extends AppCompatActivity {
         return -1;
     }
 
-    public void llenarSpinners(ArrayList<modelCategoria> arrayCategoria, ArrayList<modelProveedor> arrayPersonaProveedor) {
-        ArrayAdapter<modelCategoria> adapterCategoria = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,arrayCategoria);
-        ArrayAdapter<modelProveedor> adapterPersona = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,arrayPersonaProveedor);
+    public void llenarSpinners(ArrayList<MCategoria> arrayCategoria, ArrayList<MProveedor> arrayPersonaProveedor) {
+        ArrayAdapter<MCategoria> adapterCategoria = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,arrayCategoria);
+        ArrayAdapter<MProveedor> adapterPersona = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,arrayPersonaProveedor);
 
         adapterCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         getSpCategoria().setAdapter(adapterCategoria);
@@ -157,25 +157,8 @@ public class VProductoEditar extends AppCompatActivity {
         finish(); // Opcional, para finalizar la actividad actual si no deseas volver a ella al presionar atrás en la actividad destino
     }
 
-    public void showSuccessMessage(String mensaje) {
-        Toast toast = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT);
-        View view = toast.getView();
-        view.setBackgroundColor(Color.parseColor("#32CD32")); // Verde lima para éxito
-        TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(Color.WHITE);
-        toast.show();
-    }
-
-    public void showErrorMessage(String mensaje) {
-        Toast toast = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT);
-        View view = toast.getView();
-        view.setBackgroundColor(Color.parseColor("#FF4500")); // Rojo anaranjado para error
-        TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(Color.WHITE);
-        toast.show();
-    }
 
     public void update() {
-        showSuccessMessage("Actualizado");
+        mensaje("ACTUALIZADO");
     }
 }

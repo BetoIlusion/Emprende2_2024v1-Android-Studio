@@ -16,6 +16,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- Botón Adicional a la Izquierda de Añadir -->
+    <Button
+        android:id="@+id/btnCompartirCatalogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Compartir Catalogo"
+        android:background="@drawable/rectangular_button"
+        app:layout_constraintEnd_toStartOf="@id/btnInsertarCategoria"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"/>
+
     <!-- Botón Añadir -->
     <Button
         android:id="@+id/btnInsertarCategoria"

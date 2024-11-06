@@ -1,12 +1,11 @@
 package com.app.emprende2_2024.controller.CProducto;
 
 import android.content.Context;
-import android.widget.Toast;
 
-import com.app.emprende2_2024.model.MCategoria.modelCategoria;
-import com.app.emprende2_2024.model.MProducto.modelProducto;
-import com.app.emprende2_2024.model.MProveedor.modelProveedor;
-import com.app.emprende2_2024.model.MStock.modelStock;
+import com.app.emprende2_2024.model.MCategoria.MCategoria;
+import com.app.emprende2_2024.model.MProducto.MProducto;
+import com.app.emprende2_2024.model.MProveedor.MProveedor;
+import com.app.emprende2_2024.model.MStock.MStock;
 import com.app.emprende2_2024.view.VProducto.VProductoEditar;
 import com.app.emprende2_2024.view.VProducto.VProductoInsertar;
 import com.app.emprende2_2024.view.VProducto.VProductoMain;
@@ -38,26 +37,26 @@ public class CProducto {
 
     public void llenarSpinners() {
         VProductoInsertar view = vInsertar;
-        modelCategoria mCategoria = new modelCategoria(view);
-        modelProveedor mProveedor = new modelProveedor(view);
-        ArrayList<modelCategoria> listaCategoria = mCategoria.read();
-        ArrayList<modelProveedor> listaProveedor = mProveedor.read();
+        MCategoria mCategoria = new MCategoria(view);
+        MProveedor mProveedor = new MProveedor(view);
+        ArrayList<MCategoria> listaCategoria = mCategoria.read();
+        ArrayList<MProveedor> listaProveedor = mProveedor.read();
 
         view.llenarSpinners(listaCategoria,listaProveedor);
     }
     public void llenarSpinnersEditar() {
         VProductoEditar view = vEditar;
-        modelCategoria mCategoria = new modelCategoria(view);
-        modelProveedor mProveedor = new modelProveedor(view);
-        ArrayList<modelCategoria> listaCategoria = mCategoria.read();
-        ArrayList<modelProveedor> listaProveedor = mProveedor.read();
+        MCategoria mCategoria = new MCategoria(view);
+        MProveedor mProveedor = new MProveedor(view);
+        ArrayList<MCategoria> listaCategoria = mCategoria.read();
+        ArrayList<MProveedor> listaProveedor = mProveedor.read();
         view.llenarSpinners(listaCategoria,listaProveedor);
     }
 
-    public void create(String nombre, String precio, String sku, String cantidad, String minimo, modelCategoria categoria, modelProveedor proveedor) {
+    public void create(String nombre, String precio, String sku, String cantidad, String minimo, MCategoria categoria, MProveedor proveedor) {
         VProductoInsertar view = vInsertar;
-        modelProducto mProducto = new modelProducto(view);
-        modelStock mStock = new modelStock(view);
+        MProducto mProducto = new MProducto(view);
+        MStock mStock = new MStock(view);
 
         long id_stock = mStock.create(
                 cantidad,
@@ -73,32 +72,32 @@ public class CProducto {
                     id_stock
             );
             if (id_producto > 0){
-                view.showSuccessMessage("Producto Creado Exitisamente");
+                view.mensaje("Producto creado exitosamente");
                 view.limpiar();
             }else {
-                view.showErrorMessage("ERROR CProducto/create");
+                view.mensaje("ERROR CProducto/create");
             }
         }else {
-            view.showErrorMessage("ERROR CProducto/create");
+            view.mensaje("ERROR CProducto/create");
         }
     }
 
     public void read() {
         VProductoMain view = vMain;
-        modelProducto mProducto = new modelProducto(view);
+        MProducto mProducto = new MProducto(view);
 
-        ArrayList<modelProducto> listaProducto = mProducto.read();
+        ArrayList<MProducto> listaProducto = mProducto.read();
 
         if (listaProducto.size() > 0) {
             view.listar(listaProducto);
         }else
-            view.showErrorMessage("LISTA VACIA");
+            view.mensaje("LISTA VACIA");
 
     }
 
     public void llenarVista(int id) {
         VProductoEditar view = vEditar;
-        modelProducto mProducto = new modelProducto(view);
+        MProducto mProducto = new MProducto(view);
         mProducto = mProducto.findById(id);
         if(mProducto != null){
             view.llenarVista(
@@ -111,14 +110,14 @@ public class CProducto {
                     mProducto.getProveedor()
             );
         }else{
-            view.showErrorMessage("erro al rellenar,CProducto/llenarVista");
+            view.mensaje("error al rellenar,CProducto/llenarVista");
         }
     }
 
 
-    public void update(int id, String nombre, String precio, String sku, String cantidad, String minimo, modelCategoria categoria, modelProveedor proveedor) {
+    public void update(int id, String nombre, String precio, String sku, String cantidad, String minimo, MCategoria categoria, MProveedor proveedor) {
         VProductoEditar view = vEditar;
-        modelProducto mProducto = new modelProducto(view);
+        MProducto mProducto = new MProducto(view);
         if(mProducto.update(
                 id,
                 nombre,
@@ -131,12 +130,12 @@ public class CProducto {
         )){
             view.update();
         }else{
-            view.showErrorMessage("ERROR, CProducto/update");
+            view.mensaje("ERROR, CProducto/update");
         }
     }
 
     public boolean delete(int id) {
-        modelProducto mProducto = new modelProducto(context);
+        MProducto mProducto = new MProducto(context);
         if(mProducto.delete(id)){
             return true;
         }
@@ -147,11 +146,11 @@ public class CProducto {
 //        boolean b = false;
 //        boolean b2 = false;
 //        try {
-//            MProducto modelProducto = new MProducto(context);
-//            MStock modelStock = new MStock(context);
+//            MProducto MProducto = new MProducto(context);
+//            MStock MStock = new MStock(context);
 //
-//            b = modelStock.delete(id);
-//            b2 = modelProducto.delete(id);
+//            b = MStock.delete(id);
+//            b2 = MProducto.delete(id);
 //            if (b && b2){
 //                return true;
 //            }else{

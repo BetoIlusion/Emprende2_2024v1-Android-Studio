@@ -1,7 +1,7 @@
 package com.app.emprende2_2024.controller.CProveedor;
 
-import com.app.emprende2_2024.model.MPersona.modelPersona;
-import com.app.emprende2_2024.model.MProveedor.modelProveedor;
+import com.app.emprende2_2024.model.MPersona.MPersona;
+import com.app.emprende2_2024.model.MProveedor.MProveedor;
 import com.app.emprende2_2024.view.VProveedor.VProveedorEditar;
 import com.app.emprende2_2024.view.VProveedor.VProveedorInsertar;
 
@@ -20,8 +20,8 @@ public class CProveedor {
 
 
     public void create(String nombre, String nit, String telefono, String direccion, String correo, String tipoCliente, String ubicacion) {
-        modelPersona mPersona = new modelPersona(vInsertar);
-        modelProveedor mProveedor = new modelProveedor(vInsertar);
+        MPersona mPersona = new MPersona(vInsertar);
+        MProveedor mProveedor = new MProveedor(vInsertar);
         if(mPersona.create(
                 nombre,
                 telefono,
@@ -47,8 +47,8 @@ public class CProveedor {
 
     public void llenarVista(int id) {
         VProveedorEditar view = vEditar;
-        modelProveedor mProveedor = new modelProveedor(view);
-        modelPersona mPersona = new modelPersona(view);
+        MProveedor mProveedor = new MProveedor(view);
+        MPersona mPersona = new MPersona(view);
         view.llenarVista(mPersona.findById(id),mProveedor.findByIdPersona(id));
     }
 
@@ -57,8 +57,8 @@ public class CProveedor {
                        String NIT,
                        String telefono,
                        String direccion, String correo, String ubicacion) {
-        modelProveedor mProveedor = new modelProveedor(vEditar);
-        modelPersona mPersona = new modelPersona(vEditar);
+        MProveedor mProveedor = new MProveedor(vEditar);
+        MPersona mPersona = new MPersona(vEditar);
         if(mProveedor.update(
                 NIT,
                 id)){
@@ -68,7 +68,8 @@ public class CProveedor {
                     telefono,
                     direccion,
                     correo,
-                    ubicacion)){
+                    ubicacion,
+                    0)){
                 vEditar.mensaje("CONTACTO ACTUALIZADO");
             }else
                 vEditar.mensaje("ERROR AL ACTAULIZAR CProveedor/mPersona");

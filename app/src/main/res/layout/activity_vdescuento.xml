@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Descuentos"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:paddingBottom="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Descuento Persona:"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/etDescuentoPersona"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ingrese descuento persona"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Frecuencia Persona:"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/etDescuentoFrecuenciaPersona"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ingrese frecuencia"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Descuento Festejo:"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/etDescuentoFestejo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ingrese descuento festejo"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Fecha Festejo -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fecha Festejo:"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/editTextFecha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Selecciona una fecha"
+        android:focusable="false"
+        android:clickable="true"
+        android:inputType="none" />
+
+    <Button
+        android:id="@+id/btnGuardarCambiosDescuento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Guardar Cambios"
+        android:background="@color/design_default_color_primary"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CPersona.CPersona;
-import com.app.emprende2_2024.model.MPersona.modelPersona;
-import com.app.emprende2_2024.model.MProveedor.modelProveedor;
+import com.app.emprende2_2024.model.MPersona.MPersona;
+import com.app.emprende2_2024.model.MProveedor.MProveedor;
 import com.app.emprende2_2024.view.VNotaVenta.MainActivity;
 
 import java.util.ArrayList;
@@ -61,9 +61,7 @@ public class VPersonaMain extends AppCompatActivity {
                         // Aquí puedes manejar qué opción fue seleccionada
                         String filtroSeleccionado = filtros[which];
                         // Filtrar la lista del RecyclerView de acuerdo con la opción seleccionada
-                        //Toast.makeText(VPersonaMain.this, filtroSeleccionado, Toast.LENGTH_SHORT).show();
-                        filtrarLista(filtroSeleccionado);
-
+                        controller.listarFiltro(filtroSeleccionado);
                     }
                 });
                 // Mostrar el diálogo
@@ -72,11 +70,7 @@ public class VPersonaMain extends AppCompatActivity {
         });
     }
 
-    private void filtrarLista(String filtroSeleccionado) {
-        controller.listarFiltro(filtroSeleccionado);
-    }
-
-    public void listar(ArrayList<modelPersona> mostrarPersona, ArrayList<modelProveedor> mostrarProveedor) {
+    public void listar(ArrayList<MPersona> mostrarPersona, ArrayList<MProveedor> mostrarProveedor) {
         adapter = new ListaPersonasAdapter(mostrarPersona, mostrarProveedor);
         try {
             listaPersonas = findViewById(R.id.rvVPersona);
@@ -97,8 +91,8 @@ public class VPersonaMain extends AppCompatActivity {
     }
 
 
-    public void mostrarFiltro(ArrayList<modelPersona> personas) {
-        ArrayList<modelPersona> listaFiltrada = personas;
+    public void mostrarFiltro(ArrayList<MPersona> personas) {
+        ArrayList<MPersona> listaFiltrada = personas;
         // Actualiza el adaptador del RecyclerView con la lista filtrada
         if (listaFiltrada.size() > 0)
          adapter.updateList(listaFiltrada);

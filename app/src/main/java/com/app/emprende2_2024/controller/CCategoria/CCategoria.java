@@ -2,12 +2,16 @@ package com.app.emprende2_2024.controller.CCategoria;
 
 import android.content.Context;
 
-import com.app.emprende2_2024.model.MCategoria.modelCategoria;
+import com.app.emprende2_2024.model.MCategoria.MCategoria;
+import com.app.emprende2_2024.model.MProducto.MProducto;
 import com.app.emprende2_2024.view.VCategoria.VCategoriaEditar;
 import com.app.emprende2_2024.view.VCategoria.VCategoriaInsertar;
 import com.app.emprende2_2024.view.VCategoria.VCategoriaMain;
 import com.app.emprende2_2024.view.VCategoria.VCategoriaProductoShowPDF;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class CCategoria {
@@ -33,7 +37,7 @@ public class CCategoria {
     }
 
     public void create(String nombre, String descripcion) {
-        modelCategoria mCategoria = new modelCategoria(vInsertar,
+        MCategoria mCategoria = new MCategoria(vInsertar,
                 -1,
                 nombre,
                 descripcion);
@@ -46,17 +50,17 @@ public class CCategoria {
     }
 
     public void listar() {
-        modelCategoria model = new modelCategoria(vMain);
+        MCategoria model = new MCategoria(vMain);
         vMain.listar(model.read());
     }
 
     public void readUno(int id) {
-        modelCategoria mCategoria = new modelCategoria(vEditar);
+        MCategoria mCategoria = new MCategoria(vEditar);
         vEditar.readUno(mCategoria.findById(id));
     }
 
     public void update(int id, String nombre, String descripcion) {
-        modelCategoria model = new modelCategoria(vEditar);
+        MCategoria model = new MCategoria(vEditar);
         boolean b = model.update(
                 id,
                 nombre,
@@ -69,9 +73,44 @@ public class CCategoria {
     }
 
     public boolean delete(int id) {
-        modelCategoria mCategoria = new modelCategoria(adapter);
+        MCategoria mCategoria = new MCategoria(adapter);
         return mCategoria.delete(id);
     }
+
+    public void llenar(int id) {
+        MProducto mProducto = new MProducto(vProductos);
+        ArrayList<MProducto> listaProductos = new ArrayList<>();
+        listaProductos = mProducto.ProductoXCategoria(id);
+        vProductos.llenar(listaProductos);
+    }
+
+    public void compartirCatologo() {
+        MProducto mProducto = new MProducto(vMain);
+        ArrayList<MProducto> listaProductos = new ArrayList<>();
+        listaProductos = mProducto.read();
+
+        MCategoria mCategoria = new MCategoria(vMain);
+        ArrayList<MCategoria> listaCategorias = new ArrayList<>();
+        listaCategorias = mCategoria.read();
+
+        String catalogoString = "";
+        for (int i = 0; i < listaCategorias.size(); i++) {
+            for (int j = 0; j < listaProductos.size(); j++) {
+                if(listaCategorias.get(i).getId() == listaProductos.get(j).getCategoria().getId()){
+                   listaCategorias.get(i).addComponente(listaProductos.get(j));
+                }
+            }
+            if(i>0)
+                listaCategorias.get(i).addComponente(listaCategorias.get(i-1));
+            if(listaCategorias.size() == i+1){
+                catalogoString = listaCategorias.get(i).generarReporte();
+                vMain.guardarYCompartirTexto(catalogoString);
+                break;
+            }
+        }
+
+    }
+
 
 //    public boolean destroy(int id){
 //        MCategoria model = new MCategoria(adapter);

@@ -1,10 +1,14 @@
 package com.app.emprende2_2024.controller.CNotaVenta;
 
-import com.app.emprende2_2024.model.MCategoria.modelCategoria;
-import com.app.emprende2_2024.model.MDetalleFactura.modelDetalleNotaVenta;
-import com.app.emprende2_2024.model.MNotaVenta.modelNotaVenta;
-import com.app.emprende2_2024.model.MPersona.modelPersona;
-import com.app.emprende2_2024.model.MProducto.modelProducto;
+import com.app.emprende2_2024.PatronDecorador.FechaPromo;
+import com.app.emprende2_2024.PatronDecorador.PersonaPromo;
+import com.app.emprende2_2024.PatronDecorador.PromocionBase;
+import com.app.emprende2_2024.PatronDecorador.PromocionI;
+import com.app.emprende2_2024.model.MCategoria.MCategoria;
+import com.app.emprende2_2024.model.MDetalleFactura.MDetalleNotaVenta;
+import com.app.emprende2_2024.model.MNotaVenta.MNotaVenta;
+import com.app.emprende2_2024.model.MPersona.MPersona;
+import com.app.emprende2_2024.model.MProducto.MProducto;
 import com.app.emprende2_2024.view.VNotaVenta.MainActivity;
 import com.app.emprende2_2024.view.VNotaVenta.VNotaVentaInsertar;
 
@@ -24,26 +28,26 @@ public class CNotaVenta {
 
     public void llenarSpinners() {
         VNotaVentaInsertar view = vInsertar;
-        modelPersona persona = new modelPersona(view);
-        modelCategoria categoria = new modelCategoria(view);
+        MPersona persona = new MPersona(view);
+        MCategoria categoria = new MCategoria(view);
 
-        ArrayList<modelPersona> personas = persona.read();
-        ArrayList<modelCategoria> categorias = categoria.read();
+        ArrayList<MPersona> personas = persona.read();
+        ArrayList<MCategoria> categorias = categoria.read();
         view.llenarSpinners(personas,categorias);
     }
 
-    public void filtrarProductos(modelCategoria categoria) {
+    public void filtrarProductos(MCategoria categoria) {
         VNotaVentaInsertar view = vInsertar;
-        modelProducto producto = new modelProducto(view);
+        MProducto producto = new MProducto(view);
 
-        ArrayList<modelProducto> productos = producto.fingByCategoria(categoria.getId());
+        ArrayList<MProducto> productos = producto.fingByCategoria(categoria.getId());
         view.filtrarProductos(productos);
     }
 
     public void añadirDetalle(int cantidad,
-                              modelProducto producto) {
+                              MProducto producto) {
         VNotaVentaInsertar view = vInsertar;
-        modelDetalleNotaVenta detalle = new modelDetalleNotaVenta(view);
+        MDetalleNotaVenta detalle = new MDetalleNotaVenta(view);
         if(cantidad < producto.getStock().getCantidad()){
             if(!existeDetalle(producto,cantidad)){
                     detalle.setCantidad(cantidad);
@@ -54,35 +58,8 @@ public class CNotaVenta {
             actualizarMontoTotal();
             view.actualizar();
         }else{
-            view.showSuccessMessage("Cantidad por encima del stock");
+            view.mensaje("Cantidad por encima del stock");
         }
-//        try{
-//
-//            DetalleFactura detalle = new DetalleFactura();
-//            float subtotal = (float) cantidad * producto.getPrecio();
-//            MStock modelStock = new MStock(view);
-//            Stock stock = modelStock.readUno(producto.getId());
-//            if(cantidad <= stock.getCantidad()){
-//                boolean existe = existeDetalle(producto, cantidad, subtotal);
-//                if (!existe){
-//                    detalle.setCantidad(cantidad);
-//                    detalle.setSubtotal(subtotal);
-//                    detalle.setProducto(producto);
-//                    view.getDetalles().add(detalle);
-//                }
-//
-//                actualizarMontoTotal();
-//                view.actualizar();
-//            }else{
-//                view.mensaje("ERROR, cantidad por encima del stock(" + stock.getCantidad() + ")");
-//            }
-//
-//
-//        }catch (Exception e){
-//            view.mensaje("ERROR EN CONTROLLER");
-//            e.printStackTrace();
-//        }
-
     }
 
     private void actualizarMontoTotal() {
@@ -94,7 +71,7 @@ public class CNotaVenta {
         view.getNotaVenta().setMonto_total(montoTotal);
     }
 
-    private boolean existeDetalle(modelProducto producto, int cantidad) {
+    private boolean existeDetalle(MProducto producto, int cantidad) {
         VNotaVentaInsertar view = vInsertar;
         for (int i = 0; i < view.getDetalles().size(); i++) {
             if(view.getDetalles().get(i).getProducto().getId() == producto.getId()){
@@ -119,15 +96,18 @@ public class CNotaVenta {
 
     }
 
-    public void craete(modelPersona cliente, modelNotaVenta notaVenta, ArrayList<modelDetalleNotaVenta> detalles) {
+    public void create(MPersona cliente, MNotaVenta notaVenta, ArrayList<MDetalleNotaVenta> detalles) {
         VNotaVentaInsertar view = vInsertar;
-        modelNotaVenta mNotaVenta = new modelNotaVenta(view);
-        long id = mNotaVenta.create(
+        notaVenta.setPersona(cliente);
+        notaVenta = actualizarDescuentos(notaVenta);
+        long id = notaVenta.create(
                 notaVenta.getMonto_total(),
                 notaVenta.getEfectivo(),
                 notaVenta.getCambio(),
                 cliente,
-                detalles
+                detalles,
+                notaVenta.getDescuentoPorcentual(),
+                notaVenta.getDescuentoString()
                 );
         if(id > 0){
             view.mensaje("COMPROBANTE CREADA");
@@ -136,20 +116,25 @@ public class CNotaVenta {
             view.mensaje("ERROR AL CREAR COMPROBANTE");
     }
 
+
+    private MNotaVenta actualizarDescuentos(MNotaVenta notaVenta) {
+        
+        PromocionI promocionI = new PromocionBase(0,"","");
+        promocionI = new PersonaPromo(promocionI,vInsertar,notaVenta);
+        promocionI = new FechaPromo(promocionI,vInsertar);
+        double descuento = promocionI.calcularDescuento();
+        notaVenta.setDescuentoPorcentual(descuento);
+        String descuentoTotal = String.valueOf(notaVenta.getMonto_total() - notaVenta.getMonto_total()*(descuento/100));
+        notaVenta.setDescuentoString(promocionI.getDescripcion() + " Monto Total: " + descuentoTotal);
+        return notaVenta;
+    }
+
     public void read() {
         MainActivity view = vMain;
-        modelNotaVenta mNotaVenta = new modelNotaVenta(view);
-
-        ArrayList<modelNotaVenta> notaVentas = mNotaVenta.read();
-
+        MNotaVenta mNotaVenta = new MNotaVenta(view);
+        ArrayList<MNotaVenta> notaVentas = mNotaVenta.read();
         view.read(notaVentas);
-//        MainActivity view = vMain;
-//        MNotaVenta modelFactura = new MNotaVenta(view);
-//        MPersona modelPersona = new MPersona(view);
-//
-//        ArrayList<NotaVenta> facturas = modelFactura.read();
-//        ArrayList<Persona> personas = modelPersona.read();
-//
-//        view.read(facturas,personas);
     }
+
+
 }

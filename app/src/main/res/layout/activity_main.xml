@@ -12,19 +12,21 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/rectangular_button"/>
+        android:background="@drawable/rectangular_button" />
 
-    <!-- Botón superior centro -->
+    <!-- Botón adicional en el centro -->
     <Button
-        android:id="@+id/btnProveedor"
+        android:id="@+id/btnDescuentoMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Proveedores"
-        android:layout_centerHorizontal="true"
+        android:text="Descuento"
+        android:layout_toEndOf="@id/btnFactura_Persona"
+        android:layout_toStartOf="@id/btnProducto"
         android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/rectangular_button"
-        android:visibility="gone"/>
+        android:background="@drawable/rectangular_button" />
 
     <!-- Botón superior derecho -->
     <Button
@@ -36,7 +38,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/rectangular_button"/>
+        android:background="@drawable/rectangular_button" />
 
     <!-- Divider -->
     <View
@@ -58,7 +60,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
     <!-- Botón inferior centro -->
     <ImageButton
@@ -69,6 +71,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="25dp"
         android:background="@drawable/circular_button"
-        android:src="@drawable/ic_add_pedido"/>
+        android:src="@drawable/ic_add_pedido" />
 
 </RelativeLayout>

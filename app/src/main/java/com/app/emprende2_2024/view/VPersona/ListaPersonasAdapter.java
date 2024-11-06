@@ -16,17 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CPersona.CPersona;
-import com.app.emprende2_2024.model.MPersona.modelPersona;
-import com.app.emprende2_2024.model.MProveedor.modelProveedor;
+import com.app.emprende2_2024.model.MPersona.MPersona;
+import com.app.emprende2_2024.model.MProveedor.MProveedor;
 import com.app.emprende2_2024.view.VProveedor.VProveedorEditar;
 
 import java.util.ArrayList;
 
 public class ListaPersonasAdapter extends RecyclerView.Adapter<ListaPersonasAdapter.PersonaViewHolder> {
-    ArrayList<modelPersona> listaPersonas;
-    ArrayList<modelProveedor> listaProveedor;
+    ArrayList<MPersona> listaPersonas;
+    ArrayList<MProveedor> listaProveedor;
 
-    public ListaPersonasAdapter(ArrayList<modelPersona> listaPersonas, ArrayList<modelProveedor> listaProveedor) {
+    public ListaPersonasAdapter(ArrayList<MPersona> listaPersonas, ArrayList<MProveedor> listaProveedor) {
         this.listaPersonas = listaPersonas;
         this.listaProveedor = listaProveedor;
     }
@@ -117,7 +117,7 @@ public class ListaPersonasAdapter extends RecyclerView.Adapter<ListaPersonasAdap
         });
     }
     // Método para actualizar la lista
-    public void updateList(ArrayList<modelPersona> nuevaLista) {
+    public void updateList(ArrayList<MPersona> nuevaLista) {
         listaPersonas = nuevaLista;
         notifyDataSetChanged(); // Actualiza la vista del RecyclerView
     }

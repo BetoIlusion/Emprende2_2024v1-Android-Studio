@@ -99,6 +99,7 @@ public class VProveedorInsertar extends AppCompatActivity {
         getEtTelefono().setText("");
         getEtDireccion().setText("");
         getEtCorreo().setText("");
+        getEtUbicacion().setText("");
     }
 
     public void onBackPressed() {

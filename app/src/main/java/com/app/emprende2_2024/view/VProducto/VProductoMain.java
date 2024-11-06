@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CProducto.CProducto;
-import com.app.emprende2_2024.model.MProducto.modelProducto;
+import com.app.emprende2_2024.model.MProducto.MProducto;
 import com.app.emprende2_2024.view.VCategoria.VCategoriaMain;
 import com.app.emprende2_2024.view.VNotaVenta.MainActivity;
 
@@ -47,7 +47,7 @@ public class VProductoMain extends AppCompatActivity {
 
     }
 
-    public void listar(ArrayList<modelProducto> arrayListProductoFull) {
+    public void listar(ArrayList<MProducto> arrayListProductoFull) {
         adapter = new ListaProductoAdapter(arrayListProductoFull);
         try{
             getRecyclerView().setLayoutManager(new LinearLayoutManager(this));
@@ -70,23 +70,6 @@ public class VProductoMain extends AppCompatActivity {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 
-    public void showSuccessMessage(String mensaje) {
-        Toast toast = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT);
-        View view = toast.getView();
-        view.setBackgroundColor(Color.parseColor("#32CD32")); // Verde lima para éxito
-        TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(Color.WHITE);
-        toast.show();
-    }
-
-    public void showErrorMessage(String mensaje) {
-        Toast toast = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT);
-        View view = toast.getView();
-        view.setBackgroundColor(Color.parseColor("#FF4500")); // Rojo anaranjado para error
-        TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(Color.WHITE);
-        toast.show();
-    }
     public void onBackPressed() {
         // Inicia la actividad que deseas cuando se presiona el botón de atrás
         super.onBackPressed();
