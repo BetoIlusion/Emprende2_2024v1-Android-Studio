@@ -1,10 +1,11 @@
 package com.app.emprende2_2024.controller.CNotaVenta;
 
-import com.app.emprende2_2024.PatronDecorador.FechaPromo;
+import com.app.emprende2_2024.PatronDecorador.FestejoPromo;
 import com.app.emprende2_2024.PatronDecorador.PersonaPromo;
 import com.app.emprende2_2024.PatronDecorador.PromocionBase;
 import com.app.emprende2_2024.PatronDecorador.PromocionI;
 import com.app.emprende2_2024.model.MCategoria.MCategoria;
+import com.app.emprende2_2024.model.MDescuento.MDescuento;
 import com.app.emprende2_2024.model.MDetalleFactura.MDetalleNotaVenta;
 import com.app.emprende2_2024.model.MNotaVenta.MNotaVenta;
 import com.app.emprende2_2024.model.MPersona.MPersona;
@@ -31,7 +32,7 @@ public class CNotaVenta {
         MPersona persona = new MPersona(view);
         MCategoria categoria = new MCategoria(view);
 
-        ArrayList<MPersona> personas = persona.read();
+        ArrayList<MPersona> personas = persona.readFiltro("Cliente");
         ArrayList<MCategoria> categorias = categoria.read();
         view.llenarSpinners(personas,categorias);
     }
@@ -98,35 +99,38 @@ public class CNotaVenta {
 
     public void create(MPersona cliente, MNotaVenta notaVenta, ArrayList<MDetalleNotaVenta> detalles) {
         VNotaVentaInsertar view = vInsertar;
+        MDescuento mDescuento = new MDescuento(view);
         notaVenta.setPersona(cliente);
-        notaVenta = actualizarDescuentos(notaVenta);
+        MNotaVenta mNotaVenta = new MNotaVenta(view);
+        mDescuento = mNotaVenta.actualizarDescuentos(notaVenta);
+
         long id = notaVenta.create(
                 notaVenta.getMonto_total(),
                 notaVenta.getEfectivo(),
                 notaVenta.getCambio(),
                 cliente,
                 detalles,
-                notaVenta.getDescuentoPorcentual(),
-                notaVenta.getDescuentoString()
+                mDescuento.getPorcentaje(),
+                mDescuento.getDescripcion()
                 );
         if(id > 0){
-            view.mensaje("COMPROBANTE CREADA");
             view.vShow(id);
+            view.mensaje("COMPROBANTE CREADA");
         }else
             view.mensaje("ERROR AL CREAR COMPROBANTE");
     }
 
 
-    private MNotaVenta actualizarDescuentos(MNotaVenta notaVenta) {
-        
-        PromocionI promocionI = new PromocionBase(0,"","");
+    private MDescuento actualizarDescuentos(MNotaVenta notaVenta) {
+        MDescuento mDescuento = new MDescuento(vInsertar);
+        PromocionI promocionI = new PromocionBase("");
         promocionI = new PersonaPromo(promocionI,vInsertar,notaVenta);
-        promocionI = new FechaPromo(promocionI,vInsertar);
+        promocionI = new FestejoPromo(promocionI,vInsertar);
         double descuento = promocionI.calcularDescuento();
-        notaVenta.setDescuentoPorcentual(descuento);
+        mDescuento.setPorcentaje(descuento);
         String descuentoTotal = String.valueOf(notaVenta.getMonto_total() - notaVenta.getMonto_total()*(descuento/100));
-        notaVenta.setDescuentoString(promocionI.getDescripcion() + " Monto Total: " + descuentoTotal);
-        return notaVenta;
+        mDescuento.setDescripcion(promocionI.getDescripcion() + " Monto Total: " + descuentoTotal);
+        return mDescuento;
     }
 
     public void read() {

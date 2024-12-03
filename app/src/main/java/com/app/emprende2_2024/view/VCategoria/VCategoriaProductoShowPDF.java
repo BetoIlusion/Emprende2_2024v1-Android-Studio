@@ -6,12 +6,14 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 //import com.app.emprende2_2024.Manifest;
-import com.app.emprende2_2024.PatronAdapter.CaptureTarget;
+import com.app.emprende2_2024.PatronAdapter.CaptureInterface;
 import com.app.emprende2_2024.PatronAdapter.PDFCaptureAdapter;
+import com.app.emprende2_2024.PatronAdapter.PNGCaptureAdapter;
 import com.app.emprende2_2024.R;
 import com.app.emprende2_2024.controller.CCategoria.CCategoria;
 import com.app.emprende2_2024.model.MProducto.MProducto;
@@ -60,16 +62,34 @@ private TextView tvTitulo;
             @Override
             public void onClick(View v) {
                 getBtnCompartirPDF().setVisibility(View.GONE);
-                CaptureTarget captureTarget = new PDFCaptureAdapter(
+                getBtnCompartirPNG().setVisibility(View.GONE);
+                CaptureInterface captureInterface = new PDFCaptureAdapter(
                         VCategoriaProductoShowPDF.this,
                         findViewById(android.R.id.content)
                 );
-                captureTarget.compartirWhatsapp();
+                captureInterface.compartirWhatsapp();
+                getBtnCompartirPDF().setVisibility(View.VISIBLE);
+                getBtnCompartirPNG().setVisibility(View.VISIBLE);
+            }
+        });
+        getBtnCompartirPNG().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getBtnCompartirPDF().setVisibility(View.GONE);
+                getBtnCompartirPDF().setVisibility(View.GONE);
+                getBtnCompartirPNG().setVisibility(View.GONE);
+                CaptureInterface captureInterface = new PNGCaptureAdapter(
+                        VCategoriaProductoShowPDF.this,
+                        findViewById(android.R.id.content)
+                );
+                captureInterface.compartirWhatsapp();
+
+                getBtnCompartirPDF().setVisibility(View.VISIBLE);
+                getBtnCompartirPNG().setVisibility(View.VISIBLE);
                 getBtnCompartirPDF().setVisibility(View.VISIBLE);
             }
         });
     }
-
 
 
     public void llenar(ArrayList<MProducto> listaProductos) {
@@ -96,5 +116,9 @@ private TextView tvTitulo;
         }
         String titulo = listaProductos.get(0).getCategoria().getNombre().toString();
         getTvTitulo().setText(titulo);
+    }
+
+    public void mensaje(String s) {
+        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
     }
 }

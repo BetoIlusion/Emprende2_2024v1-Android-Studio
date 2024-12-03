@@ -29,6 +29,7 @@ android {
 }
 
 dependencies {
+    implementation("org.osmdroid:osmdroid-android:6.1.10")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -37,4 +38,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
 }

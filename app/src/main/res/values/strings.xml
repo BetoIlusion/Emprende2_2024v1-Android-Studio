@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Official4</string>
+    <string name="app_name">Emprendedor</string>
     <!--prompt-->
     <string name="prompt_estados">Selecciona un estado</string>
     <string name="prompt_tipo_cliente">Selecciona un estado</string>

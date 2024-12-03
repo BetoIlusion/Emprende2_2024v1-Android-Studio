@@ -6,7 +6,7 @@ import android.view.View;
 
 import java.io.File;
 
-public class PDFCaptureAdapter implements CaptureTarget{
+public class PDFCaptureAdapter implements CaptureInterface {
     private final PDFCapture pdfCapture;
     private View view;
     private Bitmap bitmap;

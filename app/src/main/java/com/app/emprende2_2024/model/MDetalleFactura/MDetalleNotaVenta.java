@@ -4,9 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.app.emprende2_2024.PatronAdapter.CaptureInterface;
+import com.app.emprende2_2024.PatronAdapter.PNGCaptureAdapter;
 import com.app.emprende2_2024.db.DbHelper;
 import com.app.emprende2_2024.model.MNotaVenta.MNotaVenta;
 import com.app.emprende2_2024.model.MProducto.MProducto;
@@ -123,5 +126,13 @@ public class MDetalleNotaVenta extends DbHelper {
             e.printStackTrace();
         }
         return detalles;
+    }
+
+    public void compartirPNG(View viewById) {
+        CaptureInterface captureInterface = new PNGCaptureAdapter(
+                context,
+                viewById
+        );
+        captureInterface.compartirWhatsapp();
     }
 }

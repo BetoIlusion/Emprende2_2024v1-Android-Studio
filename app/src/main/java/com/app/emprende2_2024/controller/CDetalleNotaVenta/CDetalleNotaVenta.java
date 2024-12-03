@@ -1,5 +1,10 @@
 package com.app.emprende2_2024.controller.CDetalleNotaVenta;
 
+import android.view.View;
+
+import com.app.emprende2_2024.PatronAdapter.CaptureInterface;
+import com.app.emprende2_2024.PatronAdapter.PNGCaptureAdapter;
+import com.app.emprende2_2024.model.MDescuento.MDescuento;
 import com.app.emprende2_2024.model.MDetalleFactura.MDetalleNotaVenta;
 import com.app.emprende2_2024.model.MNotaVenta.MNotaVenta;
 import com.app.emprende2_2024.view.VDetalleNotaVenta.VDetalleNotaVentaShow;
@@ -18,7 +23,15 @@ public class CDetalleNotaVenta {
         MNotaVenta notaVenta = new MNotaVenta(view);
         ArrayList<MDetalleNotaVenta> listaDetalles = detalles.finByIdFull(id);
         notaVenta = notaVenta.findById(id);
-        view.llenarVista(notaVenta,listaDetalles);
+        MDescuento descuento = new MDescuento(view);
+        descuento = descuento.findBy(notaVenta.getId());
+        view.llenarVista(notaVenta,listaDetalles, descuento);
     }
 
+    public void compartirPNG(View viewById) {
+        MDetalleNotaVenta detalles = new MDetalleNotaVenta(vVer);
+        detalles.compartirPNG(viewById);
+
+
+    }
 }

@@ -16,7 +16,10 @@ import com.app.emprende2_2024.controller.CDescuento.CDescuento;
 import com.app.emprende2_2024.model.MDescuento.MDescuento;
 import com.app.emprende2_2024.model.MFrecuencia.MFrecuencia;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class VDescuento extends AppCompatActivity {
 
@@ -79,21 +82,35 @@ public class VDescuento extends AppCompatActivity {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (DatePicker view, int year, int monthOfYear, int dayOfMonth) -> {
-                    fechaSeleccionada = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-                    getEtFechaFestejo().setText(fechaSeleccionada);
+                    // Crear una instancia de Calendar con la fecha seleccionada
+                    Calendar fechaSeleccionada = Calendar.getInstance();
+                    fechaSeleccionada.set(year, monthOfYear, dayOfMonth);
+
+                    // Formatear la fecha al formato yyyy-MM-dd
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    String fechaFormateada = dateFormat.format(fechaSeleccionada.getTime());
+
+                    // Mostrar la fecha formateada en el EditText
+                    getEtFechaFestejo().setText(fechaFormateada);
                 }, anio, mes, dia);
         datePickerDialog.show();
     }
 
-    public void llenarVista(MDescuento mDescuento, MFrecuencia mFrecuencia) {
-        String descuentoPersona = String.valueOf(mDescuento.getDescuento_persona());
-        String descuentoFestejo = String.valueOf(mDescuento.getDescuento_festejo());
-        String frecuenciaPersona = String.valueOf(mFrecuencia.getFrecuencia_mes());
-        String fechaFestejo = String.valueOf(mDescuento.getFechaFestivo());
-        getEtDesPersona().setText(descuentoPersona);
-        getEtDesFestejo().setText(descuentoFestejo);
-        getEtFrecuenciaPersona().setText(frecuenciaPersona);
-        getEtFechaFestejo().setText(fechaFestejo);
+    public void llenarVista(ArrayList<MDescuento> descuentos) {
+        for (MDescuento descuento :
+                descuentos) {
+            String porcentaje = String.valueOf(descuento.getPorcentaje());
+            String frecuencia = String.valueOf(descuento.getFrecuencia().getFrecuencia());
+            String fecha = String.valueOf(descuento.getFecha_inicio());
+            if(descuento.getNombre().equals("Persona") &&
+                    descuento.getFrecuencia().getTipoFrecuencia().getNombre().equals("mm")){
+                getEtDesPersona().setText(porcentaje);
+                getEtFrecuenciaPersona().setText(frecuencia);
+            }else if (descuento.getNombre().equals("Festejo")){
+                getEtDesFestejo().setText(porcentaje);
+                getEtFechaFestejo().setText(fecha);
+            }
+        }
     }
     public void mensaje(String descuentoActualizado) {
         Toast.makeText(this, descuentoActualizado, Toast.LENGTH_LONG).show();

@@ -7,7 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.Nullable;
 
+import com.app.emprende2_2024.PatronDecorador.FestejoPromo;
+import com.app.emprende2_2024.PatronDecorador.PersonaPromo;
+import com.app.emprende2_2024.PatronDecorador.PromocionBase;
+import com.app.emprende2_2024.PatronDecorador.PromocionI;
 import com.app.emprende2_2024.db.DbHelper;
+import com.app.emprende2_2024.model.MDescuento.MDescuento;
 import com.app.emprende2_2024.model.MDetalleFactura.MDetalleNotaVenta;
 import com.app.emprende2_2024.model.MPersona.MPersona;
 
@@ -20,18 +25,10 @@ public class MNotaVenta extends DbHelper {
     private float monto_total;
     private float efectivo;
     private float cambio;
-    private double descuentoPorcentual;
-    private String descuentoString;
+
     private MPersona persona;
     private Context context;
 
-    public String getDescuentoString() {
-        return descuentoString;
-    }
-
-    public void setDescuentoString(String descuentoString) {
-        this.descuentoString = descuentoString;
-    }
 
     public int getId() {
         return id;
@@ -81,13 +78,6 @@ public class MNotaVenta extends DbHelper {
         this.persona = persona;
     }
 
-    public double getDescuentoPorcentual() {
-        return descuentoPorcentual;
-    }
-
-    public void setDescuentoPorcentual(double descuentoPorcentual) {
-        this.descuentoPorcentual = descuentoPorcentual;
-    }
 
     @Override
     public String toString() {
@@ -117,9 +107,13 @@ public class MNotaVenta extends DbHelper {
             values.put("efectivo", efectivo);
             values.put("cambio", cambio);
             values.put("id_persona", cliente.getId());
-            values.put("descuento", descuentoPorcentual);
-            values.put("descuento_descripcion", descuentoString);
             id = db.insert(TABLE_NOTA_VENTA, null, values);
+            MDescuento mDescuento = new MDescuento(context);
+            mDescuento.setPorcentaje(descuentoPorcentual);
+            mDescuento.setDescripcion(descuentoString);
+            MNotaVenta notaVenta = new MNotaVenta(context);
+            mDescuento.setNotaVenta(notaVenta.findById((int) id));
+            mDescuento.create();
             for (int i = 0; i < detalles.size(); i++) {
                 MDetalleNotaVenta detalle = new MDetalleNotaVenta(context);
                 if(detalle.create(
@@ -151,11 +145,10 @@ public class MNotaVenta extends DbHelper {
                 notaVenta.setMonto_total(cursoNotaVenta.getFloat(2));
                 notaVenta.setEfectivo(cursoNotaVenta.getFloat(3));
                 notaVenta.setCambio(cursoNotaVenta.getFloat(4));
-                notaVenta.setDescuentoPorcentual(cursoNotaVenta.getDouble(6));
                 MPersona persona1 = new MPersona(context);
-                persona1 = persona1.findById(cursoNotaVenta.getInt(7));
+                persona1 = persona1.findById(cursoNotaVenta.getInt(6));
                 notaVenta.setPersona(persona1);
-                notaVenta.setDescuentoString(cursoNotaVenta.getString(8));
+
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -183,7 +176,7 @@ public class MNotaVenta extends DbHelper {
                     notaVenta.setEfectivo(cursorNotaVenta.getFloat(3));
                     notaVenta.setCambio(cursorNotaVenta.getFloat(4));
                     MPersona persona1 = new MPersona(context);
-                    persona1 = persona1.findById(cursorNotaVenta.getInt(7));
+                    persona1 = persona1.findById(cursorNotaVenta.getInt(6));
                     notaVenta.setPersona(persona1);
                     notaVentas.add(notaVenta);
                 } while (cursorNotaVenta.moveToNext());
@@ -193,5 +186,18 @@ public class MNotaVenta extends DbHelper {
             e.printStackTrace();
         }
         return notaVentas;
+    }
+
+    public MDescuento actualizarDescuentos(MNotaVenta notaVenta) {
+        MDescuento mDescuento = new MDescuento(context);
+        //PATRON DECORADOR
+        PromocionI promocionI = new PromocionBase("");
+        promocionI = new PersonaPromo(promocionI,context,notaVenta);
+        promocionI = new FestejoPromo(promocionI,context);
+        double descuento = promocionI.calcularDescuento();
+        mDescuento.setPorcentaje(descuento);
+        String descuentoTotal = String.valueOf(notaVenta.getMonto_total() - notaVenta.getMonto_total()*(descuento/100));
+        mDescuento.setDescripcion(promocionI.getDescripcion() + " Monto Total: " + descuentoTotal);
+        return mDescuento;
     }
 }

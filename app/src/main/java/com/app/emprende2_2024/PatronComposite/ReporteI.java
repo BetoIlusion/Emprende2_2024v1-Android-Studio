@@ -4,7 +4,6 @@ public interface ReporteI {
     String getNombreReporte();
     int getStockReporte();
     double getTotalReporte();
-
     String generarReporte();
 
 }

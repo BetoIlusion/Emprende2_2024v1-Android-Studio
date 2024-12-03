@@ -212,7 +212,6 @@ public class MProducto implements ReporteI {
             cursorProducto.close();
         }catch (Exception e){
             Toast.makeText(context, "ERROR EL DbHelper", Toast.LENGTH_SHORT).show();
-            listaProducto = null;
             e.printStackTrace();
         }
         return listaProducto;

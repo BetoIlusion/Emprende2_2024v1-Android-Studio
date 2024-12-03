@@ -1,5 +1,7 @@
 package com.app.emprende2_2024.PatronDecorador;
 
+import android.content.Context;
+
 import com.app.emprende2_2024.model.MDescuento.MDescuento;
 import com.app.emprende2_2024.model.MFrecuencia.MFrecuencia;
 import com.app.emprende2_2024.model.MNotaVenta.MNotaVenta;
@@ -9,29 +11,33 @@ import java.util.Calendar;
 
 public class PersonaPromo extends PromocionDecorator {
     private MPersona persona;
-    private MFrecuencia frecuencia;
     private MDescuento descuento;
     private double descuentoFinal;
+
     public PersonaPromo(PromocionI promocion,
-                        VNotaVentaInsertar vInsertar,
+                        Context vInsertar,
                         MNotaVenta notaVenta) {
         super(promocion);
-        this.frecuencia = new MFrecuencia(vInsertar);
-        this.frecuencia = frecuencia.get();
-        this.persona = new MPersona(vInsertar);
         this.descuento = new MDescuento(vInsertar);
-        this.descuento = this.descuento.get();
-        this.persona = this.persona.findById(notaVenta.getPersona().getId());
-
-        if(persona.getFrecuencia() >=  frecuencia.getFrecuencia_mes()){
-            persona.setFrecuencia(0);
-            persona.update(persona);
-            this.descuentoFinal = descuento.getDescuento_persona();
+        //obteninendo el valor del descuento de Persona Mes
+        descuento = descuento.findById(2);
+        this.persona = new MPersona(vInsertar);
+        //obteniendo persona, de nuevo.
+        persona = persona.findById(notaVenta.getPersona().getId());
+        //frecuencia(valor) de la persona
+        int frecPersona = persona.getFrecMM(persona.getId()) + 1;
+        MFrecuencia mFrecuencia = new MFrecuencia(vInsertar);
+        mFrecuencia = mFrecuencia.findBy(persona.getId(),"mm");
+        int desc = descuento.getFrecuencia().getFrecuencia();
+        if(frecPersona >= descuento.getFrecuencia().getFrecuencia()) {
+            this.descuentoFinal = descuento.getPorcentaje();
+            mFrecuencia.setFrecuencia(0);
         }else{
-            this.persona.setFrecuencia(persona.getFrecuencia()+1);
-            this.persona.update(persona);
+            mFrecuencia.setFrecuencia(frecPersona);
             this.descuentoFinal = 0;
         }
+        mFrecuencia.update();
+
     }
     @Override
     public String getDescripcion(){
@@ -41,8 +47,6 @@ public class PersonaPromo extends PromocionDecorator {
     public double calcularDescuento(){
       return super.promocion.calcularDescuento() + this.descuentoFinal;
     };
-
-
 
     private int obtenerUltimoDiaDelMes() {
         Calendar calendario = Calendar.getInstance();

@@ -6,7 +6,7 @@ import android.view.View;
 
 import java.io.File;
 
-public class PNGCaptureAdapter implements CaptureTarget{
+public class PNGCaptureAdapter implements CaptureInterface {
     private View view;
     private Bitmap bitmap;
     private File file;

@@ -94,7 +94,7 @@ public class VNotaVentaInsertar extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vfactura_insertar);
+        setContentView(R.layout.activity_vnota_venta_insertar);
         controller.llenarSpinners();
         getSpCategoria().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

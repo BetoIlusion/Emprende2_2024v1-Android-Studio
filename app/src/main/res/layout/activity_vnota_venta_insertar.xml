@@ -181,14 +181,7 @@
                             android:hint="Seleccione Cliente"
                             android:padding="8dp"
                             android:textSize="16sp" />
-                        <!-- EditText con hint cantidad -->
-                        <EditText
-                            android:id="@+id/etCantidadNotaVenta"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Cantidad"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+
 
                         <!-- Layout para las dos columnas -->
                         <LinearLayout
@@ -218,7 +211,14 @@
                                     android:hint="Seleccione categoría"
                                     android:padding="8dp"
                                     android:textSize="16sp" />
-
+                                <!-- EditText con hint cantidad -->
+                                <EditText
+                                    android:id="@+id/etCantidadNotaVenta"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Cantidad"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
 
                             <!-- Espacio entre las dos columnas -->

@@ -4,6 +4,8 @@ import com.app.emprende2_2024.model.MDescuento.MDescuento;
 import com.app.emprende2_2024.model.MFrecuencia.MFrecuencia;
 import com.app.emprende2_2024.view.VDescuento.VDescuento;
 
+import java.util.ArrayList;
+
 public class CDescuento {
     VDescuento vDescuento;
     public CDescuento(VDescuento vDescuento) {
@@ -12,20 +14,25 @@ public class CDescuento {
 
     public void llenarVista() {
         MDescuento mDescuento = new MDescuento(vDescuento);
-        mDescuento = mDescuento.get();
-        MFrecuencia mFrecuencia = new MFrecuencia(vDescuento);
-        mFrecuencia = mFrecuencia.get();
-        vDescuento.llenarVista(mDescuento,mFrecuencia);
+        ArrayList<MDescuento> arrayList = mDescuento.read();
+
+        vDescuento.llenarVista(arrayList);
     }
 
 
     public void update(String descuentoPersona, String descuentoFestejo, String frecuenciaPersona, String fechaFestejo) {
-        MDescuento mDescuento = new MDescuento(vDescuento);
-        mDescuento.update(descuentoPersona, descuentoFestejo, fechaFestejo);
-        MFrecuencia mFrecuencia = new MFrecuencia(vDescuento);
-        mFrecuencia = mFrecuencia.get();
-        mFrecuencia.setFrecuencia_mes(Integer.parseInt(frecuenciaPersona));
-        mFrecuencia.update(mFrecuencia);
+        MDescuento mDescuentoPersona = new MDescuento(vDescuento);
+        mDescuentoPersona = mDescuentoPersona.findByNombre("Persona");
+        mDescuentoPersona.setPorcentaje(Double.valueOf(descuentoPersona));
+        mDescuentoPersona.setFrecuencia().setFrecuencia(Integer.valueOf(frecuenciaPersona));
+        mDescuentoPersona.update();
+
+        MDescuento mDescuentoFestejo = new MDescuento(vDescuento);
+        mDescuentoFestejo = mDescuentoFestejo.findByNombre("Festejo");
+        mDescuentoFestejo.setPorcentaje(Double.valueOf(descuentoFestejo));
+        mDescuentoFestejo.setFecha_inicio(fechaFestejo);
+        mDescuentoFestejo.update();
+
         vDescuento.mensaje("Descuento actualizado");
     }
 }

@@ -12,12 +12,15 @@ import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 
+import com.app.emprende2_2024.view.VCategoria.VCategoriaProductoShowPDF;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class PDFCapture {
     private final Context context;
+
 
     public PDFCapture(Context context) {
         this.context = context;
@@ -32,7 +35,7 @@ public class PDFCapture {
     }
 
     public File saveCapture(Bitmap bitmap) {
-        File pdfPath = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "screenshot.pdf");
+        File pdfPath = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "screen.pdf");
         PdfDocument pdfDocument = new PdfDocument();
         try {
             PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create();

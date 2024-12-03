@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 
 import com.app.emprende2_2024.PatronComposite.ReporteI;
 import com.app.emprende2_2024.db.DbHelper;
+import com.app.emprende2_2024.model.MFrecuencia.MFrecuencia;
+import com.app.emprende2_2024.model.MTipoFrecuencia;
 
 import java.util.ArrayList;
 
@@ -22,7 +24,7 @@ public class MPersona {
     private String tipo_cliente;
     private String ubicacion;
     private int estado;
-    private int frecuencia;
+
     private Context context;
     private DbHelper dbHelper;
 
@@ -36,6 +38,7 @@ public class MPersona {
         this.ubicacion = "";
         this.estado = -1;
         this.context = context;
+        this.dbHelper = new DbHelper(context);
     }
 
     public MPersona(@Nullable Context context, int id, String nombre, String telefono, String direccion, String correo, String tipo_cliente, String ubicacion, int estado) {
@@ -48,6 +51,7 @@ public class MPersona {
         this.ubicacion = ubicacion;
         this.estado = estado;
         this.context = context;
+        this.dbHelper = new DbHelper(context);
     }
 
     public int getId() {
@@ -115,13 +119,6 @@ public class MPersona {
         this.estado = estado;
     }
 
-    public int getFrecuencia() {
-        return frecuencia;
-    }
-
-    public void setFrecuencia(int frecuencia) {
-        this.frecuencia = frecuencia;
-    }
 
     @Override
     public String toString() {
@@ -133,7 +130,6 @@ public class MPersona {
         boolean b = false;
         long id = 0;
         try{
-            DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put("nombre", nombre);
@@ -143,8 +139,17 @@ public class MPersona {
             values.put("tipo_cliente", tipo_cliente);
             values.put("link_ubicacion", ubicacion);
             values.put("estado", estado);
-            values.put("frecuencia", 0);
             id = db.insert(dbHelper.TABLE_PERSONA, null, values);
+            MFrecuencia mFrecuencia = new MFrecuencia(context);
+            mFrecuencia.setFrecuencia(0);
+            mFrecuencia.getPersona().setId((int) id);
+            MTipoFrecuencia mTipoFrecuencia = new MTipoFrecuencia(context);
+            mTipoFrecuencia = mTipoFrecuencia.findById(1);
+            mFrecuencia.setTipoFrecuencia(mTipoFrecuencia);
+            mFrecuencia.create();
+            mTipoFrecuencia = mTipoFrecuencia.findById(2);
+            mFrecuencia.setTipoFrecuencia(mTipoFrecuencia);
+            mFrecuencia.create();
 
             setId((int)id);
             setNombre(nombre);
@@ -154,7 +159,6 @@ public class MPersona {
             setTipo_cliente(tipo_cliente);
             setUbicacion(ubicacion);
             setEstado(estado);
-            setFrecuencia(0);
             b = true;
         }catch (Exception e){
             Toast.makeText(context, "ERROR AL GUARDAR REGISTRO", Toast.LENGTH_SHORT).show();
@@ -201,7 +205,7 @@ public class MPersona {
     }
 
     public MPersona findById(int id) {
-        MPersona persona = null;
+        MPersona persona = new MPersona(context);
        try{
            DbHelper dbHelper = new DbHelper(context);
            SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -218,11 +222,11 @@ public class MPersona {
                persona.setTipo_cliente(cursorPersona.getString(5));
                persona.setUbicacion(cursorPersona.getString(6));
                persona.setEstado(cursorPersona.getInt(7));
-               persona.setFrecuencia(cursorPersona.getInt(8));
            }
            cursorPersona.close();
        }catch (Exception e){
            e.printStackTrace();
+           persona.setId(-1);
        }
        return  persona;
     }
@@ -282,15 +286,15 @@ public class MPersona {
                 persona.getDireccion(),
                 persona.getCorreo(),
                 persona.getUbicacion(),
-                persona.getFrecuencia());
+                persona.getEstado());
     }
     public boolean update(int id, String nombre, String telefono, String direccion, String correo, String ubicacion, int frecuencia) {
         boolean correcto = false;
         try {
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            String sql = "UPDATE " + dbHelper.TABLE_PERSONA + " SET nombre = ?, telefono = ?, direccion = ?, correo = ?, link_ubicacion = ?, frecuencia = ? WHERE id = ?";
-            db.execSQL(sql, new Object[]{nombre, telefono, direccion, correo, ubicacion,frecuencia, id});
+            String sql = "UPDATE " + dbHelper.TABLE_PERSONA + " SET nombre = ?, telefono = ?, direccion = ?, correo = ?, link_ubicacion = ? WHERE id = ?";
+            db.execSQL(sql, new Object[]{nombre, telefono, direccion, correo, ubicacion, id});
             correcto = true; // Se establece a true si la operación de actualización fue exitosa
             db.close();
         } catch (Exception ex) {
@@ -310,5 +314,43 @@ public class MPersona {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public int getFrecDD(int id_persona){
+        for (MFrecuencia frec :
+                frecuencias(id_persona)) {
+            if(frec.getTipoFrecuencia().getId() == 1){
+                return frec.getFrecuencia();
+            }
+        }
+        return -1;
+    }
+    public int getFrecMM(int id_persona){
+        for (MFrecuencia frec :
+                frecuencias(id_persona)) {
+            if(frec.getTipoFrecuencia().getId() == 2){
+                return frec.getFrecuencia();
+            }
+        }
+        return -1;
+    }
+    private ArrayList<MFrecuencia> frecuencias(int id_persona) {
+        ArrayList<MFrecuencia> listaFrecuencia = new ArrayList<>();
+        MFrecuencia frecuencia = new MFrecuencia(context);
+        listaFrecuencia = frecuencia.read(id_persona);
+        return listaFrecuencia;
+    }
+
+    public MFrecuencia getFrec(String tiempo) {
+        MFrecuencia frec = new MFrecuencia(context);
+        ArrayList<MFrecuencia> listaFrecuencia = new ArrayList<>();
+        listaFrecuencia = frec.read(getId());
+        for (MFrecuencia frecuencia :
+                listaFrecuencia) {
+            if (frecuencia.getTipoFrecuencia().getNombre().equals(tiempo)) {
+                    return frecuencia;
+            }
+        }
+        return frec;
     }
 }

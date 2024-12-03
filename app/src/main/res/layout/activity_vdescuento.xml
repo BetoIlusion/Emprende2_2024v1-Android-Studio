@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Descuento Persona:"
+        android:text="Descuento Persona %:"
         android:layout_marginBottom="8dp" />
 
     <EditText
@@ -30,7 +30,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Frecuencia Persona:"
+        android:text="Frecuencia Mes Persona:"
         android:layout_marginBottom="8dp" />
 
     <EditText
@@ -43,14 +43,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Descuento Festejo:"
+        android:text="Descuento Festejo %:"
         android:layout_marginBottom="8dp" />
 
     <EditText
         android:id="@+id/etDescuentoFestejo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ingrese descuento festejo"
+        android:hint="Ingrese descuento festejo %:"
         android:layout_marginBottom="16dp" />
 
     <!-- Fecha Festejo -->

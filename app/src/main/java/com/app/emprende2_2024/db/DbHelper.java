@@ -18,7 +18,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String TABLE_NOTA_VENTA = "t_nota_venta";
     public static final String TABLE_DETALLE_NOTA_VENTA = "t_detalle_factura";
     public static final String TABLE_FRECUENCIA = "t_frecuencia";
-    public static final String TABLE_DESCUENTO = "t_descuentos";
+    public static final String TABLE_DESCUENTO = "t_descuento";
+    public static final String TABLE_TIPO_FRECUENCIA = "t_tipo_frecuencia";
     public DbHelper(@Nullable Context context) {
         super(context, DATABASE_NOMBRE, null, DATABASE_VERSION);
     }
@@ -41,8 +42,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 "correo TEXT," +
                 "tipo_cliente TEXT," +
                 "link_ubicacion TEXT," +
-                "estado TEXT," +
-                "frecuencia INTEGER)"
+                "estado TEXT)"
         );
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_PROVEEDOR + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -78,9 +78,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 "efectivo REAL," +
                 "cambio REAL," +
                 "fecha DATE," +
-                "descuento REAL," +
                 "id_persona INTEGER," +
-                "descuento_descripcion TEXT," +
                 "FOREIGN KEY (id_persona) REFERENCES " + TABLE_PERSONA + "(id))"
         );
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_DETALLE_NOTA_VENTA + "(" +
@@ -92,22 +90,44 @@ public class DbHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(id_nota_venta) REFERENCES " + TABLE_NOTA_VENTA + "(id)," +
                 "FOREIGN KEY(id_producto) REFERENCES " + TABLE_PRODUCTO + "(id))"
         );
+        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_TIPO_FRECUENCIA + "(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "nombre TEXT)"
+        );
+        // Insertar registros en la tabla TABLE_TIPO_FRECUENCIA
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_TIPO_FRECUENCIA + " (nombre) VALUES ('dd')");
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_TIPO_FRECUENCIA + " (nombre) VALUES ('mm')");
+
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_FRECUENCIA + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "frecuencias_dias INTEGER, " +
-                "frecuencia_mes INTEGER)"
+                "id_tipo_frecuencia INTEGER, " +
+                "id_persona INTEGER, " +
+                "frecuencia INTEGER)"
         );
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_FRECUENCIA + " (frecuencias_dias, frecuencia_mes) " +
-                "VALUES (0, 0)");
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_FRECUENCIA + " (id_tipo_frecuencia, id_persona, frecuencia) VALUES (1, -1,0)");
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_FRECUENCIA + " (id_tipo_frecuencia, id_persona, frecuencia) VALUES (2, -1,0)");
+
+
         sqLiteDatabase.execSQL( "CREATE TABLE " + TABLE_DESCUENTO + " (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "descuento_persona REAL, " +
-                        "descuento_producto REAL, " +
-                        "descuento_festejo REAL," +
-                        "fecha_festivo DATE)"
+                        "id_frecuencia INTEGER, " +
+                        "nombre TEXT, " +
+                        "porcentaje REAL, " +
+                        "descripcion TEXT, " +
+                        "fecha_inicio TEXT, " +
+                        "id_nota INTEGER, " +
+                        "estado INTEGER)"
         );
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_DESCUENTO + " (descuento_persona, descuento_producto, descuento_festejo, fecha_festivo) " +
-                "VALUES (0, 0.0, 0.0,'2000-01-01')");
+
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_DESCUENTO +
+                " (id_frecuencia, nombre, porcentaje, descripcion, fecha_inicio,id_nota,estado) " +
+                "VALUES (1, 'Persona', 0.0, 'Descuento especial Dia', '2024-12-25',-1,1)");
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_DESCUENTO +
+                " (id_frecuencia, nombre, porcentaje, descripcion, fecha_inicio,id_nota,estado) " +
+                "VALUES (2, 'Persona', 0.0, 'Descuento especial Mes', '2024-12-25',-1,1)");
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_DESCUENTO +
+                " (id_frecuencia, nombre, porcentaje, descripcion, fecha_inicio,id_nota,estado) " +
+                "VALUES (-1, 'Festejo', 0.0, 'Descuento especial', '2024-12-25',-1,1)");
     }
 
     @Override

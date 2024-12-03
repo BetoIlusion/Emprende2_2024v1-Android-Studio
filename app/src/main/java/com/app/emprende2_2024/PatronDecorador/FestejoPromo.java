@@ -1,24 +1,26 @@
 package com.app.emprende2_2024.PatronDecorador;
 
+import android.content.Context;
+
 import com.app.emprende2_2024.model.MDescuento.MDescuento;
 import com.app.emprende2_2024.view.VNotaVenta.VNotaVentaInsertar;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class FechaPromo extends PromocionDecorator {
+public class FestejoPromo extends PromocionDecorator {
     MDescuento descuento;
     private double descuentoFinal;
-    public FechaPromo(PromocionI IPromocion, VNotaVentaInsertar vInsertar) {
+    public FestejoPromo(PromocionI IPromocion, Context vInsertar) {
         super(IPromocion);
         this.descuento = new MDescuento(vInsertar);
-        this.descuento = this.descuento.get();
+        this.descuento = this.descuento.findByNombre("Festejo");
         // Obtener la fecha actual en el mismo formato que `fechaFestivo`
-        SimpleDateFormat dateFormat = new SimpleDateFormat("d/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String fechaActual = dateFormat.format(new Date());
 
-        if (this.descuento.getFechaFestivo().equals(fechaActual)) {
-            this.descuentoFinal = this.descuento.getDescuento_festejo();
+        if (this.descuento.getFecha_inicio().equals(fechaActual)) {
+            this.descuentoFinal = this.descuento.getPorcentaje();
         }else
             this.descuentoFinal = 0;
     }

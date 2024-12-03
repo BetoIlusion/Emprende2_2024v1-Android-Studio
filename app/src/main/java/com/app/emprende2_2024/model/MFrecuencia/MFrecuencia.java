@@ -1,16 +1,26 @@
 package com.app.emprende2_2024.model.MFrecuencia;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.app.emprende2_2024.db.DbHelper;
+import com.app.emprende2_2024.model.MPersona.MPersona;
+import com.app.emprende2_2024.model.MTipoFrecuencia;
+
+import java.util.ArrayList;
 
 public class MFrecuencia {
-    Context context;
     private int id;
-    private int frecuencia_dias;
-    private int frecuencia_mes;
+    private MPersona persona;
+    private int frecuencia;
+    private MTipoFrecuencia tipoFrecuencia;
+    Context context;
+    DbHelper dbHelper;
+
+
 
     public int getId() {
         return id;
@@ -20,22 +30,29 @@ public class MFrecuencia {
         this.id = id;
     }
 
-    public int getFrecuencia_dias() {
-        return frecuencia_dias;
+    public int getFrecuencia() {
+        return frecuencia;
     }
 
-    public void setFrecuencia_dias(int frecuencia_dias) {
-        this.frecuencia_dias = frecuencia_dias;
+    public void setFrecuencia(int frecuencia) {
+        this.frecuencia = frecuencia;
     }
 
-    public int getFrecuencia_mes() {
-        return frecuencia_mes;
+    public MTipoFrecuencia getTipoFrecuencia() {
+        return tipoFrecuencia;
     }
 
-    public void setFrecuencia_mes(int frecuencia_mes) {
-        this.frecuencia_mes = frecuencia_mes;
+    public void setTipoFrecuencia(MTipoFrecuencia tipoFrecuencia) {
+        this.tipoFrecuencia = tipoFrecuencia;
     }
 
+    public MPersona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(MPersona persona) {
+        this.persona = persona;
+    }
 
     @Override
     public String toString() {
@@ -47,49 +64,164 @@ public class MFrecuencia {
     public MFrecuencia(Context context) {
         this.context = context;
         this.id = -1;
-        this.frecuencia_dias = 0;
-        this.frecuencia_mes = 0;
+        this.frecuencia = -1;
+        this.tipoFrecuencia = new MTipoFrecuencia(context);
+        this.persona = new MPersona(context);
+        this.dbHelper = new DbHelper(context);
+    }
+    public MFrecuencia(Context context, int id, int frecuencia) {
+        this.id = id;
+        this.persona = new MPersona(context);
+        this.frecuencia = frecuencia;
+        this.tipoFrecuencia = new MTipoFrecuencia(context);
+
+        this.context = context;
+        this.dbHelper = new DbHelper(context);
     }
 
-    public MFrecuencia get() {
-        MFrecuencia frecuencia = new MFrecuencia(context);
+    public long create(){
+        return create(getFrecuencia(), getTipoFrecuencia(), getPersona());
+    }
+    public long create(int frecuencia, MTipoFrecuencia tipoFrecuencia, MPersona persona){
+        long id = 0;
+        try{
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("frecuencia", frecuencia);
+            values.put("id_tipo_frecuencia", tipoFrecuencia.getId());
+            values.put("id_persona", persona.getId());
+            id = db.insert(dbHelper.TABLE_FRECUENCIA, null, values);
+            setId((int)id);
+        }catch (Exception ex){
+            Log.e("TAG", "Error al insertar Categoria: " + ex.getMessage(), ex);
+            ex.toString();
+        }
+        return id;
+    }
+    public ArrayList<MFrecuencia> read() {
+        ArrayList<MFrecuencia> arrayList = new ArrayList<>();
         DbHelper dbHelper = new DbHelper(context);
+        MFrecuencia frecuencia = new MFrecuencia(context);
         try{
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             Cursor cursorFrecuencia = null;
-            cursorFrecuencia = db.rawQuery("SELECT * FROM " + dbHelper.TABLE_FRECUENCIA
-                    + " WHERE id = " + 1 + " LIMIT 1", null);
+            cursorFrecuencia = db.rawQuery("SELECT * FROM " + dbHelper.TABLE_FRECUENCIA + " ORDER BY id DESC", null);
             if(cursorFrecuencia.moveToFirst()){
-                frecuencia.setId(cursorFrecuencia.getInt(0));
-                frecuencia.setFrecuencia_dias(cursorFrecuencia.getInt(1));
-                frecuencia.setFrecuencia_mes(cursorFrecuencia.getInt(2));
+                do{
+                    frecuencia = new MFrecuencia(context);
+                    frecuencia.setId(cursorFrecuencia.getInt(0));
+                    MTipoFrecuencia tipoFrecuencia = new MTipoFrecuencia(context);
+                    frecuencia.setTipoFrecuencia(tipoFrecuencia.findById(cursorFrecuencia.getInt(1)));
+                    MPersona persona = new MPersona(context);
+                    frecuencia.setPersona(persona.findById(cursorFrecuencia.getInt(2)));
+                    frecuencia.setFrecuencia(cursorFrecuencia.getInt(3));
+                    arrayList.add(frecuencia);
+                }while (cursorFrecuencia.moveToNext());
             }
             cursorFrecuencia.close();
         }catch (Exception e){
             e.printStackTrace();
         }
-        return frecuencia;
+        return arrayList;
+    }
+    public MFrecuencia findById(int id) {
+        MFrecuencia model = new MFrecuencia(context);
+        try{
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            Cursor cursorFrecuencia = null;
+            cursorFrecuencia = db.rawQuery("SELECT * FROM " + dbHelper.TABLE_FRECUENCIA
+                    + " WHERE id = " + id + " LIMIT 1", null);
+            if(cursorFrecuencia.moveToFirst()){
+                model.setId(cursorFrecuencia.getInt(0));
+                MTipoFrecuencia modelTipoFrecuencia = new MTipoFrecuencia(context);
+                model.setTipoFrecuencia(modelTipoFrecuencia.findById(cursorFrecuencia.getInt(1)));
+                MPersona modelPersona = new MPersona(context);
+                model.setPersona(modelPersona.findById(cursorFrecuencia.getInt(2)));
+                model.setFrecuencia(cursorFrecuencia.getInt(3));
+            }
+            cursorFrecuencia.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return model;
     }
 
     public boolean update(MFrecuencia frecuenciaPersona) {
-        String dias = frecuenciaPersona.getFrecuencia_dias() + "";
-        String mes = frecuenciaPersona.getFrecuencia_mes() + "";
-        return update(
-                dias,
-                mes
-        );
+        if(frecuenciaPersona.getId() > 0){
+            this.id = frecuenciaPersona.getId();
+            this.frecuencia = frecuenciaPersona.getFrecuencia();
+            this.tipoFrecuencia = frecuenciaPersona.getTipoFrecuencia();
+            return update(
+                    getId(),
+                    getFrecuencia(),
+                    getTipoFrecuencia()
+            );
+        }
+        return false;
     }
-    public boolean update(String dias, String mes) {
+    public boolean update(int id, int frecuencia, MTipoFrecuencia tipoFrecuencia) {
         DbHelper dbHelper = new DbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         boolean b = false;
         try{
-            String sql = "UPDATE " + dbHelper.TABLE_FRECUENCIA + " SET frecuencias_dias = ?, frecuencia_mes = ? WHERE id = ?";
-            db.execSQL(sql,new Object[]{dias,mes,1});
+            String sql = "UPDATE " + dbHelper.TABLE_FRECUENCIA + " SET frecuencia = ?, id_tipo_frecuencia = ? WHERE id = ?";
+            db.execSQL(sql,new Object[]{frecuencia,tipoFrecuencia.getId(),id});
             b = true;
         }catch (Exception e){
             e.printStackTrace();
         }
         return b;
     }
+
+
+    public ArrayList<MFrecuencia> read(int id_persona) {
+        ArrayList<MFrecuencia> arrayFinal = new ArrayList<>();
+
+        MFrecuencia model = new MFrecuencia(context);
+        ArrayList<MFrecuencia> arrayList = new ArrayList<>();
+        arrayList = model.read();
+        for (MFrecuencia frec :
+                arrayList) {
+            if (frec.getPersona().getId() == id_persona) {
+                arrayFinal.add(frec);
+            }
+        }
+        return arrayFinal;
+    }
+
+    public boolean update() {
+        return update(
+                getId(),
+                getFrecuencia(),
+                getTipoFrecuencia()
+        );
+    }
+
+    public MFrecuencia findByTiempo(String tiempo) {
+        MFrecuencia model = new MFrecuencia(context);
+        ArrayList<MFrecuencia> arrayList = new ArrayList<>();
+        arrayList = model.read();
+        for (MFrecuencia frec :
+                arrayList) {
+            if (frec.getTipoFrecuencia().getNombre().equals(tiempo)) {
+                return frec;
+            }
+        }
+        return null;
+    }
+
+    public MFrecuencia findBy(int id_persona, String tiempo) {
+        MFrecuencia model = new MFrecuencia(context);
+        ArrayList<MFrecuencia> arrayList = new ArrayList<>();
+        arrayList = model.read();
+
+        for (MFrecuencia frec :
+                arrayList) {
+            if (frec.getPersona().getId() == id_persona && frec.getTipoFrecuencia().getNombre().equals(tiempo)) {
+                return frec;
+            }
+            }
+        return model;
+    }
 }
+

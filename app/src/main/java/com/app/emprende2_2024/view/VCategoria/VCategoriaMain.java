@@ -88,7 +88,7 @@ public class VCategoriaMain extends AppCompatActivity {
     public void guardarYCompartirTexto(String contenido) {
         try {
             // Crear un archivo .txt en la carpeta de documentos del almacenamiento externo
-            File directorio = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "MisArchivos");
+            File directorio = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "docsEmprende");
             if (!directorio.exists()) {
                 directorio.mkdirs(); // Crear el directorio si no existe
             }

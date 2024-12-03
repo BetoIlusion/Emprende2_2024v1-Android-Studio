@@ -6,11 +6,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.app.emprende2_2024.PatronAdapter.CaptureInterface;
+import com.app.emprende2_2024.PatronAdapter.PDFCaptureAdapter;
+import com.app.emprende2_2024.PatronAdapter.PNGCaptureAdapter;
 import com.app.emprende2_2024.PatronComposite.ReporteI;
 import com.app.emprende2_2024.db.DbHelper;
+import com.app.emprende2_2024.model.MProducto.MProducto;
 
 import java.util.ArrayList;
 
@@ -188,13 +193,14 @@ DbHelper dbHelper;
         for (ReporteI componente: componentes){
             total += componente.getTotalReporte();
         }
+
         return total;
     }
-
-    @Override
+        @Override
     public String generarReporte() {
-        String s = "Categoria: " + getNombre() + ", totales: $" + getTotalReporte() +
-                ", Stock total: " + getStockReporte() + "\n";
+//        String s = "Categoria: " + getNombre() + ", totales: $" + getTotalReporte() +
+//                ", Stock total: " + getStockReporte() + "\n";
+        String s = "categoria: " + getNombre() + "\n";
         for (ReporteI componente : componentes) {
            s += componente.generarReporte();
         }
@@ -205,5 +211,34 @@ DbHelper dbHelper;
     }
     public void removeComponente(ReporteI componente) {
         componentes.remove(componente);
+    }
+
+    public String compartirCatalogo() {
+        MProducto mProducto = new MProducto(context);
+        ArrayList<MProducto> listaProductos = new ArrayList<>();
+        listaProductos = mProducto.read();
+
+        MCategoria mCategoria = new MCategoria(context);
+        ArrayList<MCategoria> listaCategorias = new ArrayList<>();
+        listaCategorias = mCategoria.read();
+
+        String catalogoString = "";
+        for (int i = 0; i < listaCategorias.size(); i++) {
+            for (int j = 0; j < listaProductos.size(); j++) {
+                if(listaCategorias.get(i).getId() == listaProductos.get(j).getCategoria().getId()){
+                    listaCategorias.get(i).addComponente(listaProductos.get(j));
+
+                }
+            }
+            if(i>0) {
+                listaCategorias.get(i).addComponente(listaCategorias.get(i - 1));
+
+            }
+            if(listaCategorias.size() == i+1){
+                catalogoString = listaCategorias.get(i).generarReporte();
+                return catalogoString;
+            }
+        }
+        return "";
     }
 }

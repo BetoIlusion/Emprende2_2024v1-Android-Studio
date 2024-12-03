@@ -111,7 +111,7 @@
             android:id="@+id/btnCompartirPDF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Compartir PDF"
+            android:text="Compartir PNG"
             android:textSize="16sp"
             android:textColor="#FFFFFF"
             android:backgroundTint="#4CAF50"

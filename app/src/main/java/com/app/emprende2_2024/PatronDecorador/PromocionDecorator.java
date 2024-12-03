@@ -8,16 +8,6 @@ public class PromocionDecorator implements PromocionI {
     }
 
     @Override
-    public int getId() {
-        return promocion.getId();
-    }
-
-    @Override
-    public String getNombre() {
-        return promocion.getNombre();
-    }
-
-    @Override
     public String getDescripcion() {
         return promocion.getDescripcion();
     }
